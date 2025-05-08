@@ -1,0 +1,70 @@
+<div class="container mt-5 d-flex justify-content-center">
+  <div class="col-md-6 bg-dark-subtle p-4 rounded shadow-sm animated-entry">
+    <h2 class="text-center mb-4">Register</h2>
+
+    <form (ngSubmit)="onSubmit()" #registerForm="ngForm" class="d-flex flex-column align-items-center">
+      <!-- Username -->
+      <div class="mb-3 w-75">
+        <label for="username" class="form-label">Username</label>
+        <input
+          type="text"
+          class="form-control"
+          id="username"
+          [(ngModel)]="user.username"
+          name="username"
+          required
+          placeholder="Enter your username"
+        />
+      </div>
+
+      <!-- Email -->
+      <div class="mb-3 w-75">
+        <label for="email" class="form-label">Email</label>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          [(ngModel)]="user.email"
+          name="email"
+          required
+          placeholder="Enter your email"
+        />
+      </div>
+
+      <!-- Password -->
+      <div class="mb-3 w-75">
+        <label for="password" class="form-label">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          id="password"
+          [(ngModel)]="user.password"
+          name="password"
+          required
+          placeholder="Enter your password"
+        />
+      </div>
+
+      <!-- MPIN -->
+      <div class="mb-3 w-75">
+        <label for="mpin" class="form-label">MPIN</label>
+        <input
+          type="text"
+          class="form-control"
+          id="mpin"
+          [(ngModel)]="user.mpin"
+          name="mpin"
+          required
+          maxlength="4"
+          placeholder="Enter your 4-digit MPIN"
+        />
+      </div>
+
+      <!-- Submit Button -->
+      <div class="mb-3 w-75 d-flex justify-content-between align-items-center">
+        <button type="submit" class="btn btn-primary">Register</button>
+        <a routerLink="/login" class="text-decoration-none">Already have an account? Login</a>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,41 @@
+<div class="container mt-5 d-flex justify-content-center">
+  <div class="col-md-6 bg-dark-subtle p-4 rounded shadow-sm animated-entry"  >
+    <h2 class="text-center mb-4">Login</h2>
+
+    <form (ngSubmit)="onSubmit()" class="d-flex flex-column align-items-center">
+      <!-- Email or Username -->
+      <div class="mb-3 w-75">
+        <label for="usernameOrEmail" class="form-label">Email or Username</label>
+        <input
+          type="text"
+          class="form-control"
+          id="usernameOrEmail"
+          [(ngModel)]="loginData.usernameOrEmail"
+          name="usernameOrEmail"
+          required
+          placeholder="Enter email or username"
+        />
+      </div>
+
+      <!-- Password -->
+      <div class="mb-3 w-75">
+        <label for="password" class="form-label">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          id="password"
+          [(ngModel)]="loginData.password"
+          name="password"
+          required
+          placeholder="Enter your password"
+        />
+      </div>
+
+      <!-- Submit Button -->
+      <div class="mb-3 w-75 d-flex justify-content-between align-items-center">
+        <button type="submit" class="btn btn-primary">Login</button>
+        <a routerLink="/register" class="text-decoration-none">New user? Register</a>
+      </div>
+    </form>
+  </div>
+</div>

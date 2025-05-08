@@ -1,0 +1,22 @@
+.register-container {
+  max-width: 200px;
+  margin: auto;
+  padding: 1rem;
+  border: 1px solid #d20000;
+  border-radius: 6px;
+  background-color: #4f41a1;
+}
+
+.register-container h2 {
+  text-align: center;
+}
+
+.register-container .form-control {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.register-container .btn {
+  width: 100%;
+}
