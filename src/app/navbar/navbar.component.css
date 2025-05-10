@@ -1,0 +1,60 @@
+/* Sidebar Container */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 250px; /* Adjust width */
+  background-color: #343a40;
+  color: #fff;
+  padding-top: 20px;
+  z-index: 10; /* Ensures the sidebar stays on top */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Sidebar Header */
+.sidebar-header {
+  padding: 20px;
+  text-align: center;
+  font-size: 1.5em;
+  background-color: #212529;
+}
+
+.sidebar-header .brand-name {
+  margin: 0;
+}
+
+/* Navigation List */
+.nav-list {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.nav-item {
+  margin: 10px 0;
+}
+
+.nav-link {
+  display: block;
+  padding: 15px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.1em;
+  transition: background-color 0.3s;
+}
+
+.nav-link:hover {
+  background-color: #495057;
+}
+
+.nav-link.active {
+  background-color: #007bff;
+}
+
+/* Adjust content margin to the right of sidebar */
+.main-container {
+  margin-left: 250px; /* Same as sidebar width */
+  padding: 20px;
+}

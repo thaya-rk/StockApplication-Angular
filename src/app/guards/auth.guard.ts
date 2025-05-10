@@ -22,7 +22,7 @@ export class AuthGuard implements CanActivate {
     return this.authService.getCurrentUser().pipe(
       map((response: any) => {
         if (response?.data?.username) {
-          this.authService.setUsername(response.data.username); // store username
+          this.authService.setUsername(response.data.username); // storing username
           return true;
         } else {
           this.router.navigate(['/login']);

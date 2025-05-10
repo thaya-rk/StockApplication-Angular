@@ -1,22 +1,26 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import {FormsModule} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css'],
   imports: [
-    FormsModule
-  ],
-  styleUrls: ['./register.component.css']
+    FormsModule,
+    RouterLink
+  ]
 })
 export class RegisterComponent {
   user = {
     username: '',
     email: '',
     password: '',
-    mpin: ''
+    mpin: '',
+    fullName: '',
+    mobileNumber: '',
+    dob: ''
   };
 
   constructor(private http: HttpClient, private router: Router) {}
