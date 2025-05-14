@@ -5,18 +5,18 @@
   <div *ngIf="stocks.length > 0; else noStocks">
     <div class="list-group">
       <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center flex-wrap"
-           *ngFor="let stock of stocks">
+           *ngFor="let stock of stocks | paginate: { itemsPerPage: itemsPerPage, currentPage: page }">
 
-        <div class="d-flex align-items-center" style="min-width: 200px;">
-          <img [src]="stock.imageURL"
+        <div class="d-flex align-items-center" style="min-width: 200px; background: lightyellow;">
+          <img [ngSrc]="stock.imageURL"
                alt="{{ stock.tickerSymbol }}"
                width="50" height="50"
                class="me-3 rounded"
                style="object-fit: contain;">
-          <div>
-            <h6 class="mb-0">{{ stock.companyName }}</h6>
-            <small class="text-muted">{{ stock.tickerSymbol }}</small>
-          </div>
+        </div>
+        <div>
+          <h6 class="mb-0">{{ stock.companyName }}</h6>
+          <small class="text-muted">{{ stock.tickerSymbol }}</small>
         </div>
 
         <div class="text-end" style="min-width: 120px;">
@@ -30,8 +30,15 @@
         </div>
       </div>
     </div>
+
+    <!-- Pagination Controls -->
+    <pagination-controls
+      (pageChange)="page = $event"
+      class="d-flex justify-content-center mt-3">
+    </pagination-controls>
   </div>
 
+  <!-- Correct placement of ng-template -->
   <ng-template #noStocks>
     <p class="text-center text-muted">No stocks available.</p>
   </ng-template>

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
 @Injectable({
@@ -12,18 +12,18 @@ export class StockService {
   constructor(private http: HttpClient) {}
 
   getAllStocks(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl).pipe(
-        map((stocks: any[]) => {
-          if (!stocks || stocks.length === 0) {
-            console.warn('No stock data returned from API');
-            return [];
-          }
-          return stocks;
-        }),
-        catchError(error => {
-          console.error('Error fetching stocks:', error);
-          return of([]); // return empty array on error to avoid crashing
-        })
+    return this.http.get<any[]>(this.apiUrl, { withCredentials: true }).pipe(
+      map((stocks: any[]) => {
+        if (!stocks || stocks.length === 0) {
+          console.warn('No stock data returned from API');
+          return [];
+        }
+        return stocks;
+      }),
+      catchError(error => {
+        console.error('Error fetching stocks:', error);
+        return throwError(() => error); // Let the component handle redirect on 401
+      })
     );
   }
 }

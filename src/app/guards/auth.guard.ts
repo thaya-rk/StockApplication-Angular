@@ -25,6 +25,7 @@ export class AuthGuard implements CanActivate {
           this.authService.setUsername(response.data.username); // storing username
           return true;
         } else {
+          //when user name not found or null
           this.router.navigate(['/login']);
           return false;
         }

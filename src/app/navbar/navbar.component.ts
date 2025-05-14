@@ -6,7 +6,6 @@ import {Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/route
   selector: 'app-navbar',
   imports: [
     RouterLink,
-    RouterOutlet,
     RouterLinkActive
   ],
   templateUrl: './navbar.component.html',
