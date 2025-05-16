@@ -1,16 +1,34 @@
-/* Sidebar Container */
+/* Toggle button */
+.toggle-btn {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 1001;
+  background: #007bff;
+  color: white;
+  border: none;
+  font-size: 1.5em;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Sidebar styles */
 .sidebar {
   position: fixed;
   top: 0;
   left: 0;
   height: 100%;
-  width: 250px; /* Adjust width */
+  width: 250px;
   background-color: #343a40;
   color: #fff;
   padding-top: 20px;
-  z-index: 10; /* Ensures the sidebar stays on top */
-  display: flex;
-  flex-direction: column;
+  z-index: 1000;
+  transition: transform 0.3s ease;
+}
+
+.sidebar.collapsed {
+  transform: translateX(-100%);
 }
 
 /* Sidebar Header */
@@ -19,10 +37,6 @@
   text-align: center;
   font-size: 1.5em;
   background-color: #212529;
-}
-
-.sidebar-header .brand-name {
-  margin: 0;
 }
 
 /* Navigation List */
@@ -53,8 +67,24 @@
   background-color: #007bff;
 }
 
-/* Adjust content margin to the right of sidebar */
+/* Main container shift */
 .main-container {
-  margin-left: 250px; /* Same as sidebar width */
+  margin-left: 250px;
   padding: 20px;
+  transition: margin-left 0.3s ease;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .sidebar.collapsed {
+    transform: translateX(0);
+  }
+
+  .main-container {
+    margin-left: 0;
+  }
 }

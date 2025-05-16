@@ -1,5 +1,8 @@
+<!-- Hamburger button (only on small screens) -->
+<button class="toggle-btn d-md-none" (click)="toggleSidebar()">☰</button>
+
 <!-- Side Navbar (Fixed on the left) -->
-<aside class="sidebar">
+<aside class="sidebar" [class.collapsed]="isSidebarCollapsed">
   <div class="sidebar-header">
     <h2 class="brand-name">Forex</h2>
   </div>

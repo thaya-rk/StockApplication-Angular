@@ -5,9 +5,9 @@ import { Observable } from 'rxjs';
 export interface Holding {
   stockName: string;
   quantity: number;
-  avgPrice: number;
+  avgBuyPrice: number;
   currentPrice: number;
-  totalValue: number;
+  currentValue: number;
 }
 
 @Injectable({

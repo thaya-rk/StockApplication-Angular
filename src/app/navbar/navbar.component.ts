@@ -14,6 +14,11 @@ import {Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/route
 export class NavbarComponent {
   constructor(private authService:AuthService,private router:Router) {
   }
+  isSidebarCollapsed = false;
+
+  toggleSidebar() {
+    this.isSidebarCollapsed = !this.isSidebarCollapsed;
+  }
   onLogout(){
     this.authService.logout().subscribe({
       next:()=>{
