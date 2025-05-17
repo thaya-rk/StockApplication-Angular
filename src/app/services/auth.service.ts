@@ -1,36 +1,48 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {jwtDecode} from 'jwt-decode';
+import {Observable, of} from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl='http://localhost:8080/api/auth';
-  private username:string='';
+  private TOKEN_KEY = 'jwtToken';
 
-  constructor(private http:HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  setUsername(username: string) {
-    this.username = username;
+  // Store token after login
+  saveToken(token: string): void {
+    localStorage.setItem(this.TOKEN_KEY, token);
   }
 
-  getUsername(): string {
-    return this.username;
+  getToken(): string | null {
+    return localStorage.getItem(this.TOKEN_KEY);
   }
 
-  register(user:any){
-    return this.http.post(`${this.baseUrl}/register`,user,{withCredentials:true})
+  logout(): Observable<void> {
+    localStorage.removeItem(this.TOKEN_KEY);
+    return of();  // returns an Observable<void>
   }
 
-  login(creds: any) {
-    return this.http.post(`${this.baseUrl}/login`, creds, { withCredentials: true });
+  isTokenExpired(token: string): boolean {
+    try {
+      const decoded: any = jwtDecode(token);
+      const now = Date.now().valueOf() / 1000;
+      return decoded.exp < now;
+    } catch (error) {
+      return true;
+    }
   }
 
-  logout() {
-    return this.http.post(`${this.baseUrl}/logout`, {}, { withCredentials: true });
-  }
-
-  getCurrentUser() {
-    return this.http.get(`${this.baseUrl}/me`, { withCredentials: true });
+  getUsername(): string | null {
+    const token = this.getToken();
+    if (token) {
+      const decoded: any = jwtDecode(token);
+      return decoded?.sub || decoded?.username || null;
+    }
+    return null;
   }
 }

@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';  // <-- Use CommonModule here
     CommonModule
   ],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
   title = 'ForexApplication';

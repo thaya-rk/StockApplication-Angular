@@ -30,9 +30,10 @@ export class PortfolioComponent implements OnInit {
   ngOnInit(): void {
     console.log('PortfolioComponent initialized');
 
-    this.portfolioService.getHoldings(this.userId).subscribe({
+
+    this.portfolioService.getHoldings().subscribe({
       next: (data) => {
-        console.log('Holdings fetched:', data); // 🔍 Debug log
+        console.log('Holdings fetched:', data);
         this.holdings = data;
       },
       error: (err) => {

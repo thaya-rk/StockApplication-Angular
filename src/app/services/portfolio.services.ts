@@ -19,7 +19,11 @@ export class PortfolioService {
 
   constructor(private http: HttpClient) {}
 
-  getHoldings(userId: number): Observable<Holding[]> {
-    return this.http.get<Holding[]>(`${this.baseUrl}/${userId}`,{withCredentials: true});
+  getHoldings(): Observable<Holding[]> {
+    return this.http.get<Holding[]>(`${this.baseUrl}/holdings`, {
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('jwtToken') || '',
+      }
+    });
   }
 }

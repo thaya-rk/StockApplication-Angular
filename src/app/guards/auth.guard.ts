@@ -5,9 +5,7 @@ import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot
 } from '@angular/router';
-import { Observable, of } from 'rxjs';
 import { AuthService } from '../services/auth.service';
-import { map, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -18,22 +16,14 @@ export class AuthGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<boolean> {
-    return this.authService.getCurrentUser().pipe(
-      map((response: any) => {
-        if (response?.data?.username) {
-          this.authService.setUsername(response.data.username); // storing username
-          return true;
-        } else {
-          //when user name not found or null
-          this.router.navigate(['/login']);
-          return false;
-        }
-      }),
-      catchError(() => {
-        this.router.navigate(['/login']);
-        return of(false);
-      })
-    );
+  ): boolean {
+    const token = this.authService.getToken();
+
+    if (token && !this.authService.isTokenExpired(token)) {
+      return true;
+    } else {
+      this.router.navigate(['/login']);
+      return false;
+    }
   }
 }

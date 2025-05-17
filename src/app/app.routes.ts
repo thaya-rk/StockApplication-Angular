@@ -14,5 +14,6 @@ export const routes: Routes = [
   {path:'home',component:HomeComponent,canActivate:[AuthGuard]},
   { path: 'watchlist', component: WatchlistComponent,canActivate: [AuthGuard] },
   { path: 'portfolio', component: PortfolioComponent ,canActivate: [AuthGuard]},
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
 
 ];
