@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { PortfolioService, Holding } from '../services/portfolio.services';
+import { PortfolioService, Holding } from '../../services/portfolio.services';
 import {NgForOf, NgIf} from '@angular/common';
-import {NavbarComponent} from '../navbar/navbar.component';
-import {BuySellRequest} from '../models/buy-sell-request.model';
-import { BuySellService } from '../services/buy-sell.service';
+import {NavbarComponent} from '../../navbar/navbar.component';
+import {BuySellRequest} from '../../models/buy-sell-request.model';
+import { BuySellService } from '../../services/buy-sell.service';
 
 
 
