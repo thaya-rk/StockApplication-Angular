@@ -1,0 +1,309 @@
+/* General Dashboard Styles */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f6f8;
+  color: #2c3e50;
+  margin: 1rem 2rem;
+}
+
+h2, h3, h4 {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #34495e;
+}
+
+/* ===== Add Stock Form ===== */
+.add-stock-horizontal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem 3rem;
+  align-items: center;
+  max-width: 100%;
+  background: white;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgb(0 0 0 / 0.1);
+  font-size: 0.875rem;
+  height: 160px; /* roughly 25% of a typical 480px dashboard */
+  overflow: hidden;
+}
+
+.form-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1 1 200px;
+  max-width: 260px;
+  min-height: 30px;
+  white-space: nowrap;
+}
+
+.form-group label {
+  flex: 0 0 110px;
+  font-weight: 600;
+  color: #2c3e50;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.form-group input,
+.form-group textarea {
+  flex: 1;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.85rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: inherit;
+  min-height: 28px;
+  line-height: 1.2;
+  resize: none;
+}
+
+.form-group textarea {
+  min-height: 40px;
+  max-height: 60px;
+  font-size: 0.85rem;
+  padding-top: 0.3rem;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #2980b9;
+  box-shadow: 0 0 4px rgba(41, 128, 185, 0.5);
+}
+
+.button-group {
+  flex: 0 0 100px;
+  display: flex;
+  justify-content: center;
+  min-height: 34px;
+}
+
+button {
+  background-color: #2980b9;
+  border: none;
+  color: white;
+  padding: 0.4rem 1rem;
+  font-size: 0.9rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  height: 32px;
+  align-self: center;
+  white-space: nowrap;
+}
+
+button:disabled {
+  background-color: #b0c4de;
+  cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+  background-color: #1c5980;
+}
+
+/* ===== Horizontal Rule ===== */
+hr {
+  margin: 1.5rem 0;
+  border: none;
+  border-top: 1px solid #ddd;
+}
+
+/* ===== Stock List ===== */
+.stock-list {
+  list-style: none;
+  padding: 0;
+  margin: 20px;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-height: 350px;
+  overflow-y: auto;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgb(0 0 0 / 0.1);
+}
+
+.stock-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.stock-list li:hover,
+.stock-list li.selected {
+  background-color: #d6e9ff;
+}
+
+.stock-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+
+.stock-logo {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  border-radius: 6px;
+  background: #f0f0f0;
+  flex-shrink: 0;
+}
+
+.stock-details {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.stock-company {
+  font-weight: 700;
+  font-size: 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #34495e;
+}
+
+.stock-ticker {
+  font-weight: 500;
+  color: #7f8c8d;
+  font-size: 0.9rem;
+  margin-left: 0.3rem;
+}
+
+.stock-price {
+  font-weight: 600;
+  color: #27ae60;
+  font-size: 0.95rem;
+  margin-top: 0.1rem;
+}
+
+.stock-details small {
+  color: #95a5a6;
+  font-size: 0.8rem;
+  margin-top: 0.1rem;
+}
+
+.stock-details p {
+  font-size: 0.85rem;
+  color: #444;
+  margin: 0.2rem 0 0 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Actions (Delete button) */
+.actions {
+  flex-shrink: 0;
+  margin-left: 1rem;
+}
+
+.delete-btn {
+  background-color: #e74c3c;
+  border: none;
+  color: white;
+  padding: 0.25rem 0.6rem;
+  font-size: 0.8rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  min-width: 70px;
+}
+
+.delete-btn:hover {
+  background-color: #c0392b;
+}
+
+/* ===== Update Stock Section ===== */
+.update-stock {
+  margin-top: 1.2rem;
+  background: white;
+  padding: 1rem 1.2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgb(0 0 0 / 0.1);
+  font-size: 0.9rem;
+  display: flex;
+  align-items:flex-start;
+  gap: 0.5rem;
+}
+
+.update-stock h4 {
+  flex: 1 1 100%;
+  font-weight: 600;
+  margin: 0 0 0.6rem 0;
+  color: #34495e;
+}
+
+.update-stock input[type="number"] {
+  flex: 1 1 auto;
+  padding: 0.3rem 0.5rem;
+  font-size: 0.9rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  min-height: 28px;
+  font-family: inherit;
+}
+
+.update-stock button {
+  background-color: #2980b9;
+  border: none;
+  color: white;
+  padding: 0.35rem 0.9rem;
+  font-size: 0.9rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  min-width: 60px;
+  height: 32px;
+}
+
+.update-stock button:last-child {
+  background-color: #7f8c8d;
+}
+
+.update-stock button:last-child:hover {
+  background-color: #606b70;
+}
+
+.update-stock button:hover:not(:last-child) {
+  background-color: #1c5980;
+}
+
+/* Scrollbar for stock list */
+.stock-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.stock-list::-webkit-scrollbar-thumb {
+  background-color: #bdc3c7;
+  border-radius: 3px;
+}
+
+/* Responsive tweaks */
+@media (max-width: 800px) {
+  .add-stock-horizontal {
+    height: auto;
+    flex-direction: column;
+    padding: 1rem;
+  }
+  .form-group {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+  .button-group {
+    flex: 1 1 100%;
+    justify-content: flex-start;
+    margin-top: 0.5rem;
+  }
+}

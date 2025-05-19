@@ -27,8 +27,28 @@ export class LoginComponent {
   onSubmit() {
     this.authService.login(this.loginData).subscribe({
       next: () => {
-        this.toastr.success('Login successful! Redirecting...');
-        this.router.navigate(['/home']);
+        this.authService.getCurrentUser().subscribe({
+          next: (response) => {
+            const userData = response.data;
+            const role = userData.role;
+            const username = userData.username;
+
+            localStorage.setItem('role', role);
+            localStorage.setItem('username', username);
+
+            this.toastr.success('Login successful! Redirecting...');
+
+            if (role === 'ADMIN') {
+              this.router.navigate(['/admin-dashboard']);
+            } else {
+              this.router.navigate(['/home']);
+            }
+          },
+          error: (err) => {
+            console.error('Error fetching user info:', err);
+            this.toastr.error('Failed to retrieve user info.');
+          }
+        });
       },
       error: (err) => {
         console.error('Login error:', err);
@@ -36,4 +56,5 @@ export class LoginComponent {
       }
     });
   }
+
 }

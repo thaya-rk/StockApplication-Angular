@@ -6,6 +6,7 @@ import {AuthGuard} from './guards/auth.guard';
 import { WatchlistComponent } from './components/watchlist/watchlist.component';
 import {PortfolioComponent} from './pages/portfolio/portfolio.component';
 import {AccountComponent} from './pages/account/account.component';
+import {AdminDashboardComponent} from './pages/admin-dashboard/admin-dashboard.component';
 
 
 export const routes: Routes = [
@@ -16,6 +17,8 @@ export const routes: Routes = [
   { path: 'watchlist', component: WatchlistComponent, canActivate: [AuthGuard] },
   { path: 'portfolio', component: PortfolioComponent, canActivate: [AuthGuard] },
   { path: 'account', component: AccountComponent ,canActivate: [AuthGuard] },
+  {path: 'admin-dashboard', component: AdminDashboardComponent},
+
 
   //fallback Route,will work if no route available
   { path: '**', redirectTo: '/login', pathMatch: 'full' },
