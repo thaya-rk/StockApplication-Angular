@@ -3,8 +3,11 @@ import {
   CanActivate,
   Router,
   ActivatedRouteSnapshot,
-  RouterStateSnapshot
+  RouterStateSnapshot,
+  UrlTree
 } from '@angular/router';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
 
 @Injectable({
@@ -16,14 +19,10 @@ export class AuthGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): boolean {
-    const token = this.authService.getToken();
-
-    if (token && !this.authService.isTokenExpired(token)) {
-      return true;
-    } else {
-      this.router.navigate(['/login']);
-      return false;
-    }
+  ): Observable<boolean | UrlTree> {
+    return this.authService.getCurrentUser().pipe(
+      map(() => true), // User is authenticated
+      catchError(() => of(this.router.createUrlTree(['/login']))) // Redirect to login on error
+    );
   }
 }

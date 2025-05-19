@@ -15,15 +15,13 @@ export interface Holding {
 })
 export class PortfolioService {
 
-  private baseUrl = 'http://localhost:8080/api/portfolio'; // adjust if needed
+  private baseUrl = 'http://localhost:8080/api/portfolio';
 
   constructor(private http: HttpClient) {}
 
   getHoldings(): Observable<Holding[]> {
     return this.http.get<Holding[]>(`${this.baseUrl}/holdings`, {
-      headers: {
-        Authorization: 'Bearer ' + localStorage.getItem('jwtToken') || '',
-      }
+      withCredentials: true
     });
   }
 }

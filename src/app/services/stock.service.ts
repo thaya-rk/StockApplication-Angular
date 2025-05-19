@@ -12,13 +12,7 @@ export class StockService {
   constructor(private http: HttpClient) {}
 
   getAllStocks(): Observable<any[]> {
-    const token = localStorage.getItem('jwtToken') || '';
-      console.log('Token in StockService:', token);
-    return this.http.get<any[]>(this.apiUrl, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }).pipe(
+    return this.http.get<any[]>(this.apiUrl, { withCredentials: true }).pipe(
       map((stocks: any[]) => {
         if (!stocks || stocks.length === 0) {
           console.warn('No stock data returned from API');
