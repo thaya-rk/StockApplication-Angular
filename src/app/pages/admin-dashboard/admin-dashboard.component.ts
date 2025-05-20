@@ -5,6 +5,7 @@ import {FormsModule} from '@angular/forms';
 import {NgForOf, NgIf} from '@angular/common';
 import {Router} from '@angular/router';
 import {ToastrModule, ToastrService} from 'ngx-toastr';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -35,7 +36,8 @@ export class AdminDashboardComponent implements OnInit {
 
   constructor(private adminService: AdminService,
               private router: Router,
-              private toastr: ToastrService,) {}
+              private toastr: ToastrService,
+              private authService: AuthService) {}
 
   ngOnInit() {
     this.loadStocks();
@@ -96,17 +98,28 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   logout(): void {
+    console.log('Logout called');
     this.adminService.logout().subscribe({
       next: () => {
-        // Navigate to login after successful logout
-        this.router.navigate(['/login']);
+        this.authService.setCurrentUser(null);
+        console.log('Logout success, clearing localStorage');
+        this.clearLocalStorageAndRedirect();
       },
       error: (error) => {
-        console.error('Logout failed, redirecting anyway.', error);
-        this.router.navigate(['/login']);
+        console.error('Logout failed, clearing localStorage and redirecting anyway.', error);
+        this.clearLocalStorageAndRedirect();
       }
     });
   }
+
+  private clearLocalStorageAndRedirect(): void {
+    localStorage.removeItem('role');
+    localStorage.removeItem('username');
+    localStorage.removeItem('user');
+    this.router.navigate(['/login']);
+  }
+
+
 
 
 }

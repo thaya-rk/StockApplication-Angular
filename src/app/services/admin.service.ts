@@ -43,6 +43,6 @@ export class AdminService {
   }
 
   logout(): Observable<any> {
-    return this.http.post(`${this.baseUrl}/logout`, {}, { withCredentials: true });
+    return this.http.post(`${this.baseUrl}/auth/logout`, {}, { withCredentials: true });
   }
 }
