@@ -9,7 +9,7 @@
   display: flex;
   justify-content: space-evenly;
 }
-
-.funds-card{
-
+.funds-section{
+  display: flex;
+  justify-content: center;
 }

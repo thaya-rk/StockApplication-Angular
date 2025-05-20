@@ -28,16 +28,19 @@
 
     <h3>Funds:</h3>
     <!-- Deposit / Withdraw -->
-    <div class="card mb-4 funds-card">
-      <div class="card-header">💳 Deposit / Withdraw Funds</div>
-      <div class="card-body">
-        <input type="number" [(ngModel)]="amount" class="form-control mb-2" placeholder="Enter amount" />
-        <button class="btn btn-success me-2" (click)="deposit()">Deposit</button>
-        <button class="btn btn-danger" (click)="withdraw()">Withdraw</button>
-        <p class="mt-2 text-success" *ngIf="message">{{ message }}</p>
-        <p class="mt-2 text-danger" *ngIf="error">{{ error }}</p>
+    <div class="funds-section ">
+      <div class="card mb-4 funds-card w-75">
+        <div class="card-header">💳 Deposit / Withdraw Funds</div>
+        <div class="card-body">
+          <input type="number" [(ngModel)]="amount" class="form-control mb-2" placeholder="Enter amount" />
+          <button class="btn btn-success me-2" (click)="deposit()">Deposit</button>
+          <button class="btn btn-danger" (click)="withdraw()">Withdraw</button>
+          <p class="mt-2 text-success" *ngIf="message">{{ message }}</p>
+          <p class="mt-2 text-danger" *ngIf="error">{{ error }}</p>
+        </div>
       </div>
     </div>
+
 
     <!-- Ledger -->
     <div class="ledger-section">
