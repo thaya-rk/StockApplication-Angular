@@ -4,3 +4,10 @@
 
   /* same as sidebar width */
 }
+
+.ledger-section{
+  display: flex;
+  justify-content: space-evenly;
+  width: 80%;
+
+}

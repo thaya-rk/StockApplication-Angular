@@ -3,6 +3,9 @@ import { AccountService } from '../../services/account.services';
 import {DatePipe, DecimalPipe, NgForOf, NgIf} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {NavbarComponent} from '../../navbar/navbar.component';
+import {RouterLink} from '@angular/router';
+
+
 
 @Component({
   selector: 'app-account',
@@ -14,7 +17,8 @@ import {NavbarComponent} from '../../navbar/navbar.component';
     DecimalPipe,
     NgIf,
     NgForOf,
-    NavbarComponent
+    NavbarComponent,
+    RouterLink
   ]
 })
 export class AccountComponent implements OnInit {

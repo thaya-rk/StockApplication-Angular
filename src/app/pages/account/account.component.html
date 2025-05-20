@@ -26,6 +26,7 @@
       </div>
     </div>
 
+    <h3>Funds:</h3>
     <!-- Deposit / Withdraw -->
     <div class="card mb-4">
       <div class="card-header">💳 Deposit / Withdraw Funds</div>
@@ -39,63 +40,13 @@
     </div>
 
     <!-- Ledger -->
-    <div class="card">
-      <div class="card-header d-flex justify-content-between align-items-center">
-        📘 Ledger
-
-        <!-- Toggle Filter -->
-        <div class="btn-group btn-group-sm" role="group">
-          <button class="btn btn-outline-primary" [class.active]="filter === 'ALL'" (click)="filter = 'ALL'">All</button>
-          <button class="btn btn-outline-success" [class.active]="filter === 'FUNDS'" (click)="filter = 'FUNDS'">Deposit / Withdraw</button>
-          <button class="btn btn-outline-info" [class.active]="filter === 'STOCKS'" (click)="filter = 'STOCKS'">Buy / Sell</button>
-        </div>
-      </div>
-
-      <!-- Ledger Content -->
-      <div class="list-group list-group-flush" *ngIf="filteredLedger().length > 0">
-        <div class="list-group-item" *ngFor="let txn of filteredLedgerLimited()">
-          <div class="row">
-            <!-- Only for STOCK-related transactions -->
-            <ng-container *ngIf="txn.type !== 'DEPOSIT' && txn.type !== 'WITHDRAW'">
-              <div class="col-md-6 col-lg-4 mb-2">
-                <strong>Company:</strong> {{ txn.stock?.companyName }}
-              </div>
-              <div class="col-md-6 col-lg-4 mb-2">
-                <strong>Exchange:</strong> {{ txn.stock?.exchange }}
-              </div>
-              <div class="col-md-6 col-lg-4 mb-2">
-                <strong>Stock Price:</strong> ₹{{ txn.stock?.stockPrice }}
-              </div>
-            </ng-container>
-
-            <!-- Common fields -->
-            <div class="col-md-6 col-lg-4 mb-2">
-              <strong>Status:</strong> {{ txn.status }}
-            </div>
-            <div class="col-md-6 col-lg-4 mb-2">
-              <strong>Type:</strong> {{ txn.type }}
-            </div>
-            <div class="col-md-6 col-lg-4 mb-2">
-              <strong>Date:</strong> {{ txn.transactionDate | date:'short' }}
-            </div>
-            <div class="col-md-6 col-lg-4 mb-2">
-              <strong>Amount:</strong> ₹{{ txn.totalAmount }}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Expand/Collapse Button -->
-      <div *ngIf="filteredLedger().length > 5" class="text-center my-3">
-        <button class="btn btn-outline-secondary" (click)="showAllTransactions = !showAllTransactions">
-          {{ showAllTransactions ? 'Show Less' : 'Show All' }}
-        </button>
-      </div>
-
-      <!-- No Transactions -->
-      <div *ngIf="filteredLedger().length === 0" class="text-muted p-3">
-        No transactions found for the selected filter.
-      </div>
+    <div class="ledger-section">
+      <h4>Show Ledger:</h4>
+      <button routerLink="/account/ledger" class="btn btn-info">
+        Transactions
+      </button>
     </div>
+
+
   </div>
 </div>
