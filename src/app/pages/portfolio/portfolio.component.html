@@ -18,7 +18,7 @@
 
 
         <!-- Portfolio Gain -->
-        <div class="card" style="width: 18rem; padding: 5px;"
+        <div class="card" style="width: 18rem; padding: 5px; "
              [ngStyle]="{
     'background-color': portfolioGain >= 0 ? 'rgba(127,217,127,0.2)' : 'rgba(255, 99, 71, 0.2)'}">
           <div class="card-body">
@@ -36,7 +36,7 @@
           <div class="card-body">
             <h5 class="card-title">Portfolio Gain %</h5>
             <p
-              class="card-text fw-bold"
+              class="card-text fw-bold" style="font-size: large"
               [ngStyle]="{ color: portfolioGainPercent >= 0 ? 'green' : 'red' }">
               {{ portfolioGainPercent | number: '1.2-2' }} %
             </p>

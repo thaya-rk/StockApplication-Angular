@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { StockService } from '../../services/stock.service';
-import { CommonModule, NgForOf } from '@angular/common';
-import { NavbarComponent } from '../../navbar/navbar.component';
-import { NgxPaginationModule } from 'ngx-pagination';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import {FormsModule} from '@angular/forms';
-import {BuySellRequest} from '../../models/buy-sell-request.model';
 import { BuySellService } from '../../services/buy-sell.service';
+import { BuySellRequest } from '../../models/buy-sell-request.model';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
 
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { NavbarComponent } from '../../navbar/navbar.component';
 
 interface Stock {
   stockId: number;
@@ -30,74 +30,92 @@ interface Stock {
   standalone: true,
   imports: [
     CommonModule,
-    NgForOf,
-    NavbarComponent,
-    NgxPaginationModule,
     FormsModule,
+    NgxPaginationModule,
+    NavbarComponent
   ],
   templateUrl: './watchlist.component.html',
   styleUrls: ['./watchlist.component.css'],
 })
 export class WatchlistComponent implements OnInit {
   stocks: Stock[] = [];
-  page: number = 1;
-  itemsPerPage: number = 5;
-  searchTerm: string = '';
+  page = 1;
+  itemsPerPage = 5;
+  searchTerm = '';
 
+  selectedStock: Stock | null = null;
+  modalMode: 'buy' | 'sell' = 'buy';
+  modalQuantity: number = 1;
 
-  constructor(private stockService: StockService,
-              private sanitizer: DomSanitizer,
-              private buySellService:BuySellService,
-              private toastr: ToastrService
+  constructor(
+    private stockService: StockService,
+    private buySellService: BuySellService,
+    private sanitizer: DomSanitizer,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
+    this.loadStocks();
+  }
+
+  loadStocks(): void {
     this.stockService.getAllStocks().subscribe({
       next: (data) => {
-        this.stocks = data.map(stock => ({
+        this.stocks = data.map((stock) => ({
           ...stock,
-          safeImageURL: this.sanitizer.bypassSecurityTrustUrl(stock.imageURL)
+          safeImageURL: this.sanitizer.bypassSecurityTrustUrl(stock.imageURL || 'assets/images/infy.png'),
         }));
-        console.log('Fetched stocks:', this.stocks);
       },
-      error: (err) => console.error('Failed to fetch stocks', err),
+      error: (err) => {
+        console.error('Error loading stocks', err);
+        this.toastr.error('Failed to load stocks');
+      },
     });
   }
 
+  filteredStocks(): Stock[] {
+    if (!this.searchTerm.trim()) return this.stocks;
 
-  buyStock(stockId: number) {
-    const qtyStr = prompt('Enter quantity to buy:', '1');
-    const quantity = qtyStr ? parseInt(qtyStr, 10) : 0;
-    if (quantity > 0) {
-      const request: BuySellRequest = { stockId, quantity };
-      this.buySellService.buyStock(request).subscribe({
-        next: () => this.toastr.success('Stock bought successfully'),
-        error: err => this.toastr.error('Failed to buy stock: ' + err.message)
-      });
-    } else {
-      this.toastr.warning('Invalid quantity');
-    }
-  }
+    const term = this.searchTerm.toLowerCase();
 
-  sellStock(stockId: number) {
-    const qtyStr = prompt('Enter quantity to sell:', '1');
-    const quantity = qtyStr ? parseInt(qtyStr, 10) : 0;
-    if (quantity > 0) {
-      const request: BuySellRequest = { stockId, quantity };
-      this.buySellService.sellStock(request).subscribe({
-        next: () => this.toastr.success('Stock sold successfully'),
-        error: err => this.toastr.error('Failed to sell stock: ' + err.message)
-      });
-    } else {
-      this.toastr.warning('Invalid quantity');
-    }
-  }
-
-  filteredStocks() {
-    if (!this.searchTerm) return this.stocks;
-    return this.stocks.filter(stock =>
-      stock.companyName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-      stock.tickerSymbol.toLowerCase().includes(this.searchTerm.toLowerCase())
+    return this.stocks.filter((stock) =>
+      stock.companyName.toLowerCase().includes(term) ||
+      stock.tickerSymbol.toLowerCase().includes(term)
     );
+  }
+
+  openModal(stock: Stock, mode: 'buy' | 'sell'): void {
+    this.selectedStock = stock;
+    this.modalMode = mode;
+    this.modalQuantity = 1;
+  }
+
+  closeModal(): void {
+    this.selectedStock = null;
+    this.modalQuantity = 1;
+  }
+
+  confirmAction(): void {
+    if (!this.selectedStock || this.modalQuantity <= 0) {
+      this.toastr.warning('Please enter a valid quantity');
+      return;
+    }
+
+    const request: BuySellRequest = {
+      stockId: this.selectedStock.stockId,
+      quantity: this.modalQuantity,
+    };
+
+    const actionText = this.modalMode === 'buy' ? 'Buy' : 'Sell';
+    const serviceCall = this.modalMode === 'buy'
+      ? this.buySellService.buyStock(request)
+      : this.buySellService.sellStock(request);
+
+    serviceCall.subscribe({
+      next: () =>{ this.toastr.success(`Stock ${actionText.toLowerCase()} successful!`);
+        this.closeModal();
+      },
+      error: (err) => this.toastr.error(`Failed to ${actionText.toLowerCase()} stock: ${err.message}`),
+    });
   }
 }

@@ -18,7 +18,7 @@
           <div *ngFor="let stock of filteredStocks() | paginate: { itemsPerPage: itemsPerPage, currentPage: page }"
                class="list-group-item list-group-item-action d-flex align-items-start flex-wrap flex-md-nowrap gap-2">
 
-          <!-- Image Section -->
+            <!-- Image Section -->
             <img [src]="stock.imageURL || 'assets/images/infy.png'"
                  alt="error loading"
                  width="46" height="46"
@@ -42,13 +42,45 @@
             </div>
 
             <div class="d-flex gap-2">
-              <button class="btn btn-success btn-sm" (click)="buyStock(stock.stockId)">Buy</button>
-              <button class="btn btn-danger btn-sm" (click)="sellStock(stock.stockId)">Sell</button>
+              <button class="btn btn-success btn-sm" (click)="openModal(stock, 'buy')">Buy</button>
+              <button class="btn btn-danger btn-sm" (click)="openModal(stock, 'sell')">Sell</button>
             </div>
           </div>
+
+          <!-- Modal -->
+          <!-- Modal -->
+          <div class="modal fade"
+               [class.show]="selectedStock"
+               [ngStyle]="{ display: selectedStock ? 'block' : 'none', backgroundColor: 'rgba(0,0,0,0.5)' }"
+               id="buySellModal"
+               tabindex="-1"
+               role="dialog">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">{{ modalMode === 'buy' ? 'Buy Stock' : 'Sell Stock' }}</h5>
+                  <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <p><strong>Stock:</strong> {{ selectedStock?.companyName }}</p>
+                  <p><strong>Price:</strong> ₹{{ selectedStock?.stockPrice }}</p>
+                  <div class="form-group">
+                    <label for="quantity">Enter Quantity:</label>
+                    <input type="number" id="quantity" class="form-control" [(ngModel)]="modalQuantity" min="1">
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+                  <button class="btn btn-primary" (click)="confirmAction()">
+                    {{ modalMode === 'buy' ? 'Buy' : 'Sell' }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
         </div>
-
-
         <pagination-controls
           (pageChange)="page = $event"
           class="d-flex justify-content-center mt-3">
@@ -62,3 +94,6 @@
 
   </div>
 </div>
+
+
+

@@ -18,7 +18,7 @@
       </div>
 
       <!-- Balance -->
-      <div class="card  mb-4 ">
+      <div class="card mb-4">
         <div class="card-header">💰 Available Balance</div>
         <div class="card-body">
           <h4>₹{{ balance | number:'1.2-2' }}</h4>
@@ -28,7 +28,7 @@
 
     <h3>Funds:</h3>
     <!-- Deposit / Withdraw -->
-    <div class="card mb-4">
+    <div class="card mb-4 funds-card">
       <div class="card-header">💳 Deposit / Withdraw Funds</div>
       <div class="card-body">
         <input type="number" [(ngModel)]="amount" class="form-control mb-2" placeholder="Enter amount" />
@@ -41,9 +41,8 @@
 
     <!-- Ledger -->
     <div class="ledger-section">
-      <h4>Show Ledger:</h4>
       <button routerLink="/account/ledger" class="btn btn-info">
-        Transactions
+        Show Transactions
       </button>
     </div>
 
