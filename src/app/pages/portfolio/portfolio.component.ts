@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { PortfolioService, Holding } from '../../services/portfolio.services';
-import {NgForOf, NgIf} from '@angular/common';
+import {DecimalPipe, NgForOf, NgIf, NgStyle} from '@angular/common';
 import {NavbarComponent} from '../../navbar/navbar.component';
 import {BuySellRequest} from '../../models/buy-sell-request.model';
 import { BuySellService } from '../../services/buy-sell.service';
-
-
+import {HoldingsComponent} from '../holdings/holdings.component';
 
 @Component({
   selector: 'app-portfolio',
@@ -13,7 +12,9 @@ import { BuySellService } from '../../services/buy-sell.service';
   imports: [
     NgForOf,
     NgIf,
-    NavbarComponent
+    NavbarComponent,
+    DecimalPipe,
+    NgStyle,
   ],
   styleUrls: ['./portfolio.component.css']
 })
@@ -41,31 +42,29 @@ export class PortfolioComponent implements OnInit {
       }
     });
   }
-  buyStock(stockId: number) {
-    const qtyStr = prompt('Enter quantity to buy:', '1');
-    const quantity = qtyStr ? parseInt(qtyStr, 10) : 0;
-    if (quantity > 0) {
-      const request: BuySellRequest = { stockId, quantity };
-      this.buySellService.buyStock(request).subscribe({
-        next: () => alert('Stock bought successfully'),
-        error: err => alert('Failed to buy stock: ' + err.message)
-      });
-    } else {
-      alert('Invalid quantity');
-    }
+
+  get portfolioValue(): number {
+    return this.holdings.reduce((sum, h) => sum + h.currentValue, 0);
   }
 
-  sellStock(stockId: number) {
-    const qtyStr = prompt('Enter quantity to sell:', '1');
-    const quantity = qtyStr ? parseInt(qtyStr, 10) : 0;
-    if (quantity > 0) {
-      const request: BuySellRequest = { stockId, quantity };
-      this.buySellService.sellStock(request).subscribe({
-        next: () => alert('Stock sold successfully'),
-        error: err => alert('Failed to sell stock: ' + err.message)
-      });
-    } else {
-      alert('Invalid quantity');
-    }
+  get portfolioGain(): number {
+    return this.holdings.reduce(
+      (gain, h) => gain + (h.currentPrice - h.avgBuyPrice) * h.quantity,
+      0
+    );
   }
+
+  get portfolioGainPercent(): number {
+    const totalInvestment = this.holdings.reduce(
+      (sum, h) => sum + h.avgBuyPrice * h.quantity,
+      0
+    );
+    return totalInvestment ? (this.portfolioGain / totalInvestment) * 100 : 0;
+  }
+
+  getProfitLoss(holding: Holding): number {
+    return (holding.currentPrice - holding.avgBuyPrice) * holding.quantity;
+  }
+
+
 }

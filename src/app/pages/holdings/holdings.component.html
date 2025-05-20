@@ -1,0 +1,35 @@
+<app-navbar></app-navbar>
+
+
+<div class="d-flex">
+  <div class="content-area p-4">
+    <div class=" content-with-sidebar">
+      <h2>Holdings</h2>
+
+      <table class="table ">
+        <thead>
+        <tr>
+          <th>Stock</th>
+          <th>Quantity</th>
+          <th>Avg. Buy Price</th>
+          <th>Current Price</th>
+          <th>Total Value</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let holding of holdings">
+          <td>{{ holding.stockName }}</td>
+          <td>{{ holding.quantity }}</td>
+          <td>{{ holding.avgBuyPrice }}</td>
+          <td>{{ holding.currentPrice }}</td>
+          <td>{{ holding.currentValue}}</td>
+        </tr>
+        </tbody>
+      </table>
+
+      <div *ngIf="holdings.length === 0">
+        <p>No holdings found.</p>
+      </div>
+    </div>
+  </div>
+</div>

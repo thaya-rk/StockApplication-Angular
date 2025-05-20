@@ -21,8 +21,21 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> {
     return this.authService.getCurrentUser().pipe(
-      map(() => true), // User is authenticated
-      catchError(() => of(this.router.createUrlTree(['/login']))) // Redirect to login on error
+      map(user => {
+        // If the route is for admin-dashboard, check role
+        if (state.url === '/admin-dashboard') {
+          if (user && user.role === 'ADMIN') {
+            return true;
+          }
+          return this.router.createUrlTree(['/home']);
+        }
+
+        if (user) return true;
+
+        return this.router.createUrlTree(['/home']);
+      }),
+      catchError(() => of(this.router.createUrlTree(['/login'])))
     );
   }
+
 }

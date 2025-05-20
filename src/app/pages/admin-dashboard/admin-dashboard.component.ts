@@ -4,6 +4,7 @@ import { AdminService, Stock } from '../../services/admin.service';
 import {FormsModule} from '@angular/forms';
 import {NgForOf, NgIf} from '@angular/common';
 import {Router} from '@angular/router';
+import {ToastrModule, ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -11,7 +12,8 @@ import {Router} from '@angular/router';
   imports: [
     FormsModule,
     NgForOf,
-    NgIf
+    NgIf,
+    ToastrModule
   ],
   styleUrls: ['./admin-dashboard.component.css']
 })
@@ -31,7 +33,9 @@ export class AdminDashboardComponent implements OnInit {
   selectedStock: Stock | null = null;
   updatedPrice: number = 0;
 
-  constructor(private adminService: AdminService,private router: Router) {}
+  constructor(private adminService: AdminService,
+              private router: Router,
+              private toastr: ToastrService,) {}
 
   ngOnInit() {
     this.loadStocks();
@@ -46,6 +50,7 @@ export class AdminDashboardComponent implements OnInit {
   addStock() {
     this.adminService.addStock(this.newStock as Stock).subscribe(() => {
       this.loadStocks();
+      this.toastr.success("Stock brought Successfully")
       this.resetNewStock();
     });
   }
@@ -60,6 +65,8 @@ export class AdminDashboardComponent implements OnInit {
       this.adminService.updateStock(this.selectedStock.stockId, this.updatedPrice).subscribe(() => {
         this.loadStocks();
         this.selectedStock = null;
+        this.toastr.success("Stock Updated Successfully")
+
       });
     }
   }
@@ -68,6 +75,8 @@ export class AdminDashboardComponent implements OnInit {
   deleteStock(stockId: number) {
     this.adminService.deleteStock(stockId).subscribe(() => {
       this.loadStocks();
+      this.toastr.success("Stock Deleted Successfully")
+
     });
   }
 
