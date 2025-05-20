@@ -1,14 +1,38 @@
-
-.content-with-sidebar {
-  margin-left: 240px; /* same as sidebar width */
+/* Ensure the content doesn't hide behind the sidebar */
+.portfolio-wrapper {
+  margin-left: 250px; /* Adjust this to your sidebar width */
+  padding: 20px;
+  transition: margin-left 0.3s ease;
 }
 
-.portfolio-stats{
+/* Portfolio card section */
+.portfolio-stats {
   display: flex;
-  justify-content: space-around;
+  flex-wrap: wrap;
   gap: 20px;
-  padding:0 0 20px 20px ;
+  margin-bottom: 20px;
 }
 
+.portfolio-stats .card {
+  flex: 1 1 300px;
+  max-width: 300px;
+}
 
+/* Make sure table stretches properly */
+table.table {
+  width: 100%;
+  margin-top: 20px;
+}
 
+/* Responsive for mobile */
+@media (max-width: 768px) {
+  .portfolio-wrapper {
+    margin-left: 0;
+    padding: 10px;
+  }
+
+  .portfolio-stats {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

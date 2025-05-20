@@ -1,92 +1,70 @@
 <app-navbar></app-navbar>
-
-
-<div class="d-flex">
-  <div class="content-area p-4">
-    <div class="portfolio-container content-with-sidebar">
-      <h2>Portfolio</h2>
-
-      <div class="portfolio-stats">
-
-        <!-- Portfolio Value -->
-        <div class="card" style="width: 18rem;">
-          <div class="card-body">
-            <h5 class="card-title">Portfolio Value</h5>
-            <p class="card-text fw-bold">₹ {{ portfolioValue | number: '1.2-2' }}</p>
-          </div>
-        </div>
-
-
-        <!-- Portfolio Gain -->
-        <div class="card" style="width: 18rem; padding: 5px; "
-             [ngStyle]="{
-    'background-color': portfolioGain >= 0 ? 'rgba(127,217,127,0.2)' : 'rgba(255, 99, 71, 0.2)'}">
-          <div class="card-body">
-            <h5 class="card-title">Portfolio Gain</h5>
-            <p
-              class="card-text fw-bold"
-              [ngStyle]="{ color: portfolioGain >= 0 ? 'green' : 'red' }">
-              ₹ {{ portfolioGain | number: '1.2-2' }}
-            </p>
-          </div>
-        </div>
-
-        <!-- Portfolio Gain % -->
-        <div class="card" style="width: 18rem;">
-          <div class="card-body">
-            <h5 class="card-title">Portfolio Gain %</h5>
-            <p
-              class="card-text fw-bold" style="font-size: large"
-              [ngStyle]="{ color: portfolioGainPercent >= 0 ? 'green' : 'red' }">
-              {{ portfolioGainPercent | number: '1.2-2' }} %
-            </p>
-          </div>
-        </div>
-      </div>
-
-
-
-      <table class="table">
-        <thead>
-        <tr>
-          <th>Stock</th>
-          <th>Quantity</th>
-          <th>Avg. Buy Price</th>
-          <th>Current Price</th>
-          <th>Total Value</th>
-          <th>P/L</th>
-          <th>P/L %</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let holding of holdings">
-          <td>{{ holding.stockName }}</td>
-          <td>{{ holding.quantity }}</td>
-          <td>{{ holding.avgBuyPrice }}</td>
-          <td>{{ holding.currentPrice }}</td>
-          <td>{{ holding.currentValue}}</td>
-          <td
-            class="fw-bold"
-            [ngStyle]="{
-          color: getProfitLoss(holding) >= 0 ? 'green' : 'red'
-        }">
-            ₹ {{ getProfitLoss(holding) | number: '1.2-2' }}
-          </td>
-          <td
-            class="fw-bold"
-            [ngStyle]="{
-    color: getProfitLossPercent(holding) >= 0 ? 'green' : 'red'
-  }">
-            {{ getProfitLossPercent(holding) | number: '1.2-2' }} %
-          </td>
-
-        </tr>
-        </tbody>
-      </table>
-
-      <div *ngIf="holdings.length === 0">
-        <p>No holdings found.</p>
+<div class="portfolio-wrapper">
+  <div class="portfolio-stats">
+    <!-- Portfolio Value -->
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Portfolio Value</h5>
+        <p class="card-text fw-bold">₹ {{ portfolioValue | number: '1.2-2' }}</p>
       </div>
     </div>
+
+    <!-- Portfolio Gain -->
+    <div class="card portfolio-card"
+         [ngStyle]="{ 'background-color': portfolioGain >= 0 ? 'rgba(127,217,127,0.2)' : 'rgba(255, 99, 71, 0.2)' }">
+      <div class="card-body">
+        <h5 class="card-title">Portfolio Gain</h5>
+        <p class="card-text fw-bold"
+           [ngStyle]="{ color: portfolioGain >= 0 ? 'green' : 'red' }">
+          ₹ {{ portfolioGain | number: '1.2-2' }}
+        </p>
+      </div>
+    </div>
+
+    <!-- Portfolio Gain % -->
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Portfolio Gain %</h5>
+        <p class="card-text fw-bold" style="font-size: large"
+           [ngStyle]="{ color: portfolioGainPercent >= 0 ? 'green' : 'red' }">
+          {{ portfolioGainPercent | number: '1.2-2' }} %
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Stock</th>
+      <th>Quantity</th>
+      <th>Avg. Buy Price</th>
+      <th>Current Price</th>
+      <th>Total Value</th>
+      <th>P/L</th>
+      <th>P/L %</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let holding of holdings">
+      <td>{{ holding.stockName }}</td>
+      <td>{{ holding.quantity }}</td>
+      <td>{{ holding.avgBuyPrice }}</td>
+      <td>{{ holding.currentPrice }}</td>
+      <td>{{ holding.currentValue }}</td>
+      <td class="fw-bold"
+          [ngStyle]="{ color: getProfitLoss(holding) >= 0 ? 'green' : 'red' }">
+        ₹ {{ getProfitLoss(holding) | number: '1.2-2' }}
+      </td>
+      <td class="fw-bold"
+          [ngStyle]="{ color: getProfitLossPercent(holding) >= 0 ? 'green' : 'red' }">
+        {{ getProfitLossPercent(holding) | number: '1.2-2' }} %
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="holdings.length === 0">
+    <p>No holdings found.</p>
   </div>
 </div>

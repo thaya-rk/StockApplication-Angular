@@ -1,4 +1,12 @@
+/* Shift main content only on larger screens */
+@media (min-width: 769px) {
+  .content-with-sidebar {
+    margin-left: 260px; /* Matches sidebar width */
+  }
+}
 
-.content-with-sidebar {
-  margin-left: 260px; /* same as sidebar width */
+@media (max-width: 768px) {
+  .content-with-sidebar {
+    margin-left: 0; /* Full width when sidebar is hidden */
+  }
 }

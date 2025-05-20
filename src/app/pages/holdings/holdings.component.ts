@@ -10,8 +10,7 @@ import {DecimalPipe, NgForOf, NgIf, NgStyle} from '@angular/common';
     NavbarComponent,
     NgForOf,
     NgIf,
-    DecimalPipe,
-    NgStyle
+    DecimalPipe
   ],
   templateUrl: './holdings.component.html',
   styleUrl: './holdings.component.css'

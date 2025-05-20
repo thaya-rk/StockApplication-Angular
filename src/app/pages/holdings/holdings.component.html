@@ -1,60 +1,54 @@
 <app-navbar></app-navbar>
 
+<div class="holding-wrapper">
+  <h2>Holdings</h2>
 
-<div class="d-flex">
-  <div class="content-area p-4">
-    <div class=" content-with-sidebar">
-      <h2>Holdings</h2>
-
-      <div class="m-4">
-        <div class="row">
-          <!-- Total Investment Value -->
-          <div class="col-sm-6 " >
-            <div class="card  bg-light">
-              <div class="card-body">
-                <h5 class="card-title">Invested Value</h5>
-                <p class="card-text fw-bold">₹ {{ getTotalInvestment() | number: '1.2-2' }}</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Current Value -->
-          <div class="col-sm-6 " >
-            <div class="card  bg-light">
-              <div class="card-body">
-                <h5 class="card-title">Current Value</h5>
-                <p class="card-text fw-bold">₹ {{ getCurrentValue() | number: '1.2-2' }}</p>
-              </div>
-            </div>
-          </div>
+  <!-- Investment Stats -->
+  <div class="row mb-4">
+    <!-- Total Investment Value -->
+    <div class="col-sm-6">
+      <div class="card bg-light">
+        <div class="card-body">
+          <h5 class="card-title">Invested Value</h5>
+          <p class="card-text fw-bold">₹ {{ getTotalInvestment() | number: '1.2-2' }}</p>
         </div>
       </div>
+    </div>
 
-
-      <table class="table ">
-        <thead>
-        <tr>
-          <th>Stock</th>
-          <th>Quantity</th>
-          <th>Avg. Buy Price</th>
-          <th>Current Price</th>
-          <th>Total Value</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let holding of holdings">
-          <td>{{ holding.stockName }}</td>
-          <td>{{ holding.quantity }}</td>
-          <td>{{ holding.avgBuyPrice }}</td>
-          <td>{{ holding.currentPrice }}</td>
-          <td>{{ holding.currentValue}}</td>
-        </tr>
-        </tbody>
-      </table>
-
-      <div *ngIf="holdings.length === 0">
-        <p>No holdings found.</p>
+    <!-- Current Value -->
+    <div class="col-sm-6">
+      <div class="card bg-light">
+        <div class="card-body">
+          <h5 class="card-title">Current Value</h5>
+          <p class="card-text fw-bold">₹ {{ getCurrentValue() | number: '1.2-2' }}</p>
+        </div>
       </div>
     </div>
+  </div>
+
+  <!-- Holdings Table -->
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Stock</th>
+      <th>Quantity</th>
+      <th>Avg. Buy Price</th>
+      <th>Current Price</th>
+      <th>Total Value</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let holding of holdings">
+      <td>{{ holding.stockName }}</td>
+      <td>{{ holding.quantity }}</td>
+      <td>{{ holding.avgBuyPrice }}</td>
+      <td>{{ holding.currentPrice }}</td>
+      <td>{{ holding.currentValue }}</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="holdings.length === 0">
+    <p>No holdings found.</p>
   </div>
 </div>

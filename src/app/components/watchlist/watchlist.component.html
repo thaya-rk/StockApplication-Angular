@@ -48,7 +48,6 @@
           </div>
 
           <!-- Modal -->
-          <!-- Modal -->
           <div class="modal fade"
                [class.show]="selectedStock"
                [ngStyle]="{ display: selectedStock ? 'block' : 'none', backgroundColor: 'rgba(0,0,0,0.5)' }"
@@ -64,12 +63,14 @@
                 <div class="modal-body">
                   <p><strong>Stock:</strong> {{ selectedStock?.companyName }}</p>
                   <p><strong>Price:</strong> ₹{{ selectedStock?.stockPrice }}</p>
+
                   <div class="form-group">
                     <label for="quantity">Enter Quantity:</label>
                     <input type="number" id="quantity" class="form-control" [(ngModel)]="modalQuantity" min="1">
                   </div>
                 </div>
                 <div class="modal-footer">
+                  <p>{{selectedStock?.stockPrice }}</p>
                   <button class="btn btn-secondary" (click)="closeModal()">Cancel</button>
                   <button class="btn btn-primary" (click)="confirmAction()">
                     {{ modalMode === 'buy' ? 'Buy' : 'Sell' }}

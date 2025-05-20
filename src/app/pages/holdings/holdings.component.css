@@ -1,12 +1,14 @@
-.content-with-sidebar {
-  margin-left: 280px;
-  width: 100%/* same as sidebar width */
+/* Wrapper to push content right of sidebar */
+.holding-wrapper {
+  margin-left: 250px; /* adjust based on sidebar width */
+  padding: 20px;
+  transition: margin-left 0.3s ease;
 }
-.holding-stat{
 
-}
-
-.hold-card{
-  width: 300px;
-  height: 30px;
+/* Responsive layout */
+@media (max-width: 768px) {
+  .holding-wrapper {
+    margin-left: 0;
+    padding: 10px;
+  }
 }
