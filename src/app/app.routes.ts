@@ -18,7 +18,7 @@ export const routes: Routes = [
   { path: 'watchlist', component: WatchlistComponent, canActivate: [AuthGuard] },
   { path: 'portfolio', component: PortfolioComponent, canActivate: [AuthGuard] },
   { path: 'account', component: AccountComponent ,canActivate: [AuthGuard] },
-  {path: 'admin-dashboard', component: AdminDashboardComponent},
+  {path: 'admin-dashboard', component: AdminDashboardComponent,canActivate: [AuthGuard]},
   {path:'holding',component:HoldingsComponent},
 
   //fallback Route,will work if no route available

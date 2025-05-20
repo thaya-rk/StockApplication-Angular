@@ -14,6 +14,7 @@ import { AuthService } from '../services/auth.service';
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
+
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(
@@ -21,8 +22,10 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> {
     return this.authService.getCurrentUser().pipe(
-      map(user => {
-        // If the route is for admin-dashboard, check role
+      map(response => {
+        const user = response.data;
+        console.log("Inside authguard:", user?.role);
+
         if (state.url === '/admin-dashboard') {
           if (user && user.role === 'ADMIN') {
             return true;

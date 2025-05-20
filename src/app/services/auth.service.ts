@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable} from 'rxjs';
+import {Observable, of, tap} from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AuthService {
   private TOKEN_KEY = 'jwtToken';
+  private currentUser: any = null;
 
   constructor(private http: HttpClient) {
   }
@@ -18,14 +19,27 @@ export class AuthService {
   }
 
   logout(): Observable<any> {
+    this.currentUser = null;
     return this.http.post('http://localhost:8080/api/auth/logout', {}, {
       withCredentials: true
     });
   }
 
+  setCurrentUser(user: any): void {
+    this.currentUser = user;
+  }
+
   getCurrentUser(): Observable<any> {
+    if (this.currentUser) {
+      return of({ data: this.currentUser }); // mimic backend response shape
+    }
+
     return this.http.get('http://localhost:8080/api/auth/me', {
       withCredentials: true
-    });
+    }).pipe(
+      tap((response: any) => {
+        this.currentUser = response.data; // cache it
+      })
+    );
   }
 }

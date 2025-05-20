@@ -28,15 +28,19 @@ export class LoginComponent {
     this.authService.login(this.loginData).subscribe({
       next: () => {
         this.authService.getCurrentUser().subscribe({
+
           next: (response) => {
             const userData = response.data;
             const role = userData.role;
             const username = userData.username;
 
+            this.authService.setCurrentUser(userData);
+
             localStorage.setItem('role', role);
             localStorage.setItem('username', username);
 
             this.toastr.success('Login successful! Redirecting...');
+            console.log(role)
 
             if (role === 'ADMIN') {
               this.router.navigate(['/admin-dashboard']);
