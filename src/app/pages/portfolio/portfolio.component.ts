@@ -5,6 +5,7 @@ import {NavbarComponent} from '../../navbar/navbar.component';
 import {BuySellRequest} from '../../models/buy-sell-request.model';
 import { BuySellService } from '../../services/buy-sell.service';
 import {HoldingsComponent} from '../holdings/holdings.component';
+import {Stock} from '../../models/Stock.model';
 
 @Component({
   selector: 'app-portfolio',
@@ -22,6 +23,10 @@ export class PortfolioComponent implements OnInit {
 
   holdings: Holding[] = [];
   userId: number = 2;
+
+  selectedStock: Stock | null = null;
+  modalMode: 'buy' | 'sell' = 'buy';
+  modalQuantity: number = 1;
 
   constructor(
     private portfolioService: PortfolioService,
@@ -66,5 +71,10 @@ export class PortfolioComponent implements OnInit {
     return (holding.currentPrice - holding.avgBuyPrice) * holding.quantity;
   }
 
+  getProfitLossPercent(holding: any): number {
+    const { avgBuyPrice, currentPrice } = holding;
+    if (!avgBuyPrice) return 0;
+    return ((currentPrice - avgBuyPrice) / avgBuyPrice) * 100;
+  }
 
 }

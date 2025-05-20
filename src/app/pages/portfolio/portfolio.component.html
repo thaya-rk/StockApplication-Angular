@@ -55,6 +55,7 @@
           <th>Current Price</th>
           <th>Total Value</th>
           <th>P/L</th>
+          <th>P/L %</th>
         </tr>
         </thead>
         <tbody>
@@ -71,6 +72,14 @@
         }">
             ₹ {{ getProfitLoss(holding) | number: '1.2-2' }}
           </td>
+          <td
+            class="fw-bold"
+            [ngStyle]="{
+    color: getProfitLossPercent(holding) >= 0 ? 'green' : 'red'
+  }">
+            {{ getProfitLossPercent(holding) | number: '1.2-2' }} %
+          </td>
+
         </tr>
         </tbody>
       </table>
