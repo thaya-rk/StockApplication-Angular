@@ -12,11 +12,9 @@ import {RouterLink} from '@angular/router';
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.css'],
   imports: [
-    DatePipe,
     FormsModule,
     DecimalPipe,
     NgIf,
-    NgForOf,
     NavbarComponent,
     RouterLink
   ]

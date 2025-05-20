@@ -7,8 +7,20 @@
       <h2>Portfolio</h2>
 
       <div class="portfolio-stats">
+
+        <!-- Portfolio Value -->
+        <div class="card" style="width: 18rem;">
+          <div class="card-body">
+            <h5 class="card-title">Portfolio Value</h5>
+            <p class="card-text fw-bold">₹ {{ portfolioValue | number: '1.2-2' }}</p>
+          </div>
+        </div>
+
+
         <!-- Portfolio Gain -->
-        <div class="card" style="width: 18rem; padding: 5px;">
+        <div class="card" style="width: 18rem; padding: 5px;"
+             [ngStyle]="{
+    'background-color': portfolioGain >= 0 ? 'rgba(127,217,127,0.2)' : 'rgba(255, 99, 71, 0.2)'}">
           <div class="card-body">
             <h5 class="card-title">Portfolio Gain</h5>
             <p
@@ -16,14 +28,6 @@
               [ngStyle]="{ color: portfolioGain >= 0 ? 'green' : 'red' }">
               ₹ {{ portfolioGain | number: '1.2-2' }}
             </p>
-          </div>
-        </div>
-
-        <!-- Portfolio Value -->
-        <div class="card" style="width: 20rem;">
-          <div class="card-body">
-            <h5 class="card-title">Portfolio Value</h5>
-            <p class="card-text fw-bold">₹ {{ portfolioValue | number: '1.2-2' }}</p>
           </div>
         </div>
 

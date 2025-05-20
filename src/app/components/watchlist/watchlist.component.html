@@ -1,8 +1,7 @@
 <app-navbar></app-navbar>
 
 <div class="d-flex">
-
-  <div class="content-area p-4">
+  <div class="content-area">
     <div class="container content-with-sidebar" >
       <h2 class="mb-4">All Stocks</h2>
 
@@ -22,12 +21,12 @@
           <!-- Image Section -->
             <img [src]="stock.imageURL || 'assets/images/infy.png'"
                  alt="error loading"
-                 width="50" height="50"
+                 width="46" height="46"
                  class="rounded stock-image" />
 
             <!-- Stock Info Section -->
             <div class="flex-grow-1">
-              <h6 class="mb-1">{{ stock.companyName }}</h6>
+              <h5 class="mb-1 ">{{ stock.companyName }}</h5>
               <small class="text-muted">{{ stock.tickerSymbol }}</small>
 
               <div class="text-muted mt-2">
