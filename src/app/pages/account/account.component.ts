@@ -31,7 +31,7 @@ export class AccountComponent implements OnInit {
 
   ngOnInit() {
     this.loadProfile();
-    this.loadBalance();
+      this.loadBalance();
     this.loadLedger();
   }
 

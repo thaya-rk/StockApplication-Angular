@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NavbarComponent } from '../../navbar/navbar.component';
+import {AccountService} from '../../services/account.services';
 
 interface Stock {
   stockId: number;
@@ -47,15 +48,22 @@ export class WatchlistComponent implements OnInit {
   modalMode: 'buy' | 'sell' = 'buy';
   modalQuantity: number = 1;
 
+  balance: number = 0;
+  error: string = '';
+
+
   constructor(
     private stockService: StockService,
     private buySellService: BuySellService,
     private sanitizer: DomSanitizer,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private accountService: AccountService
   ) {}
 
   ngOnInit(): void {
     this.loadStocks();
+    this.loadBalance();
+
   }
 
   loadStocks(): void {
@@ -70,6 +78,13 @@ export class WatchlistComponent implements OnInit {
         console.error('Error loading stocks', err);
         this.toastr.error('Failed to load stocks');
       },
+    });
+  }
+
+  loadBalance() {
+    this.accountService.getBalance().subscribe({
+      next: res => this.balance = res,
+      error: () => this.error = 'Failed to load balance'
     });
   }
 
@@ -118,4 +133,5 @@ export class WatchlistComponent implements OnInit {
       error: (err) => this.toastr.error(`Failed to ${actionText.toLowerCase()} stock: ${err.message}`),
     });
   }
+
 }

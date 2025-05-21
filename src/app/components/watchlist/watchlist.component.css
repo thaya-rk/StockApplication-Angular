@@ -10,3 +10,14 @@
     margin-left: 0; /* Full width when sidebar is hidden */
   }
 }
+
+.margin-detail{
+  display: flex;
+  justify-content: stretch;
+}
+
+.modal-btn{
+  display: flex;
+  gap: 10px;
+  margin-left: 40px;
+}

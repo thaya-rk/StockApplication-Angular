@@ -69,21 +69,35 @@
                     <input type="number" id="quantity" class="form-control" [(ngModel)]="modalQuantity" min="1">
                   </div>
                 </div>
-                <div class="modal-footer">
-                  <div>
-                    <p class="mb-0">
-                      <strong>Total:</strong>
-                      ₹{{ (selectedStock?.stockPrice || 0) * (modalQuantity || 0) }}
-                    </p>
+                <div class="margin-detail">
+                  <div class="modal-footer">
+                    <div>
+                      <p class="mb-0">
+                        <strong>Margin:</strong>
+                        ₹{{ (selectedStock?.stockPrice || 0) * (modalQuantity || 0) }}
+                      </p>
+                      <p class="mb-0">
+                        <strong>Balance:</strong> ₹{{ balance }}
+                      </p>
+                    </div>
+                    <div class="modal-btn">
+                      <button class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+                      <button class="btn btn-primary" (click)="confirmAction()">
+                        {{ modalMode === 'buy' ? 'Buy' : 'Sell' }}
+                      </button>
+                    </div>
+
                   </div>
-                  <button class="btn btn-secondary" (click)="closeModal()">Cancel</button>
-                  <button class="btn btn-primary" (click)="confirmAction()">
-                    {{ modalMode === 'buy' ? 'Buy' : 'Sell' }}
-                  </button>
                 </div>
+
               </div>
             </div>
           </div>
+
+          <div *ngIf="(selectedStock?.stockPrice || 0) * (modalQuantity || 0) > balance" class="text-danger mt-2">
+            Insufficient balance to complete this transaction.
+          </div>
+
 
 
         </div>
