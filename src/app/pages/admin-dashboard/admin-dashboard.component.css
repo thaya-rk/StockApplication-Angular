@@ -228,9 +228,10 @@ hr {
 /* ===== Update Stock Section ===== */
 .update-stock {
   margin-top: 1.2rem;
+  width: 100%;
   background: white;
-  padding: 1rem 1.2rem;
-  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  border-radius: 4px;
   box-shadow: 0 2px 5px rgb(0 0 0 / 0.1);
   font-size: 0.9rem;
   display: flex;
@@ -239,7 +240,7 @@ hr {
 }
 
 .update-stock h4 {
-  flex: 1 1 100%;
+  flex: 1 1 80%;
   font-weight: 600;
   margin: 0 0 0.6rem 0;
   color: #34495e;

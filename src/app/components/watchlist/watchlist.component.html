@@ -42,8 +42,8 @@
             </div>
 
             <div class="d-flex gap-2">
-              <button class="btn btn-success btn-sm" (click)="openModal(stock, 'buy')">Buy</button>
-              <button class="btn btn-danger btn-sm" (click)="openModal(stock, 'sell')">Sell</button>
+              <button class="btn btn-success btn-group-lg" (click)="openModal(stock, 'buy')">Buy</button>
+              <button class="btn btn-danger btn-group-lg" (click)="openModal(stock, 'sell')">Sell</button>
             </div>
           </div>
 
@@ -70,7 +70,12 @@
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <p>{{selectedStock?.stockPrice }}</p>
+                  <div>
+                    <p class="mb-0">
+                      <strong>Total:</strong>
+                      ₹{{ (selectedStock?.stockPrice || 0) * (modalQuantity || 0) }}
+                    </p>
+                  </div>
                   <button class="btn btn-secondary" (click)="closeModal()">Cancel</button>
                   <button class="btn btn-primary" (click)="confirmAction()">
                     {{ modalMode === 'buy' ? 'Buy' : 'Sell' }}

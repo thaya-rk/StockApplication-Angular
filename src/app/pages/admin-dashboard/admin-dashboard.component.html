@@ -50,8 +50,7 @@
   </div>
 </form>
 
-
-<hr />
+<br />
 
 <h3>All Stocks</h3>
 <ul class="stock-list bg-dark-subtle">
@@ -73,8 +72,7 @@
     </div>
   </li>
 </ul>
-<br>
-<div *ngIf="selectedStock" class="update-stock bg-dark-subtle">
+<div *ngIf="selectedStock" class="update-stock bg-success-subtle">
   <h4>Update Price for {{ selectedStock.companyName }}</h4>
   <input type="number" [(ngModel)]="updatedPrice" />
   <button (click)="updateStock()">Save</button>
