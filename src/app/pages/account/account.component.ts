@@ -89,19 +89,30 @@ export class AccountComponent implements OnInit {
     });
   }
 
-
   withdraw() {
-    this.clearMessages();
+
+    if (!this.amount || this.amount <= 0) {
+      this.error = 'Please enter a valid amount to withdraw.';
+      return;
+    }
+
+    if (this.amount < 100) {
+      this.error = 'Minimum withdrawal amount is ₹100.';
+      return;
+    }
+
     this.accountService.withdraw(this.amount).subscribe({
       next: () => {
         this.message = 'Withdraw successful';
         this.loadBalance();
         this.loadLedger();
-      },
-      error: err => this.error = err.error || 'Withdraw failed'
-    });
 
+      },
+      error: err => {this.error = err.error || 'Withdraw failed';}
+
+    });
   }
+
 
   clearMessages() {
     this.message = '';

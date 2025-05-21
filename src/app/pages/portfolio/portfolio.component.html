@@ -1,5 +1,6 @@
 <app-navbar></app-navbar>
 <div class="portfolio-wrapper">
+
   <div class="portfolio-stats">
     <!-- Portfolio Value -->
     <div class="card">
@@ -32,6 +33,18 @@
       </div>
     </div>
   </div>
+  <div class="mb-3 d-flex stock-search align-items-center gap-2">
+    <input
+      type="text"
+      class="form-control w-75 h-50"
+      placeholder="Search stock..."
+      [(ngModel)]="searchText"
+    />
+    <button class="btn btn-dark" (click)="searchText = ''" *ngIf="searchText">Clear</button>
+    <button class="btn btn-outline-secondary sort-btn" (click)="clearSort()" *ngIf="sortColumn">Clear Sort</button>
+  </div>
+
+
 
   <table class="table">
     <thead>
@@ -40,13 +53,37 @@
       <th>Quantity</th>
       <th>Avg. Buy Price</th>
       <th>Current Price</th>
-      <th>Total Value</th>
-      <th>P/L</th>
+
+      <!-- Total Value Column Header -->
+      <th (click)="toggleSort('value')" style="cursor: pointer">
+        Total Value
+        <span class="text-muted small">
+        {{
+            sortColumn === 'value'
+              ? (sortDirection === 'asc' ? '▲' : '▼')
+              : '⇅'
+          }}
+      </span>
+      </th>
+
+      <!-- P/L Column Header -->
+      <th (click)="toggleSort('pl')" style="cursor: pointer">
+        P/L
+        <span class="text-muted small">
+        {{
+            sortColumn === 'pl'
+              ? (sortDirection === 'asc' ? '▲' : '▼')
+              : '⇅'
+          }}
+      </span>
+      </th>
+
       <th>P/L %</th>
     </tr>
     </thead>
+
     <tbody>
-    <tr *ngFor="let holding of holdings">
+    <tr *ngFor="let holding of filteredHoldings">
       <td>{{ holding.stockName }}</td>
       <td>{{ holding.quantity }}</td>
       <td>{{ holding.avgBuyPrice }}</td>
@@ -60,6 +97,7 @@
           [ngStyle]="{ color: getProfitLossPercent(holding) >= 0 ? 'green' : 'red' }">
         {{ getProfitLossPercent(holding) | number: '1.2-2' }} %
       </td>
+
     </tr>
     </tbody>
   </table>

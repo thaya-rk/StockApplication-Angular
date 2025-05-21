@@ -25,7 +25,6 @@ export class LoginComponent {
   ) {}
 
   onSubmit() {
-    this.authService.setCurrentUser(null);
     this.authService.login(this.loginData).subscribe({
       next: () => {
         this.authService.getCurrentUser().subscribe({
@@ -36,7 +35,6 @@ export class LoginComponent {
             const username = userData.username;
 
             this.authService.setCurrentUser(userData);
-            console.log("User role from login",role);
 
             localStorage.setItem('role', role);
             localStorage.setItem('username', username);

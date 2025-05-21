@@ -6,6 +6,9 @@ import {BuySellRequest} from '../../models/buy-sell-request.model';
 import { BuySellService } from '../../services/buy-sell.service';
 import {HoldingsComponent} from '../holdings/holdings.component';
 import {Stock} from '../../models/Stock.model';
+import {FormsModule} from '@angular/forms';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
 
 @Component({
   selector: 'app-portfolio',
@@ -16,17 +19,20 @@ import {Stock} from '../../models/Stock.model';
     NavbarComponent,
     DecimalPipe,
     NgStyle,
+    FormsModule,
+    MatTooltipModule
   ],
   styleUrls: ['./portfolio.component.css']
 })
 export class PortfolioComponent implements OnInit {
 
   holdings: Holding[] = [];
-  userId: number = 2;
 
-  selectedStock: Stock | null = null;
-  modalMode: 'buy' | 'sell' = 'buy';
-  modalQuantity: number = 1;
+  searchText: string = '';
+
+  sortColumn: string = '';
+  sortDirection: 'asc' | 'desc' = 'asc';
+
 
   constructor(
     private portfolioService: PortfolioService,
@@ -76,5 +82,47 @@ export class PortfolioComponent implements OnInit {
     if (!avgBuyPrice) return 0;
     return ((currentPrice - avgBuyPrice) / avgBuyPrice) * 100;
   }
+
+  toggleSort(column: string) {
+    if (this.sortColumn === column) {
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortColumn = column;
+      this.sortDirection = 'asc';
+    }
+  }
+
+  clearSort() {
+    this.sortColumn = '';
+    this.sortDirection = 'asc';
+  }
+
+  get filteredHoldings(): Holding[] {
+    const query = this.searchText.trim().toLowerCase();
+
+    let filtered = this.holdings.filter(h =>
+      h.stockName.toLowerCase().includes(query)
+    );
+
+    // Sorting logic
+    if (this.sortColumn) {
+      filtered.sort((a, b) => {
+        let aValue = 0, bValue = 0;
+
+        if (this.sortColumn === 'pl') {
+          aValue = this.getProfitLoss(a);
+          bValue = this.getProfitLoss(b);
+        } else if (this.sortColumn === 'value') {
+          aValue = a.currentValue;
+          bValue = b.currentValue;
+        }
+
+        return this.sortDirection === 'asc' ? aValue - bValue : bValue - aValue;
+      });
+    }
+
+    return filtered;
+  }
+
 
 }

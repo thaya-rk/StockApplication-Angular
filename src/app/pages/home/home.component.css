@@ -22,3 +22,7 @@
   margin-left: 250px; /* same as sidebar width */
 }
 
+.realtime-price{
+  display: flex;
+  justify-content: center;
+}

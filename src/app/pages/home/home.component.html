@@ -1,8 +1,31 @@
-
 <app-navbar></app-navbar>
 
-<div class="home-container animated-entry content-with-sidebar ">
+<div class="home-container animated-entry content-with-sidebar">
   <h2>{{ welcomeMessage }}</h2>
   <p>Welcome back, {{ username }}!</p>
 </div>
+
+
+<div class="row realtime-price">
+  <div class="col-sm-6">
+    <div class="card w-50">
+      <div class="card-body">
+        <div *ngIf="latestPrice; else waitingTemplate" class="price-card">
+          <strong>{{ latestPrice.symbol }}</strong> —
+
+          <ng-template >
+            Currency: {{ latestPrice.currency }}:
+          </ng-template>
+          <span style="font-weight: bold">{{ latestPrice.price | number: '1.5-5' }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #waitingTemplate>
+  <p>Waiting for price updates...</p>
+</ng-template>
+
 

@@ -21,10 +21,12 @@ export class RegisterComponent {
     username: '',
     email: '',
     password: '',
+    confirmPassword: '',
     mpin: '',
     fullName: '',
     mobileNumber: '',
-    dob: ''
+    dob: '',
+    confirmMpin: ''
   };
 
   constructor(private http: HttpClient, private router: Router) {}
