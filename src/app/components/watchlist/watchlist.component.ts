@@ -11,6 +11,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { NavbarComponent } from '../../navbar/navbar.component';
 import {AccountService} from '../../services/account.services';
 import {PortfolioService} from '../../services/portfolio.services';
+import {Charges} from '../../models/charges.model';
 
 interface Stock {
   stockId: number;
@@ -52,6 +53,11 @@ export class WatchlistComponent implements OnInit {
   balance: number = 0;
   error: string = '';
 
+  selectedChargesStock: any = null;
+  chargesQuantity: number = 1;
+  transactionCharges: Charges | null = null;
+  showChargesModal: boolean = false;
+  isLoadingCharges: boolean = false;
 
   constructor(
     private stockService: StockService,
@@ -137,5 +143,44 @@ export class WatchlistComponent implements OnInit {
       error: (err) => this.toastr.error(`Failed to ${actionText.toLowerCase()} stock: ${err.message}`),
     });
   }
+
+  openChargesModal(stock: any) {
+    this.selectedChargesStock = stock;
+    this.chargesQuantity =this.modalQuantity && this.modalQuantity > 0 ? this.modalQuantity : 1;
+    this.transactionCharges = null;
+    this.showChargesModal = true;
+    this.fetchCharges();
+  }
+
+  closeChargesModal() {
+    this.showChargesModal = false;
+    this.selectedChargesStock = null;
+    this.transactionCharges = null;
+  }
+
+  fetchCharges() {
+    if (!this.selectedChargesStock || !this.chargesQuantity || this.chargesQuantity <= 0) {
+      return;
+    }
+
+    const stockId = this.selectedChargesStock.stockId;
+
+    this.isLoadingCharges = true;
+
+    console.log(stockId +" "+this.chargesQuantity)
+    this.portfolioService.getTransactionCharges(stockId, this.chargesQuantity)
+      .subscribe({
+        next: (charges) => {
+          this.transactionCharges = charges;
+          this.isLoadingCharges = false;
+          console.log('Received transaction charges:', this.transactionCharges);
+        },
+        error: (err) => {
+          console.error('Failed to fetch charges', err);
+          this.isLoadingCharges = false;
+        }
+      });
+  }
+
 
 }

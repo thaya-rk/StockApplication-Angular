@@ -45,6 +45,41 @@
             <div class="d-flex gap-2">
               <button class="btn btn-success btn-group-lg" (click)="openModal(stock, 'buy')">Buy</button>
               <button class="btn btn-danger btn-group-lg" (click)="openModal(stock, 'sell')">Sell</button>
+
+
+            </div>
+          </div>
+
+<!--          chargesModel-->
+          <div class="modal fade"
+               [class.show]="showChargesModal"
+               [ngStyle]="{
+       display: showChargesModal ? 'block' : 'none',
+       backgroundColor: 'rgba(0,0,0,0.5)',
+       zIndex: 1060
+     }"
+               tabindex="-1"
+               role="dialog">
+
+          <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Charges Breakdown</h5>
+                  <button type="button" class="btn-close" (click)="closeChargesModal()" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" *ngIf="transactionCharges">
+                  <p><strong>Brokerage:</strong> ₹{{ transactionCharges.brokerage }}</p>
+                  <p><strong>Stamp Duty:</strong> ₹{{ transactionCharges.stampDuty }}</p>
+                  <p><strong>Transaction Tax:</strong> ₹{{ transactionCharges.transactionTax }}</p>
+                  <p><strong>SEBI Charges:</strong> ₹{{ transactionCharges.sebiCharges }}</p>
+                  <p><strong>GST:</strong> ₹{{ transactionCharges.gst }}</p>
+                  <hr>
+                  <p><strong>Total Charges:</strong> ₹{{ transactionCharges.totalCharges }}</p>
+                </div>
+                <div class="modal-footer">
+                  <button class="btn btn-secondary" (click)="closeChargesModal()">Close</button>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -55,7 +90,8 @@
                id="buySellModal"
                tabindex="-1"
                role="dialog">
-            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-dialog"
+                 style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); margin-bottom: .5rem;">
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title">{{ modalMode === 'buy' ? 'Buy Stock' : 'Sell Stock' }}</h5>
@@ -78,9 +114,12 @@
                   <div class="modal-footer">
                     <div>
                       <p class="mb-0">
-                        <strong>Margin:</strong>
-                        ₹{{ (selectedStock?.stockPrice || 0) * (modalQuantity || 0) }}
+                        <strong>Margin: </strong>
+                        ₹{{ (selectedStock?.stockPrice || 0) * (modalQuantity || 0)}}
+                        +<a class="btn btn-link btn-sm align-self-center" (click)="openChargesModal(selectedStock)">Charges</a>
                       </p>
+
+
                       <p class="mb-0">
                         <strong>Balance:</strong> ₹{{ balance }}
                       </p>
@@ -92,6 +131,7 @@
                               [disabled]="modalMode === 'buy' && (selectedStock?.stockPrice || 0) * (modalQuantity || 0) > balance">
                         {{ modalMode === 'buy' ? 'Buy' : 'Sell' }}
                       </button>
+
                     </div>
                   </div>
                 </div>
