@@ -3,6 +3,8 @@ import {Router, RouterLink} from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import {NgIf} from '@angular/common';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-register',
@@ -10,7 +12,8 @@ import {NgIf} from '@angular/common';
   imports: [
     FormsModule,
     RouterLink,
-    NgIf
+    NgIf,
+    ToastrModule
   ],
   styleUrls: ['./register.component.css']
 })
@@ -29,7 +32,7 @@ export class RegisterComponent {
     confirmMpin: ''
   };
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router,private toastr: ToastrService) {}
 
   nextStep() {
     if (this.step < 3) this.step++;
@@ -43,7 +46,7 @@ export class RegisterComponent {
     this.http.post('http://localhost:8080/api/auth/register', this.user, { withCredentials: true })
       .subscribe({
         next: () => {
-          alert('Registration successful!');
+          this.toastr.success('Registration successful');
           this.router.navigate(['/login']);
         },
         error: (err) => {

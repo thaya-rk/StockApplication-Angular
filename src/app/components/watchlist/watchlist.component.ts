@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NavbarComponent } from '../../navbar/navbar.component';
 import {AccountService} from '../../services/account.services';
+import {PortfolioService} from '../../services/portfolio.services';
 
 interface Stock {
   stockId: number;
@@ -57,7 +58,8 @@ export class WatchlistComponent implements OnInit {
     private buySellService: BuySellService,
     private sanitizer: DomSanitizer,
     private toastr: ToastrService,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private portfolioService:PortfolioService
   ) {}
 
   ngOnInit(): void {
@@ -88,6 +90,7 @@ export class WatchlistComponent implements OnInit {
     });
   }
 
+
   filteredStocks(): Stock[] {
     if (!this.searchTerm.trim()) return this.stocks;
 
@@ -103,6 +106,7 @@ export class WatchlistComponent implements OnInit {
     this.selectedStock = stock;
     this.modalMode = mode;
     this.modalQuantity = 1;
+
   }
 
   closeModal(): void {

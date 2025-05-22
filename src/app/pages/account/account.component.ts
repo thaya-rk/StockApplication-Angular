@@ -90,6 +90,7 @@ export class AccountComponent implements OnInit {
   }
 
   withdraw() {
+    this.clearMessages();
 
     if (!this.amount || this.amount <= 0) {
       this.error = 'Please enter a valid amount to withdraw.';
@@ -98,6 +99,16 @@ export class AccountComponent implements OnInit {
 
     if (this.amount < 100) {
       this.error = 'Minimum withdrawal amount is ₹100.';
+      return;
+    }
+
+    if (this.amount <= 0) {
+      this.error = 'Please enter a valid amount';
+      return;
+    }
+
+    if (this.amount > this.balance) {
+      this.error = 'Cannot withdraw: Insufficient balance';
       return;
     }
 
