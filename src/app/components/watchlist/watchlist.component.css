@@ -22,3 +22,41 @@
   margin-left: 40px;
 }
 
+/* Slide and fade-in animation */
+@keyframes slideUpFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDownFadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+/* Add to modal class */
+.animated-modal {
+  animation: slideUpFadeIn 0.3s ease-out forwards;
+}
+
+.animated-modal-close {
+  animation: slideDownFadeOut 0.3s ease-in forwards;
+}
+
+
+.fixed-modal-width {
+  max-width: 550px;
+  width: 100%;
+}
+

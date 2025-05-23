@@ -17,7 +17,7 @@
       <div *ngIf="stocks && stocks.length > 0; else noStocks">
         <div class="list-group">
           <div *ngFor="let stock of filteredStocks() | paginate: { itemsPerPage: itemsPerPage, currentPage: page }"
-               class="list-group-item list-group-item-action d-flex align-items-start flex-wrap flex-md-nowrap gap-2">
+               class="list-group-item list-group-item-action d-flex align-items-center flex-wrap flex-md-nowrap gap-2">
 
             <!-- Image Section -->
             <img [src]="stock.imageURL || 'assets/images/infy.png'"
@@ -29,7 +29,6 @@
             <div class="flex-grow-1">
               <h5 class="mb-1 ">{{ stock.companyName }}</h5>
               <small class="text-muted">{{ stock.tickerSymbol }}</small>
-
               <div class="text-muted mt-2">
                 <small><strong>Sector:</strong> {{ stock.sector }}</small><br>
                 <small>{{ stock.desc || 'No description available' }}</small>
@@ -45,52 +44,20 @@
             <div class="d-flex gap-2">
               <button class="btn btn-success btn-group-lg" (click)="openModal(stock, 'buy')">Buy</button>
               <button class="btn btn-danger btn-group-lg" (click)="openModal(stock, 'sell')">Sell</button>
-
-
             </div>
           </div>
 
-<!--          chargesModel-->
-          <div class="modal fade"
-               [class.show]="showChargesModal"
-               [ngStyle]="{
-       display: showChargesModal ? 'block' : 'none',
-       backgroundColor: 'rgba(0,0,0,0.5)',
-       zIndex: 1060
-     }"
-               tabindex="-1"
-               role="dialog">
-
-          <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title">Charges Breakdown</h5>
-                  <button type="button" class="btn-close" (click)="closeChargesModal()" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" *ngIf="transactionCharges">
-                  <p><strong>Brokerage:</strong> ₹{{ transactionCharges.brokerage }}</p>
-                  <p><strong>Stamp Duty:</strong> ₹{{ transactionCharges.stampDuty }}</p>
-                  <p><strong>Transaction Tax:</strong> ₹{{ transactionCharges.transactionTax }}</p>
-                  <p><strong>SEBI Charges:</strong> ₹{{ transactionCharges.sebiCharges }}</p>
-                  <p><strong>GST:</strong> ₹{{ transactionCharges.gst }}</p>
-                  <hr>
-                  <p><strong>Total Charges:</strong> ₹{{ transactionCharges.totalCharges }}</p>
-                </div>
-                <div class="modal-footer">
-                  <button class="btn btn-secondary" (click)="closeChargesModal()">Close</button>
-                </div>
-              </div>
-            </div>
-          </div>
 
           <!-- Modal -->
           <div class="modal fade"
                [class.show]="selectedStock"
+               [class.animated-modal]="selectedStock && !closing"
+               [class.animated-modal-close]="closing"
                [ngStyle]="{ display: selectedStock ? 'block' : 'none', backgroundColor: 'rgba(0,0,0,0.5)' }"
                id="buySellModal"
                tabindex="-1"
                role="dialog">
-            <div class="modal-dialog"
+            <div class="modal-dialog modal-dialog-lowered fixed-modal-width"
                  style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); margin-bottom: .5rem;">
               <div class="modal-content">
                 <div class="modal-header">
@@ -104,41 +71,111 @@
                   <div class="form-group">
                     <label for="quantity">Enter Quantity:</label>
                     <input type="number" id="quantity" class="form-control" [(ngModel)]="modalQuantity" min="1">
+                    <div *ngIf="modalMode === 'sell' && (modalQuantity || 0) > existingQuantity" class="text-danger mt-2">
+                      Entered quantity exceeds available quantity.
+                    </div>
                   </div>
                 </div>
+
+              <!--   Available Quantity-->
                 <div class="margin-detail">
+                  <div *ngIf="modalMode === 'sell'" class="mt-4 p-1">
+                    <p><strong>Available Quantity:</strong> {{ existingQuantity }}</p>
+                  </div>
+
 
                   <div *ngIf="modalMode === 'buy' && (selectedStock?.stockPrice || 0) * (modalQuantity || 0) > balance" class="text-danger mt-3">
                     Balance is less than required margin
                   </div>
                   <div class="modal-footer">
+
+                    <div class="modal-btn">
+                      <button class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+                      <button class="btn btn-primary"
+                              (click)="confirmAction()"
+                              [disabled]="
+          (modalMode === 'buy' && (selectedStock?.stockPrice || 0) * (modalQuantity || 0) > balance) ||
+          (modalMode === 'sell' && (modalQuantity || 0) > existingQuantity) ||
+          (modalMode === 'sell' && (selectedStock?.stockPrice || 0) * (modalQuantity || 0) > balance)
+        ">
+                        {{ modalMode === 'buy' ? 'Buy' : 'Sell' }}
+                      </button>
+
+                    </div>
                     <div>
                       <p class="mb-0">
                         <strong>Margin: </strong>
                         ₹{{ (selectedStock?.stockPrice || 0) * (modalQuantity || 0)}}
                         +<a class="btn btn-link btn-sm align-self-center" (click)="openChargesModal(selectedStock)">Charges</a>
                       </p>
-
-
                       <p class="mb-0">
                         <strong>Balance:</strong> ₹{{ balance }}
                       </p>
                     </div>
-                    <div class="modal-btn">
-                      <button class="btn btn-secondary" (click)="closeModal()">Cancel</button>
-                      <button class="btn btn-primary"
-                              (click)="confirmAction()"
-                              [disabled]="modalMode === 'buy' && (selectedStock?.stockPrice || 0) * (modalQuantity || 0) > balance">
-                        {{ modalMode === 'buy' ? 'Buy' : 'Sell' }}
-                      </button>
 
-                    </div>
                   </div>
                 </div>
 
               </div>
             </div>
           </div>
+
+          <!-- chargesModal -->
+          <div
+            class="modal fade show"
+            [class.animated-modal]="showChargesModal && !closingCharges"
+            [class.animated-modal-close]="closingCharges"
+            [ngStyle]="{
+    display: showChargesModal ? 'block' : 'none',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    zIndex: 1060
+  }"
+            tabindex="-1"
+            role="dialog"
+          >
+            <div class="modal-dialog modal-dialog-centered w-25" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Charges Breakdown</h5>
+                  <button type="button" class="btn-close" (click)="closeChargesModal()" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body" *ngIf="transactionCharges">
+                  <div class="row mb-2">
+                    <div class="col-6"><strong>Brokerage:</strong></div>
+                    <div class="col-6 text-end">₹{{ transactionCharges.brokerage }}</div>
+                  </div>
+                  <div class="row mb-2">
+                    <div class="col-6"><strong>Stamp Duty:</strong></div>
+                    <div class="col-6 text-end">₹{{ transactionCharges.stampDuty }}</div>
+                  </div>
+                  <div class="row mb-2">
+                    <div class="col-6"><strong>Transaction Tax:</strong></div>
+                    <div class="col-6 text-end">₹{{ transactionCharges.transactionTax }}</div>
+                  </div>
+                  <div class="row mb-2">
+                    <div class="col-6"><strong>SEBI Charges:</strong></div>
+                    <div class="col-6 text-end">₹{{ transactionCharges.sebiCharges }}</div>
+                  </div>
+                  <div class="row mb-2">
+                    <div class="col-6"><strong>GST:</strong></div>
+                    <div class="col-6 text-end">₹{{ transactionCharges.gst }}</div>
+                  </div>
+                  <hr />
+                  <div class="row">
+                    <div class="col-6"><strong>Total Charges:</strong></div>
+                    <div class="col-6 text-end"><strong>₹{{ transactionCharges.totalCharges }}</strong></div>
+                  </div>
+                </div>
+
+                <div class="modal-footer">
+                  <button class="btn btn-secondary" (click)="closeChargesModal()">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
 
           <div *ngIf="(selectedStock?.stockPrice || 0) * (modalQuantity || 0) > balance" class="text-danger mt-2">
             Insufficient balance to complete this transaction.

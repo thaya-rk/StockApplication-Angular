@@ -33,7 +33,9 @@
       </div>
     </div>
   </div>
-  <div class="mb-3 d-flex stock-search align-items-center gap-2">
+
+
+  <div class="mb-2 mt-4 d-flex stock-search align-items-center gap-2">
     <input
       type="text"
       class="form-control w-75 h-50"
@@ -45,9 +47,8 @@
   </div>
 
 
-
-  <table class="table">
-    <thead>
+  <table class="table table-bordered table-hover">
+    <thead class="table-light">
     <tr>
       <th>Stock</th>
       <th>Quantity</th>
@@ -58,24 +59,24 @@
       <th (click)="toggleSort('value')" style="cursor: pointer">
         Total Value
         <span class="text-muted small">
-        {{
+          {{
             sortColumn === 'value'
               ? (sortDirection === 'asc' ? '▲' : '▼')
               : '⇅'
           }}
-      </span>
+        </span>
       </th>
 
       <!-- P/L Column Header -->
       <th (click)="toggleSort('pl')" style="cursor: pointer">
         P/L
         <span class="text-muted small">
-        {{
+          {{
             sortColumn === 'pl'
               ? (sortDirection === 'asc' ? '▲' : '▼')
               : '⇅'
           }}
-      </span>
+        </span>
       </th>
 
       <th>P/L %</th>
@@ -86,23 +87,26 @@
     <tr *ngFor="let holding of filteredHoldings">
       <td>{{ holding.stockName }}</td>
       <td>{{ holding.quantity }}</td>
-      <td>{{ holding.avgBuyPrice }}</td>
-      <td>{{ holding.currentPrice }}</td>
-      <td>{{ holding.currentValue }}</td>
-      <td class="fw-bold"
-          [ngStyle]="{ color: getProfitLoss(holding) >= 0 ? 'green' : 'red' }">
-        ₹ {{ getProfitLoss(holding) | number: '1.2-2' }}
+      <td>₹{{ holding.avgBuyPrice | number: '1.2-2' }}</td>
+      <td>₹{{ holding.currentPrice | number: '1.2-2' }}</td>
+      <td>₹{{ holding.currentValue | number: '1.2-2' }}</td>
+      <td
+        class="fw-bold"
+        [ngStyle]="{ color: getProfitLoss(holding) >= 0 ? 'green' : 'red' }"
+      >
+        ₹{{ getProfitLoss(holding) | number: '1.2-2' }}
       </td>
-      <td class="fw-bold"
-          [ngStyle]="{ color: getProfitLossPercent(holding) >= 0 ? 'green' : 'red' }">
-        {{ getProfitLossPercent(holding) | number: '1.2-2' }} %
+      <td
+        class="fw-bold"
+        [ngStyle]="{ color: getProfitLossPercent(holding) >= 0 ? 'green' : 'red' }"
+      >
+        {{ getProfitLossPercent(holding) | number: '1.2-2' }}%
       </td>
-
     </tr>
     </tbody>
   </table>
 
-  <div *ngIf="holdings.length === 0">
-    <p>No holdings found.</p>
+  <div *ngIf="holdings.length === 0" class="text-center mt-3">
+    <p class="text-muted">No holdings found.</p>
   </div>
 </div>

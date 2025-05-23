@@ -4,6 +4,8 @@ import { BuySellService } from '../../services/buy-sell.service';
 import { BuySellRequest } from '../../models/buy-sell-request.model';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
+import {Holding} from '../../models/portfolio.model';
+
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -41,6 +43,9 @@ interface Stock {
   styleUrls: ['./watchlist.component.css'],
 })
 export class WatchlistComponent implements OnInit {
+  holdings: Holding[] = [];
+  existingQuantity: number = 0;
+
   stocks: Stock[] = [];
   page = 1;
   itemsPerPage = 5;
@@ -59,6 +64,10 @@ export class WatchlistComponent implements OnInit {
   showChargesModal: boolean = false;
   isLoadingCharges: boolean = false;
 
+  //Animations
+  closing = false;
+  closingCharges = false;
+
   constructor(
     private stockService: StockService,
     private buySellService: BuySellService,
@@ -71,6 +80,7 @@ export class WatchlistComponent implements OnInit {
   ngOnInit(): void {
     this.loadStocks();
     this.loadBalance();
+    this.loadHoldings();
 
   }
 
@@ -96,6 +106,19 @@ export class WatchlistComponent implements OnInit {
     });
   }
 
+  loadHoldings(): void {
+    this.portfolioService.getHoldings().subscribe({
+      next: (data) => {
+        this.holdings = data;
+        console.log("Holdings loaded:", this.holdings);  // Debug
+      },
+      error: (err) => {
+        console.error('Failed to load holdings', err);
+        this.toastr.error('Could not load holdings');
+      }
+    });
+  }
+
 
   filteredStocks(): Stock[] {
     if (!this.searchTerm.trim()) return this.stocks;
@@ -112,6 +135,25 @@ export class WatchlistComponent implements OnInit {
     this.selectedStock = stock;
     this.modalMode = mode;
     this.modalQuantity = 1;
+    this.closing = false;
+
+
+    if (mode === 'sell') {
+      const holding = this.holdings.find(
+        (h) => {
+          const isMatch = h.stockName === stock.companyName;
+          if (isMatch) {
+            console.log("fetched stock from holding: " + h.stockName);
+            console.log("Selected stock: " + stock.companyName);
+          }else {
+            console.log("fetched stock from holding: " + h.stockName);
+            console.log("Selected stock: " + stock.companyName);
+          }
+          return isMatch;
+        }
+      );
+      this.existingQuantity = holding ? holding.quantity : 0;
+    }
 
   }
 
@@ -181,6 +223,8 @@ export class WatchlistComponent implements OnInit {
         }
       });
   }
+
+
 
 
 }

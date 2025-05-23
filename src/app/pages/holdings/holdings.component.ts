@@ -4,6 +4,7 @@ import {HoldingsServices} from '../../services/holdings.services';
 import {Holding} from '../../models/portfolio.model';
 import {DecimalPipe, NgForOf, NgIf, NgStyle} from '@angular/common';
 
+
 @Component({
   selector: 'app-holdings',
   imports: [
@@ -19,6 +20,7 @@ export class HoldingsComponent {
 
   holdings: Holding[] = [];
   userId: number = 2;
+
 
   constructor(
     private holdingService:HoldingsServices) {
