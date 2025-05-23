@@ -42,4 +42,9 @@ export class AuthService {
       })
     );
   }
+
+  sendPasswordResetEmail(email: string) {
+    return this.http.post<any>('http://localhost:8080/api/auth/forgot-password', { email });
+  }
+
 }

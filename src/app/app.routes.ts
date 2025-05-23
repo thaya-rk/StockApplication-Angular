@@ -9,12 +9,16 @@ import {AccountComponent} from './pages/account/account.component';
 import {AdminDashboardComponent} from './pages/admin-dashboard/admin-dashboard.component';
 import {HoldingsComponent} from './pages/holdings/holdings.component';
 import {LedgerComponent} from './pages/account/ledger/ledger.component';
+import {ResetPasswordComponent} from './pages/reset-password/reset-password.component';
+import {ForgotPasswordComponent} from './pages/forgot-password/forgot-password.component';
 
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'forgot-password', component: ForgotPasswordComponent },
+  { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'watchlist', component: WatchlistComponent, canActivate: [AuthGuard] },
   { path: 'portfolio', component: PortfolioComponent, canActivate: [AuthGuard] },
@@ -22,5 +26,4 @@ export const routes: Routes = [
   { path: 'account/ledger', component: LedgerComponent },
   {path: 'admin-dashboard', component: AdminDashboardComponent,canActivate: [AuthGuard]},
   {path:'holding',component:HoldingsComponent},
-
 ];
