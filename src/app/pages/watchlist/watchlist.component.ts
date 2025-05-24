@@ -10,7 +10,7 @@ import {Holding} from '../../models/portfolio.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { NavbarComponent } from '../../navbar/navbar.component';
+import { NavbarComponent } from '../../components/navbar/navbar.component';
 import {AccountService} from '../../services/account.services';
 import {PortfolioService} from '../../services/portfolio.services';
 import {Charges} from '../../models/charges.model';

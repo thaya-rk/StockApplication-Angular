@@ -70,7 +70,7 @@
 
                   <div class="form-group">
                     <label for="quantity">Enter Quantity:</label>
-                    <input type="number" id="quantity" class="form-control" [(ngModel)]="modalQuantity" min="1">
+                    <input type="number" id="quantity" class="form-control no-spinner" [(ngModel)]="modalQuantity" min="1">
                     <div *ngIf="modalMode === 'sell' && (modalQuantity || 0) > existingQuantity" class="text-danger mt-2">
                       Entered quantity exceeds available quantity.
                     </div>

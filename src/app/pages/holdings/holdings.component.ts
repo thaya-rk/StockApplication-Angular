@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {NavbarComponent} from '../../navbar/navbar.component';
+import {NavbarComponent} from '../../components/navbar/navbar.component';
 import {HoldingsServices} from '../../services/holdings.services';
 import {Holding} from '../../models/portfolio.model';
 import {DecimalPipe, NgForOf, NgIf, NgStyle} from '@angular/common';

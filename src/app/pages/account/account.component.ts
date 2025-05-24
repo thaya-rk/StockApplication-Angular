@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../../services/account.services';
 import {DatePipe, DecimalPipe, NgForOf, NgIf} from '@angular/common';
 import {FormsModule} from '@angular/forms';
-import {NavbarComponent} from '../../navbar/navbar.component';
+import {NavbarComponent} from '../../components/navbar/navbar.component';
 import {RouterLink} from '@angular/router';
 
 

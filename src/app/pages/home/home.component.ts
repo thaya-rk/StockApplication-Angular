@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { NavbarComponent } from '../../navbar/navbar.component';
+import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { StockWebSocketService } from '../../services/stock-websocket.services';
 
 interface PriceUpdate {
