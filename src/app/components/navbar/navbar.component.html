@@ -1,35 +1,31 @@
-<!-- Hamburger button (only on small screens) -->
+<!-- Hamburger button for small screens -->
 <button class="toggle-btn d-md-none" (click)="toggleSidebar()">☰</button>
 
-<!-- Side Navbar (Fixed on the left) -->
+<!-- Sidebar -->
 <aside class="sidebar" [class.collapsed]="isSidebarCollapsed">
   <div class="sidebar-header">
+    <img src="assets/images/fluctuation.png" alt="Forex Logo" class="brand-logo"
+         width="40" height="40">
     <h2 class="brand-name">Forex</h2>
   </div>
 
   <ul class="nav-list">
-    <li class="nav-item">
-      <a class="nav-link" routerLink="/home" routerLinkActive="active">Home</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" routerLink="/watchlist" routerLinkActive="active">Watchlist</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" routerLink="/portfolio" routerLinkActive="active">Portfolio</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" routerLink="/holding" routerLinkActive="active">Holding</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" routerLink="/account" routerLinkActive="active">Account</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" (click)="openLogoutModal()" style="cursor: pointer;">Logout</a>
+    <li class="nav-item" *ngFor="let item of navItems">
+      <a class="nav-link" [routerLink]="item.link" routerLinkActive="active">
+        <i [class]="item.icon"></i>
+        <span *ngIf="!isSidebarCollapsed">{{ item.label }}</span>
+      </a>
     </li>
   </ul>
+
+  <div class="sidebar-footer" *ngIf="!isSidebarCollapsed">
+    <button class="logout-btn" (click)="openLogoutModal()">
+      <i class="fas fa-sign-out-alt"></i> Log Out
+    </button>
+  </div>
 </aside>
 
-<!-- Logout Confirmation Modal -->
+<!-- Logout Modal (unchanged from your version) -->
 <div
   class="modal fade show"
   tabindex="-1"
@@ -38,7 +34,7 @@
   [class.animated-modal]="showLogoutModal && !closingLogout"
   [class.animated-modal-close]="closingLogout"
 >
-  <div class="modal-dialog modal-dialog" role="document">
+  <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Confirm Logout</h5>
@@ -54,4 +50,3 @@
     </div>
   </div>
 </div>
-

@@ -48,7 +48,7 @@ export class WatchlistComponent implements OnInit {
 
   stocks: Stock[] = [];
   page = 1;
-  itemsPerPage = 5;
+  itemsPerPage = 20;
   searchTerm = '';
 
   selectedStock: Stock | null = null;
@@ -63,6 +63,17 @@ export class WatchlistComponent implements OnInit {
   transactionCharges: Charges | null = null;
   showChargesModal: boolean = false;
   isLoadingCharges: boolean = false;
+
+  chargeKeys: { key: keyof Charges; label: string }[] = [
+    { key: 'brokerage', label: 'Brokerage' },
+    { key: 'stampDuty', label: 'Stamp Duty' },
+    { key: 'transactionTax', label: 'Transaction Tax' },
+    { key: 'sebiCharges', label: 'SEBI Charges' },
+    { key: 'gst', label: 'GST' }
+  ];
+
+
+
 
   //Animations
   closing = false;

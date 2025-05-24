@@ -1,43 +1,139 @@
-.register-container {
-  max-width: 200px;
-  margin: auto;
-  padding: 1rem;
-  border: 1px solid #d20000;
-  border-radius: 6px;
-  background-color: #4f41a1;
+.register-div {
+  margin-top: 80px;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.register-container h2 {
-  text-align: center;
-}
-
-.register-container .form-control {
+.register-box {
+  background-color: #f5f7fa;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
   width: 100%;
-  padding: 0.5rem;
+  max-width: 480px;
+}
+
+.register-box h2 {
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.register-input {
   margin-bottom: 1rem;
 }
 
-.register-container .btn {
-  width: 100%;
+.form-control {
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 1rem;
 }
 
-/* Optional animation */
+.btn-primary, .btn-secondary, .btn-success {
+  border-radius: 12px;
+  font-weight: 500;
+  min-width: 100px;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #0d6efd;
+  transform: scale(1.03);
+}
+
+.btn-secondary:hover {
+  background-color: #6c757d;
+  transform: scale(1.03);
+}
+
+.btn-success:hover {
+  background-color: #198754;
+  transform: scale(1.03);
+}
+
+.text-danger {
+  font-size: 0.875rem;
+}
+
+.text-muted {
+  font-size: 0.85rem;
+}
+
+a {
+  color: #007bff;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Animation */
 .animated-entry {
-  animation: fadeInUp 0.4s ease-in-out;
+  animation: fadeInUp 0.6s ease;
 }
 
 @keyframes fadeInUp {
-  0% {
-    transform: translateY(20px);
+  from {
     opacity: 0;
+    transform: translateY(30px);
   }
-  100% {
-    transform: translateY(0px);
+  to {
     opacity: 1;
+    transform: translateY(0);
   }
 }
 
-.register-input{
-  margin-left: 50px;
+.progress-indicator {
+  max-width: 480px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.85rem;
+  color: #bbb;
+  flex: 1;
+  position: relative;
+}
+
+.step .circle {
+  background: #ddd;
+  color: #666;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  font-weight: 600;
+  margin-bottom: 4px;
+  transition: background-color 0.3s, color 0.3s;
+  user-select: none;
+}
+
+.step.active .circle {
+  background: #0d6efd; /* bootstrap primary color */
+  color: white;
+}
+
+.step.active {
+  color: #0d6efd;
+  font-weight: 600;
+}
+
+.connector {
+  height: 4px;
+  background: #ddd;
+  flex: 1;
+  margin-top: 14px;
+  border-radius: 2px;
+  transition: background-color 0.3s;
+}
+
+.connector.active {
+  background: #0d6efd;
+}

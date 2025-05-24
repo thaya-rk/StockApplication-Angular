@@ -1,28 +1,34 @@
-/* Shift main content only on larger screens */
-@media (min-width: 769px) {
-  .content-with-sidebar {
-    margin-left: 260px; /* Matches sidebar width */
-  }
+.content-with-sidebar {
+  margin-left: 260px;
 }
 
 @media (max-width: 768px) {
   .content-with-sidebar {
-    margin-left: 0; /* Full width when sidebar is hidden */
+    margin-left: 0;
   }
 }
 
-.margin-detail{
-  display: flex;
-  justify-content: stretch;
+.modal-content {
+  border-radius: 1rem;
 }
 
-.modal-btn{
-  display: flex;
-  gap: 10px;
-  margin-left: 40px;
+input.form-control {
+  border-radius: 0.5rem;
 }
 
-/* Slide and fade-in animation */
+.fixed-modal-width {
+  max-width: 550px;
+  width: 100%;
+}
+
+.animated-modal {
+  animation: slideUpFadeIn 0.3s ease-out forwards;
+}
+
+.animated-modal-close {
+  animation: slideDownFadeOut 0.3s ease-in forwards;
+}
+
 @keyframes slideUpFadeIn {
   from {
     opacity: 0;
@@ -45,18 +51,7 @@
   }
 }
 
-/* Add to modal class */
-.animated-modal {
-  animation: slideUpFadeIn 0.3s ease-out forwards;
+.stock-table-container {
+  max-height: calc(100vh - 300px); /* Adjust for header + padding */
+  overflow-y: auto;
 }
-
-.animated-modal-close {
-  animation: slideDownFadeOut 0.3s ease-in forwards;
-}
-
-
-.fixed-modal-width {
-  max-width: 550px;
-  width: 100%;
-}
-

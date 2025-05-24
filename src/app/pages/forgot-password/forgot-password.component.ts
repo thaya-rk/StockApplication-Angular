@@ -74,4 +74,9 @@ export class ForgotPasswordComponent {
     const seconds = this.countdown % 60;
     return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   }
+
+  goBackToLogin(): void {
+    this.router.navigate(['/login']);
+  }
+
 }

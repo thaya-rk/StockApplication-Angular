@@ -1,0 +1,413 @@
+{
+  "version": "6.0",
+  "nxVersion": "21.1.2",
+  "pathMappings": {},
+  "nxJsonPlugins": [],
+  "fileMap": {
+    "projectFileMap": {
+      "ForexApplication-Frontend": [
+        {
+          "file": ".editorconfig",
+          "hash": "8037249353422744134"
+        },
+        {
+          "file": ".gitignore",
+          "hash": "10175894702052279752"
+        },
+        {
+          "file": ".vscode/extensions.json",
+          "hash": "11934160580685414355"
+        },
+        {
+          "file": ".vscode/launch.json",
+          "hash": "17406702432687230417"
+        },
+        {
+          "file": ".vscode/tasks.json",
+          "hash": "10093397977228577162"
+        },
+        {
+          "file": "README.md",
+          "hash": "18002206459532566991"
+        },
+        {
+          "file": "angular.json",
+          "hash": "6078117540857968731"
+        },
+        {
+          "file": "components.json",
+          "hash": "3089158842223537119"
+        },
+        {
+          "file": "libs/ui/ui-formfield-helm/src/index.ts",
+          "hash": "1379682831294187538"
+        },
+        {
+          "file": "libs/ui/ui-formfield-helm/src/lib/hlm-error.directive.ts",
+          "hash": "8559813530759281347"
+        },
+        {
+          "file": "libs/ui/ui-formfield-helm/src/lib/hlm-form-field.component.ts",
+          "hash": "4179701583270018576"
+        },
+        {
+          "file": "libs/ui/ui-formfield-helm/src/lib/hlm-hint.directive.ts",
+          "hash": "6215421755390582281"
+        },
+        {
+          "file": "package-lock.json",
+          "hash": "10016428818751001261"
+        },
+        {
+          "file": "package.json",
+          "hash": "10190583848501267400",
+          "deps": [
+            "npm:@angular-devkit/build-angular",
+            "npm:@angular/cli",
+            "npm:@angular/compiler-cli",
+            "npm:@spartan-ng/cli",
+            "npm:@types/bootstrap",
+            "npm:@types/jasmine",
+            "npm:jasmine-core",
+            "npm:karma",
+            "npm:karma-chrome-launcher",
+            "npm:karma-coverage",
+            "npm:karma-jasmine",
+            "npm:karma-jasmine-html-reporter",
+            "npm:typescript",
+            "npm:@angular/animations",
+            "npm:@angular/common",
+            "npm:@angular/compiler",
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/material",
+            "npm:@angular/platform-browser",
+            "npm:@angular/platform-browser-dynamic",
+            "npm:@angular/router",
+            "npm:bootstrap",
+            "npm:jwt-decode",
+            "npm:ngx-pagination",
+            "npm:ngx-toastr",
+            "npm:rxjs",
+            "npm:tailwindcss-primeui",
+            "npm:tslib",
+            "npm:zone.js"
+          ]
+        },
+        {
+          "file": "public/favicon.ico",
+          "hash": "3988961587069885523"
+        },
+        {
+          "file": "src/app/app.component.css",
+          "hash": "14004445413531648013"
+        },
+        {
+          "file": "src/app/app.component.html",
+          "hash": "10353391223684203053"
+        },
+        {
+          "file": "src/app/app.component.spec.ts",
+          "hash": "7074495315905656591"
+        },
+        {
+          "file": "src/app/app.component.ts",
+          "hash": "14784997200513040510"
+        },
+        {
+          "file": "src/app/app.config.ts",
+          "hash": "17099061150535985514"
+        },
+        {
+          "file": "src/app/app.routes.ts",
+          "hash": "12426278151711353540"
+        },
+        {
+          "file": "src/app/components/navbar/navbar.component.css",
+          "hash": "15358406028347131642"
+        },
+        {
+          "file": "src/app/components/navbar/navbar.component.html",
+          "hash": "13525832062230388987"
+        },
+        {
+          "file": "src/app/components/navbar/navbar.component.spec.ts",
+          "hash": "18132722331439589879"
+        },
+        {
+          "file": "src/app/components/navbar/navbar.component.ts",
+          "hash": "15643459465288696564"
+        },
+        {
+          "file": "src/app/guards/auth.guard.ts",
+          "hash": "7913038489760817345"
+        },
+        {
+          "file": "src/app/models/Stock.model.ts",
+          "hash": "17522873603260258165"
+        },
+        {
+          "file": "src/app/models/buy-sell-request.model.ts",
+          "hash": "4172233608861569561"
+        },
+        {
+          "file": "src/app/models/charges.model.ts",
+          "hash": "3801096214084144535"
+        },
+        {
+          "file": "src/app/models/portfolio.model.ts",
+          "hash": "13114805997323381925"
+        },
+        {
+          "file": "src/app/pages/account/account.component.css",
+          "hash": "17144566834619085952"
+        },
+        {
+          "file": "src/app/pages/account/account.component.html",
+          "hash": "6373542036267042421"
+        },
+        {
+          "file": "src/app/pages/account/account.component.spec.ts",
+          "hash": "13558824422996645048"
+        },
+        {
+          "file": "src/app/pages/account/account.component.ts",
+          "hash": "15095110801261359766"
+        },
+        {
+          "file": "src/app/pages/account/ledger/ledger.component.css",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "src/app/pages/account/ledger/ledger.component.html",
+          "hash": "6631870325033584280"
+        },
+        {
+          "file": "src/app/pages/account/ledger/ledger.component.spec.ts",
+          "hash": "657676024405510428"
+        },
+        {
+          "file": "src/app/pages/account/ledger/ledger.component.ts",
+          "hash": "1353304567925032267"
+        },
+        {
+          "file": "src/app/pages/admin-dashboard/admin-dashboard.component.css",
+          "hash": "2306296060930102005"
+        },
+        {
+          "file": "src/app/pages/admin-dashboard/admin-dashboard.component.html",
+          "hash": "14662160512263192043"
+        },
+        {
+          "file": "src/app/pages/admin-dashboard/admin-dashboard.component.spec.ts",
+          "hash": "14562143795961850943"
+        },
+        {
+          "file": "src/app/pages/admin-dashboard/admin-dashboard.component.ts",
+          "hash": "5121330461048209216"
+        },
+        {
+          "file": "src/app/pages/forgot-password/forgot-password.component.css",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "src/app/pages/forgot-password/forgot-password.component.html",
+          "hash": "9635915926558206573"
+        },
+        {
+          "file": "src/app/pages/forgot-password/forgot-password.component.spec.ts",
+          "hash": "16724639879268277181"
+        },
+        {
+          "file": "src/app/pages/forgot-password/forgot-password.component.ts",
+          "hash": "3617066703871592231"
+        },
+        {
+          "file": "src/app/pages/holdings/holdings.component.css",
+          "hash": "12006951697767806306"
+        },
+        {
+          "file": "src/app/pages/holdings/holdings.component.html",
+          "hash": "3725900061003648524"
+        },
+        {
+          "file": "src/app/pages/holdings/holdings.component.spec.ts",
+          "hash": "13406520914012898838"
+        },
+        {
+          "file": "src/app/pages/holdings/holdings.component.ts",
+          "hash": "4739475705160731031"
+        },
+        {
+          "file": "src/app/pages/home/home.component.css",
+          "hash": "11513966173941237800"
+        },
+        {
+          "file": "src/app/pages/home/home.component.html",
+          "hash": "3681184338343253831"
+        },
+        {
+          "file": "src/app/pages/home/home.component.spec.ts",
+          "hash": "2683587061765069593"
+        },
+        {
+          "file": "src/app/pages/home/home.component.ts",
+          "hash": "3600529666863740386"
+        },
+        {
+          "file": "src/app/pages/login/login.component.css",
+          "hash": "1943687630416629656"
+        },
+        {
+          "file": "src/app/pages/login/login.component.html",
+          "hash": "13069006891485207206"
+        },
+        {
+          "file": "src/app/pages/login/login.component.spec.ts",
+          "hash": "10730385221617188498"
+        },
+        {
+          "file": "src/app/pages/login/login.component.ts",
+          "hash": "12459526422973609364"
+        },
+        {
+          "file": "src/app/pages/portfolio/portfolio.component.css",
+          "hash": "17933703548391827522"
+        },
+        {
+          "file": "src/app/pages/portfolio/portfolio.component.html",
+          "hash": "16625218272885211710"
+        },
+        {
+          "file": "src/app/pages/portfolio/portfolio.component.spec.ts",
+          "hash": "11421605972463247552"
+        },
+        {
+          "file": "src/app/pages/portfolio/portfolio.component.ts",
+          "hash": "6071054736960758323"
+        },
+        {
+          "file": "src/app/pages/register/register.component.css",
+          "hash": "5031426953261177409"
+        },
+        {
+          "file": "src/app/pages/register/register.component.html",
+          "hash": "9882991268667525528"
+        },
+        {
+          "file": "src/app/pages/register/register.component.spec.ts",
+          "hash": "3383694944551866045"
+        },
+        {
+          "file": "src/app/pages/register/register.component.ts",
+          "hash": "10253569953780880142"
+        },
+        {
+          "file": "src/app/pages/reset-password/reset-password.component.css",
+          "hash": "6866679962725241581"
+        },
+        {
+          "file": "src/app/pages/reset-password/reset-password.component.html",
+          "hash": "9553905764159344128"
+        },
+        {
+          "file": "src/app/pages/reset-password/reset-password.component.spec.ts",
+          "hash": "16295967699271132116"
+        },
+        {
+          "file": "src/app/pages/reset-password/reset-password.component.ts",
+          "hash": "853181660938573420"
+        },
+        {
+          "file": "src/app/pages/watchlist/watchlist.component.css",
+          "hash": "15734340735572728020"
+        },
+        {
+          "file": "src/app/pages/watchlist/watchlist.component.html",
+          "hash": "1395925497852984881"
+        },
+        {
+          "file": "src/app/pages/watchlist/watchlist.component.spec.ts",
+          "hash": "2875383477234570929"
+        },
+        {
+          "file": "src/app/pages/watchlist/watchlist.component.ts",
+          "hash": "9214061075860986328"
+        },
+        {
+          "file": "src/app/services/account.services.ts",
+          "hash": "2009330587005885285"
+        },
+        {
+          "file": "src/app/services/admin.service.spec.ts",
+          "hash": "5210544817652068259"
+        },
+        {
+          "file": "src/app/services/admin.service.ts",
+          "hash": "2947802836834568279"
+        },
+        {
+          "file": "src/app/services/auth.service.spec.ts",
+          "hash": "6927655796975040699"
+        },
+        {
+          "file": "src/app/services/auth.service.ts",
+          "hash": "4822677619654745424"
+        },
+        {
+          "file": "src/app/services/buy-sell.service.ts",
+          "hash": "8421635173715748786"
+        },
+        {
+          "file": "src/app/services/holdings.services.ts",
+          "hash": "13367165089146310716"
+        },
+        {
+          "file": "src/app/services/portfolio.services.ts",
+          "hash": "12672418944746528381"
+        },
+        {
+          "file": "src/app/services/stock-websocket.services.ts",
+          "hash": "5405737153776371834"
+        },
+        {
+          "file": "src/app/services/stock.service.spec.ts",
+          "hash": "10256978084759665447"
+        },
+        {
+          "file": "src/app/services/stock.service.ts",
+          "hash": "10387625659293234608"
+        },
+        {
+          "file": "src/assets/images/infy.png",
+          "hash": "18344086885386359576"
+        },
+        {
+          "file": "src/index.html",
+          "hash": "6098852153588661747"
+        },
+        {
+          "file": "src/main.ts",
+          "hash": "7382167783514504462"
+        },
+        {
+          "file": "src/styles.css",
+          "hash": "434136568136516601"
+        },
+        {
+          "file": "tsconfig.app.json",
+          "hash": "14560978611694835822"
+        },
+        {
+          "file": "tsconfig.json",
+          "hash": "5540552589929968073"
+        },
+        {
+          "file": "tsconfig.spec.json",
+          "hash": "11023685540591620072"
+        }
+      ]
+    },
+    "nonProjectFiles": []
+  }
+}

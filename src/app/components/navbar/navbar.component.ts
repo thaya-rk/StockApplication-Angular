@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {AuthService} from '../../services/auth.service';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
-import {NgStyle} from '@angular/common';
+import {NgForOf, NgIf, NgStyle} from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
@@ -9,12 +9,24 @@ import {NgStyle} from '@angular/common';
   imports: [
     RouterLink,
     RouterLinkActive,
-    NgStyle
+    NgStyle,
+    NgForOf,
+    NgIf
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
+  navItems = [
+    { label: 'Home', link: '/home', icon: 'fas fa-home' },
+    { label: 'Watchlist', link: '/watchlist', icon: 'fas fa-eye' },
+    { label: 'Portfolio', link: '/portfolio', icon: 'fas fa-briefcase' },
+    { label: 'Holding', link: '/holding', icon: 'fas fa-chart-line' },
+    { label: 'Account', link: '/account', icon: 'fas fa-user' },
+  ];
+
+
+
   constructor(private authService: AuthService, private router: Router) {
   }
 

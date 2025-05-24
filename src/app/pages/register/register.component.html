@@ -1,22 +1,39 @@
-<div class="container mt-5 d-flex justify-content-center">
-  <div class="col-md-6 bg-dark-subtle p-4 rounded shadow-sm animated-entry">
+<div class="container register-div mt-2 d-flex justify-content-center">
+  <div class="col-md-6 register-box bg-light p-4 rounded shadow animated-entry">
     <h2 class="text-center mb-4">Register</h2>
+
+    <div class="progress-indicator d-flex justify-content-center mb-4">
+      <div class="step" [class.active]="step === 1">
+        <div class="circle">1</div>
+        <div class="label">Account</div>
+      </div>
+      <div class="connector" [class.active]="step > 1"></div>
+      <div class="step" [class.active]="step === 2">
+        <div class="circle">2</div>
+        <div class="label">Personal</div>
+      </div>
+      <div class="connector" [class.active]="step > 2"></div>
+      <div class="step" [class.active]="step === 3">
+        <div class="circle">3</div>
+        <div class="label">Security</div>
+      </div>
+    </div>
 
     <form (ngSubmit)="onSubmit()" #registerForm="ngForm" class="d-flex flex-column align-items-center">
 
       <!-- Step 1: Username, Password, Confirm Password -->
       <div *ngIf="step === 1" class="w-100">
-        <div class="mb-3 w-75 register-input">
+        <div class="mb-3 register-input">
           <label for="username" class="form-label">Username</label>
           <input type="text" class="form-control" id="username" [(ngModel)]="user.username" name="username" required />
         </div>
 
-        <div class="mb-3 w-75 register-input">
+        <div class="mb-3 register-input">
           <label for="password" class="form-label">Password</label>
           <input type="password" class="form-control" id="password" [(ngModel)]="user.password" name="password" required />
         </div>
 
-        <div class="mb-3 w-75 register-input">
+        <div class="mb-3 register-input">
           <label for="confirmPassword" class="form-label">Confirm Password</label>
           <input type="password" class="form-control" id="confirmPassword" [(ngModel)]="user.confirmPassword" name="confirmPassword" required />
           <div class="text-danger mt-1" *ngIf="user.password && user.confirmPassword && user.password !== user.confirmPassword">
@@ -27,17 +44,17 @@
 
       <!-- Step 2: Email, Full Name, Mobile -->
       <div *ngIf="step === 2" class="w-100">
-        <div class="mb-3 w-75 register-input">
+        <div class="mb-3 register-input">
           <label for="email" class="form-label">Email</label>
           <input type="email" class="form-control" id="email" [(ngModel)]="user.email" name="email" required />
         </div>
 
-        <div class="mb-3 w-75 register-input">
+        <div class="mb-3 register-input">
           <label for="fullName" class="form-label">Full Name</label>
           <input type="text" class="form-control" id="fullName" [(ngModel)]="user.fullName" name="fullName" required />
         </div>
 
-        <div class="mb-3 w-75 register-input">
+        <div class="mb-3 register-input">
           <label for="mobileNumber" class="form-label">Mobile Number</label>
           <input type="tel" class="form-control" id="mobileNumber" [(ngModel)]="user.mobileNumber" name="mobileNumber" required />
         </div>
@@ -45,7 +62,7 @@
 
       <!-- Step 3: DOB, MPIN, Confirm MPIN -->
       <div *ngIf="step === 3" class="w-100">
-        <div class="mb-3 w-75 register-input">
+        <div class="mb-3 register-input">
           <label for="dob" class="form-label">Date of Birth</label>
           <input
             type="date"
@@ -61,12 +78,12 @@
           </div>
         </div>
 
-        <div class="mb-3 w-75 register-input">
+        <div class="mb-3 register-input">
           <label for="mpin" class="form-label">MPIN</label>
           <input type="password" class="form-control" id="mpin" [(ngModel)]="user.mpin" name="mpin" maxlength="4" required />
         </div>
 
-        <div class="mb-3 w-75 register-input">
+        <div class="mb-3 register-input">
           <label for="confirmMpin" class="form-label">Confirm MPIN</label>
           <input type="password" class="form-control" id="confirmMpin" [(ngModel)]="user.confirmMpin" name="confirmMpin" maxlength="4" required />
           <div class="text-danger mt-1" *ngIf="user.mpin && user.confirmMpin && user.mpin !== user.confirmMpin">
@@ -74,13 +91,13 @@
           </div>
         </div>
 
-        <div class="text-muted w-75 mb-3 small">
+        <div class="text-muted mb-3 small">
           <strong>Note:</strong> MPIN is a 4-digit security code used for secure transactions
         </div>
       </div>
 
       <!-- Navigation Buttons -->
-      <div class="w-75 d-flex justify-content-between mt-4">
+      <div class="w-100 d-flex justify-content-between mt-4 px-3">
         <button type="button" class="btn btn-secondary" (click)="prevStep()" *ngIf="step > 1">Back</button>
 
         <button
@@ -111,7 +128,7 @@
         </button>
       </div>
 
-      <div class="mt-3">
+      <div class="mt-3 text-center">
         <a routerLink="/login" class="text-decoration-none">Already have an account? Login</a>
       </div>
     </form>

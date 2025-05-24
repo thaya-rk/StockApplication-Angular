@@ -1,202 +1,156 @@
 <app-navbar></app-navbar>
 
 <div class="d-flex">
-  <div class="content-area">
-    <div class="container content-with-sidebar" >
-      <h2 class="mb-4">All Stocks</h2>
+  <div class="content-area container py-4 content-with-sidebar">
 
-
-      <div class="mb-3">
-        <input type="text"
-               class="form-control"
-               placeholder="Search stocks by name or symbol"
-               [(ngModel)]="searchTerm">
-      </div>
-
-
-      <div *ngIf="stocks && stocks.length > 0; else noStocks">
-        <div class="list-group">
-          <div *ngFor="let stock of filteredStocks() | paginate: { itemsPerPage: itemsPerPage, currentPage: page }"
-               class="list-group-item list-group-item-action d-flex align-items-center flex-wrap flex-md-nowrap gap-2">
-
-            <!-- Image Section -->
-            <img [src]="stock.imageURL || 'assets/images/infy.png'"
-                 alt="error loading"
-                 width="46" height="46"
-                 class="rounded stock-image" />
-
-            <!-- Stock Info Section -->
-            <div class="flex-grow-1">
-              <h5 class="mb-1 ">{{ stock.companyName }}</h5>
-              <small class="text-muted">{{ stock.tickerSymbol }}</small>
-              <div class="text-muted mt-2">
-                <small><strong>Sector:</strong> {{ stock.sector }}</small><br>
-                <small>{{ stock.desc || 'No description available' }}</small>
-              </div>
-            </div>
-
-            <!-- Price Section -->
-            <div class="text-end" style="min-width: 120px;">
-              <div><strong>₹{{ stock.stockPrice }}</strong></div>
-              <small class="text-muted">{{ stock.exchange }}</small>
-            </div>
-
-            <div class="d-flex gap-2">
-              <button class="btn btn-success btn-group-lg" (click)="openModal(stock, 'buy')">Buy</button>
-              <button class="btn btn-danger btn-group-lg" (click)="openModal(stock, 'sell')">Sell</button>
-            </div>
-          </div>
-
-
-          <!-- Modal -->
-          <div class="modal fade"
-               [class.show]="selectedStock"
-               [class.animated-modal]="selectedStock && !closing"
-               [class.animated-modal-close]="closing"
-               [ngStyle]="{ display: selectedStock ? 'block' : 'none', backgroundColor: 'rgba(0,0,0,0.5)' }"
-               id="buySellModal"
-               tabindex="-1"
-               role="dialog">
-            <div class="modal-dialog modal-dialog-lowered fixed-modal-width"
-                 style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); margin-bottom: .5rem;">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title">{{ modalMode === 'buy' ? 'Buy Stock' : 'Sell Stock' }}</h5>
-                  <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  <p><strong>Stock:</strong> {{ selectedStock?.companyName }}</p>
-                  <p><strong>Price:</strong> ₹{{ selectedStock?.stockPrice }}</p>
-
-                  <div class="form-group">
-                    <label for="quantity">Enter Quantity:</label>
-                    <input type="number" id="quantity" class="form-control no-spinner" [(ngModel)]="modalQuantity" min="1">
-                    <div *ngIf="modalMode === 'sell' && (modalQuantity || 0) > existingQuantity" class="text-danger mt-2">
-                      Entered quantity exceeds available quantity.
-                    </div>
-                  </div>
-                </div>
-
-              <!--   Available Quantity-->
-                <div class="margin-detail">
-                  <div *ngIf="modalMode === 'sell'" class="mt-4 p-1">
-                    <p><strong>Available Quantity:</strong> {{ existingQuantity }}</p>
-                  </div>
-
-
-                  <div *ngIf="modalMode === 'buy' && (selectedStock?.stockPrice || 0) * (modalQuantity || 0) > balance" class="text-danger mt-3">
-                    Balance is less than required margin
-                  </div>
-                  <div class="modal-footer">
-
-                    <div class="modal-btn">
-                      <button class="btn btn-secondary" (click)="closeModal()">Cancel</button>
-                      <button class="btn btn-primary"
-                              (click)="confirmAction()"
-                              [disabled]="
-          (modalMode === 'buy' && (selectedStock?.stockPrice || 0) * (modalQuantity || 0) > balance) ||
-          (modalMode === 'sell' && (modalQuantity || 0) > existingQuantity) ||
-          (modalMode === 'sell' && (selectedStock?.stockPrice || 0) * (modalQuantity || 0) > balance)
-        ">
-                        {{ modalMode === 'buy' ? 'Buy' : 'Sell' }}
-                      </button>
-
-                    </div>
-                    <div>
-                      <p class="mb-0">
-                        <strong>Margin: </strong>
-                        ₹{{ (selectedStock?.stockPrice || 0) * (modalQuantity || 0)}}
-                        +<a class="btn btn-link btn-sm align-self-center" (click)="openChargesModal(selectedStock)">Charges</a>
-                      </p>
-                      <p class="mb-0">
-                        <strong>Balance:</strong> ₹{{ balance }}
-                      </p>
-                    </div>
-
-                  </div>
-                </div>
-
-              </div>
-            </div>
-          </div>
-
-          <!-- chargesModal -->
-          <div
-            class="modal fade show"
-            [class.animated-modal]="showChargesModal && !closingCharges"
-            [class.animated-modal-close]="closingCharges"
-            [ngStyle]="{
-    display: showChargesModal ? 'block' : 'none',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    zIndex: 1060
-  }"
-            tabindex="-1"
-            role="dialog"
-          >
-            <div class="modal-dialog modal-dialog-centered w-25" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title">Charges Breakdown</h5>
-                  <button type="button" class="btn-close" (click)="closeChargesModal()" aria-label="Close"></button>
-                </div>
-
-                <div class="modal-body" *ngIf="transactionCharges">
-                  <div class="row mb-2">
-                    <div class="col-6"><strong>Brokerage:</strong></div>
-                    <div class="col-6 text-end">₹{{ transactionCharges.brokerage }}</div>
-                  </div>
-                  <div class="row mb-2">
-                    <div class="col-6"><strong>Stamp Duty:</strong></div>
-                    <div class="col-6 text-end">₹{{ transactionCharges.stampDuty }}</div>
-                  </div>
-                  <div class="row mb-2">
-                    <div class="col-6"><strong>Transaction Tax:</strong></div>
-                    <div class="col-6 text-end">₹{{ transactionCharges.transactionTax }}</div>
-                  </div>
-                  <div class="row mb-2">
-                    <div class="col-6"><strong>SEBI Charges:</strong></div>
-                    <div class="col-6 text-end">₹{{ transactionCharges.sebiCharges }}</div>
-                  </div>
-                  <div class="row mb-2">
-                    <div class="col-6"><strong>GST:</strong></div>
-                    <div class="col-6 text-end">₹{{ transactionCharges.gst }}</div>
-                  </div>
-                  <hr />
-                  <div class="row">
-                    <div class="col-6"><strong>Total Charges:</strong></div>
-                    <div class="col-6 text-end"><strong>₹{{ transactionCharges.totalCharges }}</strong></div>
-                  </div>
-                </div>
-
-                <div class="modal-footer">
-                  <button class="btn btn-secondary" (click)="closeChargesModal()">Close</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-
-
-          <div *ngIf="(selectedStock?.stockPrice || 0) * (modalQuantity || 0) > balance" class="text-danger mt-2">
-            Insufficient balance to complete this transaction.
-          </div>
-
-
-
-        </div>
-        <pagination-controls
-          (pageChange)="page = $event"
-          class="d-flex justify-content-center mt-3">
-        </pagination-controls>
-      </div>
-
-      <ng-template #noStocks>
-        <p class="text-center text-muted">No stocks available.</p>
-      </ng-template>
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+      <h2 class="mb-2">All Stocks</h2>
+      <input type="text"
+             class="form-control shadow-sm w-auto"
+             style="min-width: 250px;"
+             placeholder="Search stocks..."
+             [(ngModel)]="searchTerm">
     </div>
 
+    <div *ngIf="stocks && stocks.length > 0; else noStocks">
+      <div class="table-responsive shadow-sm rounded border">
+        <div class="table-responsive stock-table-container shadow-sm rounded border">
+
+        <table class="table table-hover align-middle">
+          <thead class="table-light">
+          <tr>
+            <th>#</th>
+            <th>Company</th>
+            <th>Ticker</th>
+            <th>Sector</th>
+            <th>Price (₹)</th>
+            <th>Exchange</th>
+            <th>Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let stock of filteredStocks() | paginate: { itemsPerPage: itemsPerPage, currentPage: page }; let i = index">
+            <td>{{ (page - 1) * itemsPerPage + i + 1 }}</td>
+            <td class="d-flex align-items-center gap-2">
+              <img [src]="stock.imageURL || 'assets/images/infy.png'" alt="Logo" width="30" height="30" class="rounded">
+              {{ stock.companyName }}
+            </td>
+            <td>{{ stock.tickerSymbol }}</td>
+            <td>{{ stock.sector }}</td>
+            <td>₹{{ stock.stockPrice }}</td>
+            <td>{{ stock.exchange }}</td>
+            <td>
+              <div class="d-flex gap-2">
+                <button class="btn btn-outline-success btn-sm" (click)="openModal(stock, 'buy')">Buy</button>
+                <button class="btn btn-outline-danger btn-sm" (click)="openModal(stock, 'sell')">Sell</button>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+
+      <pagination-controls (pageChange)="page = $event" class="d-flex justify-content-center mt-4"></pagination-controls>
+    </div>
+
+    <ng-template #noStocks>
+      <p class="text-center text-muted mt-5">No stocks available.</p>
+    </ng-template>
   </div>
 </div>
 
+<!-- Buy/Sell Modal -->
+<div class="modal fade"
+     [class.show]="selectedStock"
+     [class.animated-modal]="selectedStock && !closing"
+     [class.animated-modal-close]="closing"
+     [ngStyle]="{ display: selectedStock ? 'block' : 'none', backgroundColor: 'rgba(0,0,0,0.5)' }"
+     tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+    <div class="modal-content shadow">
+      <div class="modal-header bg-light border-bottom">
+        <h5 class="modal-title">{{ modalMode === 'buy' ? 'Buy Stock' : 'Sell Stock' }}</h5>
+        <button type="button" class="btn-close" (click)="closeModal()"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Stock:</strong> {{ selectedStock?.companyName }}</p>
+        <p><strong>Price:</strong> ₹{{ selectedStock?.stockPrice }}</p>
 
+        <div class="form-group mb-3">
+          <label for="quantity">Enter Quantity</label>
+          <input type="number" id="quantity" class="form-control" [(ngModel)]="modalQuantity" min="1">
+          <div *ngIf="modalMode === 'sell' && (modalQuantity || 0) > existingQuantity" class="text-danger mt-2">
+            Entered quantity exceeds available quantity.
+          </div>
+        </div>
 
+        <div *ngIf="modalMode === 'sell'" class="mb-3">
+          <strong>Available Quantity:</strong> {{ existingQuantity }}
+        </div>
+
+        <div *ngIf="modalMode === 'buy' && (selectedStock?.stockPrice || 0) * (modalQuantity || 0) > balance" class="text-danger">
+          Balance is less than required margin
+        </div>
+      </div>
+      <div class="modal-footer d-flex justify-content-between align-items-start flex-wrap gap-3">
+        <div>
+          <p class="mb-1"><strong>Margin:</strong> ₹{{ (selectedStock?.stockPrice || 0) * (modalQuantity || 0) }}
+            + <a class="btn btn-link btn-sm p-0" (click)="openChargesModal(selectedStock)">Charges</a>
+          </p>
+          <p class="mb-0"><strong>Balance:</strong> ₹{{ balance }}</p>
+        </div>
+        <div class="d-flex gap-2">
+          <button class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+          <button class="btn btn-primary"
+                  (click)="confirmAction()"
+                  [disabled]="
+                    (modalMode === 'buy' && (selectedStock?.stockPrice || 0) * (modalQuantity || 0) > balance) ||
+                    (modalMode === 'sell' && (modalQuantity || 0) > existingQuantity)">
+            {{ modalMode === 'buy' ? 'Buy' : 'Sell' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Charges Modal -->
+<div class="modal fade show"
+     [class.animated-modal]="showChargesModal && !closingCharges"
+     [class.animated-modal-close]="closingCharges"
+     [ngStyle]="{ display: showChargesModal ? 'block' : 'none', backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1060 }"
+     tabindex="-1"
+     role="dialog">
+  <div class="modal-dialog modal-dialog-centered fixed-modal-width" role="document">
+    <div class="modal-content shadow">
+      <div class="modal-header bg-light border-bottom">
+        <h5 class="modal-title">Charges Breakdown</h5>
+        <button type="button" class="btn-close" (click)="closeChargesModal()"></button>
+      </div>
+      <div class="modal-body" *ngIf="transactionCharges">
+        <table class="table table-hover table-bordered align-middle text-dark">
+          <thead class="table-light">
+          <tr>
+            <th>Charge Type</th>
+            <th class="text-end">Amount (₹)</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let item of chargeKeys">
+            <td>{{ item.label }}</td>
+            <td class="text-end">₹{{ transactionCharges?.[item.key] }}</td>
+          </tr>
+          <tr class="fw-bold border-top">
+            <td>Total Charges</td>
+            <td class="text-end">₹{{ transactionCharges?.totalCharges }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer bg-light">
+        <button class="btn btn-secondary" (click)="closeChargesModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
