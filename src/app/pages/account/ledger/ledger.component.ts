@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../../../services/account.services';
-import {DatePipe, NgForOf, NgIf} from '@angular/common';  // Adjust path as needed
+import {DatePipe, DecimalPipe, NgClass, NgForOf, NgIf} from '@angular/common';  // Adjust path as needed
 
 @Component({
   selector: 'app-ledger',
@@ -8,7 +8,9 @@ import {DatePipe, NgForOf, NgIf} from '@angular/common';  // Adjust path as need
   imports: [
     NgIf,
     NgForOf,
-    DatePipe
+    DatePipe,
+    NgClass,
+    DecimalPipe
   ],
   styleUrls: ['./ledger.component.css']
 })

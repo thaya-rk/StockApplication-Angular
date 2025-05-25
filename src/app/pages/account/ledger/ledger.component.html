@@ -1,53 +1,89 @@
-<div class="card">
-  <div class="card-header d-flex justify-content-between align-items-center">
-    📘 Ledger
+<div class="card shadow-sm rounded-4">
+  <div class="card-header bg-white border-bottom d-flex align-items-center flex-wrap py-2 px-3 ledger-box">
+    <h5 class="mb-2 mb-md-0">📘 Ledger</h5>
 
-    <!-- Toggle Filter -->
-    <div class="btn-group btn-group-sm" role="group">
-      <button class="btn btn-outline-primary" [class.active]="filter === 'ALL'" (click)="filter = 'ALL'">All</button>
-      <button class="btn btn-outline-success" [class.active]="filter === 'FUNDS'" (click)="filter = 'FUNDS'">Deposit / Withdraw</button>
-      <button class="btn btn-outline-info" [class.active]="filter === 'STOCKS'" (click)="filter = 'STOCKS'">Buy / Sell</button>
+    <div class="btn-group btn-group-sm">
+      <button class="btn"
+              [class.btn-primary]="filter === 'ALL'"
+              [class.btn-outline-primary]="filter !== 'ALL'"
+              (click)="filter = 'ALL'">All</button>
+      <button class="btn"
+              [class.btn-success]="filter === 'FUNDS'"
+              [class.btn-outline-success]="filter !== 'FUNDS'"
+              (click)="filter = 'FUNDS'">Deposit / Withdraw</button>
+      <button class="btn"
+              [class.btn-info]="filter === 'STOCKS'"
+              [class.btn-outline-info]="filter !== 'STOCKS'"
+              (click)="filter = 'STOCKS'">Buy / Sell</button>
     </div>
   </div>
 
-  <div class="list-group list-group-flush" *ngIf="filteredLedger().length > 0">
-    <div class="list-group-item" *ngFor="let txn of filteredLedgerLimited()">
+  <div class="list-group list-group-flush">
+    <div *ngFor="let txn of filteredLedgerLimited()" class="list-group-item py-3 px-4 border-bottom">
       <div class="row">
+        <!-- Stock Details -->
         <ng-container *ngIf="txn.type !== 'DEPOSIT' && txn.type !== 'WITHDRAW'">
-          <div class="col-md-6 col-lg-4 mb-2">
-            <strong>Company:</strong> {{ txn.stock?.companyName }}
+          <div class="col-md-4 mb-2">
+            <strong class="text-muted">Company:</strong> {{ txn.stock?.companyName }}
           </div>
-          <div class="col-md-6 col-lg-4 mb-2">
-            <strong>Exchange:</strong> {{ txn.stock?.exchange }}
+          <div class="col-md-4 mb-2">
+            <strong class="text-muted">Exchange:</strong> {{ txn.stock?.exchange }}
           </div>
-          <div class="col-md-6 col-lg-4 mb-2">
-            <strong>Stock Price:</strong> ₹{{ txn.stock?.stockPrice }}
+          <div class="col-md-4 mb-2">
+            <strong class="text-muted">Price:</strong> ₹{{ txn.stock?.stockPrice | number:'1.2-2' }}
           </div>
         </ng-container>
 
-        <div class="col-md-6 col-lg-4 mb-2">
-          <strong>Status:</strong> {{ txn.status }}
+        <!-- Common Info -->
+        <div class="col-md-3 mb-2">
+          <strong class="text-muted">Date:</strong> {{ txn.transactionDate | date:'mediumDate' }}
         </div>
-        <div class="col-md-6 col-lg-4 mb-2">
-          <strong>Type:</strong> {{ txn.type }}
+        <div class="col-md-3 mb-2">
+          <strong class="text-muted">Amount:</strong>
+          <span [ngClass]="{
+            'text-success': txn.type === 'DEPOSIT',
+            'text-danger': txn.type === 'WITHDRAW',
+            'text-primary': txn.type === 'BUY',
+            'text-warning': txn.type === 'SELL'
+          }">
+            ₹{{ txn.totalAmount | number:'1.2-2' }}
+          </span>
         </div>
-        <div class="col-md-6 col-lg-4 mb-2">
-          <strong>Date:</strong> {{ txn.transactionDate | date:'short' }}
+        <div class="col-md-3 mb-2">
+          <strong class="text-muted">Type:</strong>
+          <span class="badge" [ngClass]="{
+            'bg-success': txn.type === 'DEPOSIT',
+            'bg-danger': txn.type === 'WITHDRAW',
+            'bg-primary': txn.type === 'BUY',
+            'bg-warning text-dark': txn.type === 'SELL'
+          }">
+            {{ txn.type }}
+          </span>
         </div>
-        <div class="col-md-6 col-lg-4 mb-2">
-          <strong>Amount:</strong> ₹{{ txn.totalAmount }}
+        <div class="col-md-3 mb-2">
+          <strong class="text-muted">Status:</strong>
+          <span class="badge" [ngClass]="{
+            'bg-success': txn.status === 'SUCCESS',
+            'bg-danger': txn.status === 'FAILED',
+            'bg-warning text-dark': txn.status === 'PENDING'
+          }">
+            {{ txn.status }}
+          </span>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- Show More / Less -->
   <div *ngIf="filteredLedger().length > 5" class="text-center my-3">
     <button class="btn btn-outline-secondary" (click)="showAllTransactions = !showAllTransactions">
       {{ showAllTransactions ? 'Show Less' : 'Show All' }}
     </button>
   </div>
 
-  <div *ngIf="filteredLedger().length === 0" class="text-muted p-3">
+  <!-- Empty State -->
+  <div *ngIf="filteredLedger().length === 0" class="text-center text-muted py-4">
+    <i class="bi bi-inbox fs-3 d-block mb-2"></i>
     No transactions found for the selected filter.
   </div>
 </div>

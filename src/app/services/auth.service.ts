@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Observable, of, tap} from 'rxjs';
+import { Observable, of, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -8,19 +8,19 @@ import { HttpClient } from '@angular/common/http';
 export class AuthService {
   private TOKEN_KEY = 'jwtToken';
   private currentUser: any = null;
+  private baseUrl = 'http://localhost:8080/api/auth';
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   login(credentials: { usernameOrEmail: string; password: string }): Observable<any> {
-    return this.http.post('http://localhost:8080/api/auth/login', credentials, {
+    return this.http.post(`${this.baseUrl}/login`, credentials, {
       withCredentials: true
     });
   }
 
   logout(): Observable<any> {
     this.currentUser = null;
-    return this.http.post('http://localhost:8080/api/auth/logout', {}, {
+    return this.http.post(`${this.baseUrl}/logout`, {}, {
       withCredentials: true
     });
   }
@@ -31,29 +31,38 @@ export class AuthService {
 
   getCurrentUser(): Observable<any> {
     if (this.currentUser) {
-      return of({ data: this.currentUser }); // mimic backend response shape
+      return of({ data: this.currentUser });
     }
 
-    return this.http.get('http://localhost:8080/api/auth/me', {
-      withCredentials: true
-    }).pipe(
+    return this.http.get(`${this.baseUrl}/me`, { withCredentials: true }).pipe(
       tap((response: any) => {
-        this.currentUser = response.data; // cache it
+        this.currentUser = response.data;
       })
     );
   }
 
-  sendPasswordResetEmail(email: string) {
-    return this.http.post<any>('http://localhost:8080/api/auth/forgot-password', { email });
+  sendPasswordResetEmail(email: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/forgot-password`, { email });
   }
-  resetPasswordWithOtp(email: string, otp: string, newPassword: string) {
-    return this.http.post<any>('http://localhost:8080/api/auth/reset-password', {
-      email,
-      otp,
-      newPassword
-    }, {
+
+  resetPasswordWithOtp(email: string, otp: string, newPassword: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/reset-password`, { email, otp, newPassword }, {
       withCredentials: true
     });
   }
 
+  // Send email verification OTP — no param because it uses authenticated user info
+  sendEmailVerification(): Observable<any> {
+    return this.http.post(`${this.baseUrl}/send-verification-email`, {}, {
+      withCredentials: true
+    });
+  }
+
+  // Verify email OTP
+  verifyEmailOtp(otp: string): Observable<any> {
+    // The backend expects the OTP and gets username from the token (principal)
+    return this.http.post(`${this.baseUrl}/verify-email`, { otp }, {
+      withCredentials: true
+    });
+  }
 }

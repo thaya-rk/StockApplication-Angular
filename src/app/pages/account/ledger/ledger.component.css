@@ -1,0 +1,27 @@
+.card {
+  border: none;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.badge {
+  font-size: 0.75rem;
+  padding: 0.4em 0.6em;
+  border-radius: 0.5rem;
+}
+
+.list-group-item {
+  transition: background 0.2s ease;
+}
+
+.list-group-item:hover {
+  background-color: #f8f9fa;
+}
+
+.btn-group-sm .btn {
+  padding: 0.35rem 0.75rem;
+  font-size: 0.85rem;
+}
+.ledger-box{
+gap: 20px;
+}

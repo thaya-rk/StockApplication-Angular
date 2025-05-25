@@ -1,5 +1,5 @@
 .account-container {
-  margin-left: 250px; /* sidebar width */
+  margin-left: 245px; /* sidebar width */
   transition: margin-left 0.3s ease;
 }
 

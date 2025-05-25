@@ -1,14 +1,46 @@
-<div class="profile-container mx-auto p-2 max-w-3xl">
-  <div class="profile-header text-center mb-4">
+<div class="profile-container mx-auto max-w-3xl">
+  <div class="profile-header text-center mb-2">
     <div class="avatar-circle mx-auto mb-3">
       <span class="initials">{{ getInitials(user.fullName) }}</span>
     </div>
     <h3 class="fw-bold mb-1">{{ user.fullName }}</h3>
     <p class="text-muted mb-0">{{ user.email }}</p>
     <p class="text-muted">+91 {{ user.mobileNumber }}</p>
+
+    <p class="text-muted mb-0">
+      {{ user.email }}
+      <span *ngIf="user.emailVerified" class="badge bg-success ms-2">✔ Verified</span>
+      <span *ngIf="!user.emailVerified" class="badge bg-warning text-dark ms-2">Not Verified</span>
+    </p>
+
+    <div class="mt-2" *ngIf="!user.emailVerified && !otpSent">
+      <button class="btn btn-outline-primary btn-sm" (click)="sendEmailVerification()" [disabled]="sendingVerification">
+        {{ sendingVerification ? 'Sending...' : 'Verify Email for KYC' }}
+      </button>
+    </div>
+
+    <!-- OTP Input UI -->
+    <div *ngIf="otpSent && !user.emailVerified" class="mt-2 text-center">
+      <p class="mb-2">Enter the OTP sent to your email:</p>
+      <input
+        type="text"
+        [(ngModel)]="emailOtp"
+        maxlength="6"
+        class="form-control d-inline-block w-auto text-center"
+        placeholder="Enter OTP"
+      />
+      <button
+        class="btn btn-primary btn-sm ms-2"
+        (click)="verifyEmailOtp()"
+        [disabled]="verifyingOtp"
+      >
+        {{ verifyingOtp ? 'Verifying...' : 'Verify OTP' }}
+      </button>
+      <div class="text-danger mt-2" *ngIf="error">{{ error }}</div>
+    </div>
   </div>
 
-  <div class="card mb-4 shadow-sm">
+  <div class="card mb-2 shadow-sm">
     <div class="card-body">
       <h5 class="card-title">👤 Personal Info</h5>
       <div class="info-grid">
