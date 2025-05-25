@@ -14,7 +14,6 @@
 
     <div *ngIf="stocks && stocks.length > 0; else noStocks">
       <div class="table-responsive shadow-sm rounded border">
-        <div class="table-responsive stock-table-container shadow-sm rounded border">
 
         <table class="table table-hover align-middle">
           <thead class="table-light">
@@ -48,7 +47,6 @@
           </tr>
           </tbody>
         </table>
-        </div>
       </div>
 
       <pagination-controls (pageChange)="page = $event" class="d-flex justify-content-center mt-4"></pagination-controls>
@@ -139,11 +137,11 @@
           <tbody>
           <tr *ngFor="let item of chargeKeys">
             <td>{{ item.label }}</td>
-            <td class="text-end">₹{{ transactionCharges?.[item.key] }}</td>
+            <td class="text-end">₹{{ transactionCharges[item.key] }}</td>
           </tr>
           <tr class="fw-bold border-top">
             <td>Total Charges</td>
-            <td class="text-end">₹{{ transactionCharges?.totalCharges }}</td>
+            <td class="text-end">₹{{ transactionCharges.totalCharges }}</td>
           </tr>
           </tbody>
         </table>

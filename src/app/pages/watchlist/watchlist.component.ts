@@ -48,7 +48,7 @@ export class WatchlistComponent implements OnInit {
 
   stocks: Stock[] = [];
   page = 1;
-  itemsPerPage = 20;
+  itemsPerPage = 10;
   searchTerm = '';
 
   selectedStock: Stock | null = null;

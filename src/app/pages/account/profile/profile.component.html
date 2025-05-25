@@ -1,0 +1,59 @@
+<div class="profile-container mx-auto p-2 max-w-3xl">
+  <div class="profile-header text-center mb-4">
+    <div class="avatar-circle mx-auto mb-3">
+      <span class="initials">{{ getInitials(user.fullName) }}</span>
+    </div>
+    <h3 class="fw-bold mb-1">{{ user.fullName }}</h3>
+    <p class="text-muted mb-0">{{ user.email }}</p>
+    <p class="text-muted">+91 {{ user.mobileNumber }}</p>
+  </div>
+
+  <div class="card mb-4 shadow-sm">
+    <div class="card-body">
+      <h5 class="card-title">👤 Personal Info</h5>
+      <div class="info-grid">
+        <div class="info-label">Username:</div>
+        <div class="info-value">{{ user.username }}</div>
+
+        <div class="info-label">Role:</div>
+        <div class="info-value">{{ user.role }}</div>
+
+        <div class="info-label">Date of Birth:</div>
+        <div class="info-value">{{ user.dob }}</div>
+
+        <div class="info-label">Created At:</div>
+        <div class="info-value">{{ user.createdAt }}</div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h5 class="card-title">⚙️ Settings</h5>
+
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <span>Theme</span>
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" id="themeSwitch" [(ngModel)]="isDarkTheme">
+          <label class="form-check-label" for="themeSwitch">
+            {{ isDarkTheme ? 'Dark' : 'Light' }}
+          </label>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-between align-items-center">
+        <span>Notifications</span>
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" id="notifSwitch" [(ngModel)]="notificationsOn">
+          <label class="form-check-label" for="notifSwitch">
+            {{ notificationsOn ? 'ON' : 'OFF' }}
+          </label>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <p class="text-danger mt-3 text-center" *ngIf="error">{{ error }}</p>
+</div>

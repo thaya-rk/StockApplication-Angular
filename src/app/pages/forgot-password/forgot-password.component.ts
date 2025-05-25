@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import { AuthService } from '../../services/auth.service'; // update path as needed
+import { AuthService } from '../../services/auth.service'; // adjust path if needed
 import { Router } from '@angular/router';
-import {NgClass, NgIf} from '@angular/common';
+import {NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-forgot-password',
@@ -18,7 +18,7 @@ export class ForgotPasswordComponent {
   submitted = false;
   successMessage = '';
   errorMessage = '';
-  countdown = 0; // Seconds left
+  countdown = 0; // seconds left
   countdownInterval: any;
 
   constructor(
@@ -48,7 +48,12 @@ export class ForgotPasswordComponent {
     this.authService.sendPasswordResetEmail(email).subscribe({
       next: (res) => {
         this.successMessage = res.message || 'Password reset link sent successfully!';
-        this.startCountdown(15 * 60);
+        this.startCountdown(15 * 60);// 15 minutes countdown
+        setTimeout(() => {
+          this.router.navigate(['/reset-password'], {
+            queryParams: { email }
+          });
+        }, 2000);
       },
       error: (err) => {
         this.errorMessage = err.error?.message || 'Something went wrong. Please try again.';
@@ -77,6 +82,9 @@ export class ForgotPasswordComponent {
 
   goBackToLogin(): void {
     this.router.navigate(['/login']);
+  }
+  get emailErrors(): { [key: string]: any } | null {
+    return this.f['email'].errors;
   }
 
 }

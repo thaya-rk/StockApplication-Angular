@@ -1,54 +1,15 @@
 <app-navbar></app-navbar>
 
-<div class="d-flex">
+<div class="account-container">
+  <!-- Horizontal Sub-navbar -->
+  <nav class="account-tabs nav nav-tabs mb-2">
+    <a routerLink="funds" routerLinkActive="active" class="nav-link">💰 Funds</a>
+    <a routerLink="transactions" routerLinkActive="active" class="nav-link">📊 Transactions</a>
+    <a routerLink="profile" routerLinkActive="active" class="nav-link">👤 Profile</a>
+  </nav>
 
-  <div class="container content-with-sidebar">
-    <h2 class="mb-4">Account Overview</h2>
-
-    <div class="d-flex justify-content-lg-around">
-
-      <!-- Profile -->
-      <div class="card mb-4 w-50">
-        <div class="card-header">👤 Profile</div>
-        <div class="card-body" *ngIf="user">
-          <p><strong>Name:</strong> {{ user.username }}</p>
-          <p><strong>Email:</strong> {{ user.email }}</p>
-          <p><strong>Phone:</strong> {{ user.mobileNumber }}</p>
-        </div>
-      </div>
-
-      <!-- Balance -->
-      <div class="card mb-4">
-        <div class="card-header">💰 Wallet Balance</div>
-        <div class="card-body">
-          <h4>₹{{ balance | number:'1.2-2' }}</h4>
-        </div>
-      </div>
-    </div>
-
-    <h3>Funds:</h3>
-    <!-- Deposit / Withdraw -->
-    <div class="funds-section ">
-      <div class="card mb-4 funds-card w-75">
-        <div class="card-header">💳 Deposit / Withdraw Funds</div>
-        <div class="card-body">
-          <input type="number" [(ngModel)]="amount" class="form-control mb-2" placeholder="Enter amount" />
-          <button class="btn btn-success me-2" (click)="deposit()">Deposit</button>
-          <button class="btn btn-danger" (click)="withdraw()">Withdraw</button>
-          <p class="mt-2 text-success" *ngIf="message">{{ message }}</p>
-          <p class="mt-2 text-danger" *ngIf="error">{{ error }}</p>
-        </div>
-      </div>
-    </div>
-
-
-    <!-- Ledger -->
-    <div class="ledger-section">
-      <button routerLink="/account/ledger" class="btn btn-info">
-        Show Transactions
-      </button>
-    </div>
-
-
+  <!-- Sub-content -->
+  <div class="account-tab-content">
+    <router-outlet></router-outlet>
   </div>
 </div>

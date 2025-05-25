@@ -46,5 +46,14 @@ export class AuthService {
   sendPasswordResetEmail(email: string) {
     return this.http.post<any>('http://localhost:8080/api/auth/forgot-password', { email });
   }
+  resetPasswordWithOtp(email: string, otp: string, newPassword: string) {
+    return this.http.post<any>('http://localhost:8080/api/auth/reset-password', {
+      email,
+      otp,
+      newPassword
+    }, {
+      withCredentials: true
+    });
+  }
 
 }

@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../../services/account.services';
-import {DatePipe, DecimalPipe, NgForOf, NgIf} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {NavbarComponent} from '../../components/navbar/navbar.component';
-import {RouterLink} from '@angular/router';
-
+import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 
 
 @Component({
@@ -13,10 +11,10 @@ import {RouterLink} from '@angular/router';
   styleUrls: ['./account.component.css'],
   imports: [
     FormsModule,
-    DecimalPipe,
-    NgIf,
     NavbarComponent,
-    RouterLink
+    RouterLink,
+    RouterLinkActive,
+    RouterOutlet
   ]
 })
 export class AccountComponent implements OnInit {

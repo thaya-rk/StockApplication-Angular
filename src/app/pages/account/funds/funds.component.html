@@ -1,0 +1,55 @@
+<div class="card mx-auto shadow-sm p-3" style="max-width: 600px; border-radius: 12px;">
+  <div class="card-header bg-dark text-white fs-5 fw-semibold rounded-top">
+    Wallet Balance & Transactions
+  </div>
+  <div class="card-body px-4 py-4">
+    <h2 class="text-center mb-4 fw-bold text-dark">Funds</h2>
+
+    <!-- Balance -->
+    <div class="card mb-4 mx-auto" style="max-width: 280px; border-radius: 10px;">
+      <div class="card-header bg-light fw-semibold">💰 Wallet Balance</div>
+      <div class="card-body text-center">
+        <h3 class="text-success">₹{{ balance | number:'1.2-2' }}</h3>
+      </div>
+    </div>
+
+    <!-- Deposit / Withdraw -->
+    <div class="card mx-auto" style="max-width: 400px; border-radius: 10px;">
+      <div class="card-header bg-light fw-semibold">💳 Deposit / Withdraw Funds</div>
+      <div class="card-body">
+        <input
+          type="number"
+          [(ngModel)]="amount"
+          class="form-control form-control-lg mb-3"
+          placeholder="Enter amount"
+          min="1"
+          (keydown)="clearMessages()"
+          style="border-radius: 8px;"
+        />
+
+        <div class="d-flex justify-content-center gap-3">
+          <button
+            class="btn btn-success btn-lg flex-fill"
+            (click)="deposit()"
+            [disabled]="!amount || amount <= 0"
+            [class.disabled]="!amount || amount <= 0"
+          >
+            Deposit
+          </button>
+
+          <button
+            class="btn btn-danger btn-lg flex-fill"
+            (click)="withdraw()"
+            [disabled]="!amount || amount <= 0"
+            [class.disabled]="!amount || amount <= 0"
+          >
+            Withdraw
+          </button>
+        </div>
+
+        <p class="mt-3 text-center text-success fw-semibold" *ngIf="message">{{ message }}</p>
+        <p class="mt-3 text-center text-danger fw-semibold" *ngIf="error">{{ error }}</p>
+      </div>
+    </div>
+  </div>
+</div>

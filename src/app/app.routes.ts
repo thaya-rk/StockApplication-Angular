@@ -11,6 +11,8 @@ import {HoldingsComponent} from './pages/holdings/holdings.component';
 import {LedgerComponent} from './pages/account/ledger/ledger.component';
 import {ResetPasswordComponent} from './pages/reset-password/reset-password.component';
 import {ForgotPasswordComponent} from './pages/forgot-password/forgot-password.component';
+import {FundsComponent} from './pages/account/funds/funds.component';
+import {ProfileComponent} from './pages/account/profile/profile.component';
 
 
 export const routes: Routes = [
@@ -22,8 +24,17 @@ export const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'watchlist', component: WatchlistComponent, canActivate: [AuthGuard] },
   { path: 'portfolio', component: PortfolioComponent, canActivate: [AuthGuard] },
-  { path: 'account', component: AccountComponent ,canActivate: [AuthGuard] },
-  { path: 'account/ledger', component: LedgerComponent },
-  {path: 'admin-dashboard', component: AdminDashboardComponent,canActivate: [AuthGuard]},
+  {
+    path: 'account',
+    component: AccountComponent,
+    canActivate: [AuthGuard],
+    children: [
+      { path: '', redirectTo: 'funds', pathMatch: 'full' },
+      { path: 'funds', component: FundsComponent },
+      { path: 'transactions', component: LedgerComponent }, // optionally rename to TransactionsComponent
+      { path: 'profile', component: ProfileComponent }
+    ]
+  },
+  { path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [AuthGuard] },
   {path:'holding',component:HoldingsComponent},
 ];
