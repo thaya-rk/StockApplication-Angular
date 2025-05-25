@@ -14,6 +14,7 @@ import { NavbarComponent } from '../../components/navbar/navbar.component';
 import {AccountService} from '../../services/account.services';
 import {PortfolioService} from '../../services/portfolio.services';
 import {Charges} from '../../models/charges.model';
+import {AuthService} from '../../services/auth.service';
 
 interface Stock {
   stockId: number;
@@ -72,12 +73,11 @@ export class WatchlistComponent implements OnInit {
     { key: 'gst', label: 'GST' }
   ];
 
-
-
-
   //Animations
   closing = false;
   closingCharges = false;
+
+  isVerified: boolean = false;
 
   constructor(
     private stockService: StockService,
@@ -85,14 +85,16 @@ export class WatchlistComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private toastr: ToastrService,
     private accountService: AccountService,
-    private portfolioService:PortfolioService
+    private portfolioService:PortfolioService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
+    console.log('ngOnInit called');
     this.loadStocks();
     this.loadBalance();
     this.loadHoldings();
-
+    this.checkEmailVerification();
   }
 
   loadStocks(): void {
@@ -234,8 +236,19 @@ export class WatchlistComponent implements OnInit {
         }
       });
   }
-
-
+  checkEmailVerification(): void {
+    console.log('checkEmailVerification() called');
+    this.authService.isUserVerified().subscribe({
+      next: (verified) => {
+        this.isVerified = verified;
+        console.log('User verified:', this.isVerified);
+      },
+      error: () => {
+        this.toastr.error('Failed to check email verification');
+        this.isVerified = false;
+      }
+    });
+  }
 
 
 }

@@ -1,23 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { StockWebSocketService } from '../../services/stock-websocket.services';
 
 interface PriceUpdate {
   symbol: string;
-  exchange?: string;
-  type?: string;
-  currency?: string;
-  currency_base?: string;
-  currency_quote?: string;
-  price: number;
+  price: number | null;  // null means no price yet
+  changePercent: number | null;
   timestamp: Date;
-  day_volume?: number;
-  bid?: number;
-  ask?: number;
 }
 
 @Component({
@@ -28,12 +20,14 @@ interface PriceUpdate {
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  username: string = '';
+  username = '';
   welcomeMessage = 'Welcome to Forex Application';
 
-  prices: PriceUpdate[] = [];
-  latestPrice: PriceUpdate | null = null;
+  // Define the exact symbols you want to track
+  readonly subscribedSymbols = ['BTC/USD', 'AAPL', 'EUR/USD','INFY'];
 
+  // Map to store the latest prices keyed by symbol
+  private pricesMap = new Map<string, PriceUpdate>();
 
   constructor(
     private authService: AuthService,
@@ -42,50 +36,47 @@ export class HomeComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    // Load current user info
     this.authService.getCurrentUser().subscribe({
-      next: (user) => {
-        this.username = user.data.username;
-      },
-      error: (err) => {
-        console.error('Failed to fetch user:', err);
-        this.router.navigate(['/login']);
-      }
+      next: (user) => this.username = user.data.username,
+      error: () => this.router.navigate(['/login'])
     });
 
+    // Listen for incoming price messages
     this.stockWebSocket.onMessage((data: any) => {
       try {
         const parsed = typeof data === 'string' ? JSON.parse(data) : data;
 
         if (parsed.event === 'price') {
-          const priceUpdate: PriceUpdate = {
+          const update: PriceUpdate = {
             symbol: parsed.symbol,
-            exchange: parsed.exchange,
-            type: parsed.type,
             price: parsed.price,
             timestamp: new Date(parsed.timestamp * 1000),
-            day_volume: parsed.day_volume,
-            bid: parsed.bid,
-            ask: parsed.ask,
+            changePercent: +(Math.random() * 10 - 5).toFixed(2), // Simulated changePercent
           };
 
-          if (parsed.currency_base && parsed.currency_quote) {
-            priceUpdate.currency_base = parsed.currency_base;
-            priceUpdate.currency_quote = parsed.currency_quote;
-          } else if (parsed.currency) {
-            priceUpdate.currency = parsed.currency;
-          }
-
-          this.latestPrice = priceUpdate;  // Just overwrite the latest price
+          this.pricesMap.set(update.symbol, update);
         }
-      } catch (e) {
+      } catch {
         console.error('Invalid price data:', data);
       }
     });
-
-
   }
 
   ngOnDestroy(): void {
     this.stockWebSocket.close();
+  }
+
+  // Always returns exactly 4 PriceUpdate objects (with placeholders if needed)
+  get priceList(): PriceUpdate[] {
+    return this.subscribedSymbols.map(symbol => {
+      const priceUpdate = this.pricesMap.get(symbol);
+      return priceUpdate ?? {
+        symbol,
+        price: null,
+        changePercent: null,
+        timestamp: new Date()
+      };
+    });
   }
 }

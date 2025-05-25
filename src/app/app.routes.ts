@@ -13,6 +13,7 @@ import {ResetPasswordComponent} from './pages/reset-password/reset-password.comp
 import {ForgotPasswordComponent} from './pages/forgot-password/forgot-password.component';
 import {FundsComponent} from './pages/account/funds/funds.component';
 import {ProfileComponent} from './pages/account/profile/profile.component';
+import {SupportComponent} from './pages/support/support.component';
 
 
 export const routes: Routes = [
@@ -35,6 +36,7 @@ export const routes: Routes = [
       { path: 'profile', component: ProfileComponent }
     ]
   },
+  { path: 'support', component: SupportComponent, canActivate: [AuthGuard] },
   { path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [AuthGuard] },
   {path:'holding',component:HoldingsComponent},
 ];

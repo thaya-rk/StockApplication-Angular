@@ -18,7 +18,7 @@
         <table class="table table-hover align-middle">
           <thead class="table-light">
           <tr>
-            <th>#</th>
+            <th>S.No</th>
             <th>Company</th>
             <th>Ticker</th>
             <th>Sector</th>
@@ -59,15 +59,15 @@
 </div>
 
 <!-- Buy/Sell Modal -->
-<div class="modal fade"
+<div class="modal fade "
      [class.show]="selectedStock"
      [class.animated-modal]="selectedStock && !closing"
      [class.animated-modal-close]="closing"
      [ngStyle]="{ display: selectedStock ? 'block' : 'none', backgroundColor: 'rgba(0,0,0,0.5)' }"
      tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+  <div class="modal-dialog-box" role="document">
     <div class="modal-content shadow">
-      <div class="modal-header bg-light border-bottom">
+      <div class="modal-header bg-light ">
         <h5 class="modal-title">{{ modalMode === 'buy' ? 'Buy Stock' : 'Sell Stock' }}</h5>
         <button type="button" class="btn-close" (click)="closeModal()"></button>
       </div>
@@ -90,10 +90,17 @@
         <div *ngIf="modalMode === 'buy' && (selectedStock?.stockPrice || 0) * (modalQuantity || 0) > balance" class="text-danger">
           Balance is less than required margin
         </div>
+
+        <!-- 🔔 Moved warning inside modal-body -->
+        <div *ngIf="!isVerified" class="alert alert-warning text-center mt-3">
+          Please verify your email address to perform this action.
+        </div>
       </div>
+
       <div class="modal-footer d-flex justify-content-between align-items-start flex-wrap gap-3">
         <div>
-          <p class="mb-1"><strong>Margin:</strong> ₹{{ (selectedStock?.stockPrice || 0) * (modalQuantity || 0) }}
+          <p class="mb-1">
+            <strong>Margin:</strong> ₹{{ ((selectedStock?.stockPrice || 0) * (modalQuantity || 0)) | number:'1.3-3' }}
             + <a class="btn btn-link btn-sm p-0" (click)="openChargesModal(selectedStock)">Charges</a>
           </p>
           <p class="mb-0"><strong>Balance:</strong> ₹{{ balance }}</p>
@@ -103,6 +110,7 @@
           <button class="btn btn-primary"
                   (click)="confirmAction()"
                   [disabled]="
+                    !isVerified ||
                     (modalMode === 'buy' && (selectedStock?.stockPrice || 0) * (modalQuantity || 0) > balance) ||
                     (modalMode === 'sell' && (modalQuantity || 0) > existingQuantity)">
             {{ modalMode === 'buy' ? 'Buy' : 'Sell' }}
@@ -112,6 +120,7 @@
     </div>
   </div>
 </div>
+
 
 <!-- Charges Modal -->
 <div class="modal fade show"

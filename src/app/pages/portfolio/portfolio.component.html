@@ -1,112 +1,90 @@
 <app-navbar></app-navbar>
+
 <div class="portfolio-wrapper">
 
+  <!-- Portfolio Stats Cards -->
   <div class="portfolio-stats">
-    <!-- Portfolio Value -->
-    <div class="card">
+    <div class="card portfolio-card" [ngClass]="{ 'gain-positive': portfolioGain >= 0, 'gain-negative': portfolioGain < 0 }">
       <div class="card-body">
         <h5 class="card-title">Portfolio Value</h5>
         <p class="card-text fw-bold">₹ {{ portfolioValue | number: '1.2-2' }}</p>
       </div>
     </div>
 
-    <!-- Portfolio Gain -->
-    <div class="card portfolio-card"
-         [ngStyle]="{ 'background-color': portfolioGain >= 0 ? 'rgba(127,217,127,0.2)' : 'rgba(255, 99, 71, 0.2)' }">
+    <div class="card portfolio-card" [ngClass]="{ 'gain-positive': portfolioGain >= 0, 'gain-negative': portfolioGain < 0 }">
       <div class="card-body">
         <h5 class="card-title">Portfolio Gain</h5>
-        <p class="card-text fw-bold"
-           [ngStyle]="{ color: portfolioGain >= 0 ? 'green' : 'red' }">
-          ₹ {{ portfolioGain | number: '1.2-2' }}
-        </p>
+        <p class="card-text fw-bold">₹ {{ portfolioGain | number: '1.2-2' }}</p>
       </div>
     </div>
 
-    <!-- Portfolio Gain % -->
-    <div class="card">
+    <div class="card portfolio-card">
       <div class="card-body">
         <h5 class="card-title">Portfolio Gain %</h5>
-        <p class="card-text fw-bold" style="font-size: large"
-           [ngStyle]="{ color: portfolioGainPercent >= 0 ? 'green' : 'red' }">
-          {{ portfolioGainPercent | number: '1.2-2' }} %
+        <p class="card-text fw-bold gain-percent"
+           [ngClass]="{ 'gain-positive': portfolioGainPercent >= 0, 'gain-negative': portfolioGainPercent < 0 }">
+          {{ portfolioGainPercent | number: '1.2-2' }}%
         </p>
       </div>
     </div>
   </div>
 
-
-  <div class="mb-2 mt-4 d-flex stock-search align-items-center gap-2">
+  <!-- Search and Sort Controls -->
+  <div class="stock-search d-flex align-items-center">
     <input
       type="text"
-      class="form-control w-75 h-50"
+      class="form-control search-input"
       placeholder="Search stock..."
       [(ngModel)]="searchText"
     />
-    <button class="btn btn-dark" (click)="searchText = ''" *ngIf="searchText">Clear</button>
-    <button class="btn btn-outline-secondary sort-btn" (click)="clearSort()" *ngIf="sortColumn">Clear Sort</button>
+    <button *ngIf="searchText" class="btn btn-outline-secondary btn-clear" (click)="searchText = ''">
+      ✕ Clear
+    </button>
+    <button *ngIf="sortColumn" class="btn btn-outline-secondary btn-clear-sort" (click)="clearSort()">
+      ⇅ Clear Sort
+    </button>
   </div>
 
-
-  <table class="table table-bordered table-hover">
-    <thead class="table-light">
+  <!-- Portfolio Table -->
+  <table class="table portfolio-table">
+    <thead>
     <tr>
       <th>Stock</th>
       <th>Quantity</th>
       <th>Avg. Buy Price</th>
       <th>Current Price</th>
-
-      <!-- Total Value Column Header -->
-      <th (click)="toggleSort('value')" style="cursor: pointer">
+      <th (click)="toggleSort('value')" class="sortable">
         Total Value
-        <span class="text-muted small">
-          {{
-            sortColumn === 'value'
-              ? (sortDirection === 'asc' ? '▲' : '▼')
-              : '⇅'
-          }}
-        </span>
+        <span class="sort-icon">
+            {{ sortColumn === 'value' ? (sortDirection === 'asc' ? '▲' : '▼') : '⇅' }}
+          </span>
       </th>
-
-      <!-- P/L Column Header -->
-      <th (click)="toggleSort('pl')" style="cursor: pointer">
+      <th (click)="toggleSort('pl')" class="sortable">
         P/L
-        <span class="text-muted small">
-          {{
-            sortColumn === 'pl'
-              ? (sortDirection === 'asc' ? '▲' : '▼')
-              : '⇅'
-          }}
-        </span>
+        <span class="sort-icon">
+            {{ sortColumn === 'pl' ? (sortDirection === 'asc' ? '▲' : '▼') : '⇅' }}
+          </span>
       </th>
-
       <th>P/L %</th>
     </tr>
     </thead>
-
     <tbody>
-    <tr *ngFor="let holding of filteredHoldings">
+    <tr *ngFor="let holding of filteredHoldings"
+        [class.positive]="getProfitLoss(holding) >= 0"
+        [class.negative]="getProfitLoss(holding) < 0">
       <td>{{ holding.stockName }}</td>
       <td>{{ holding.quantity }}</td>
       <td>₹{{ holding.avgBuyPrice | number: '1.2-2' }}</td>
       <td>₹{{ holding.currentPrice | number: '1.2-2' }}</td>
       <td>₹{{ holding.currentValue | number: '1.2-2' }}</td>
-      <td
-        class="fw-bold"
-        [ngStyle]="{ color: getProfitLoss(holding) >= 0 ? 'green' : 'red' }"
-      >
-        ₹{{ getProfitLoss(holding) | number: '1.2-2' }}
-      </td>
-      <td
-        class="fw-bold"
-        [ngStyle]="{ color: getProfitLossPercent(holding) >= 0 ? 'green' : 'red' }"
-      >
-        {{ getProfitLossPercent(holding) | number: '1.2-2' }}%
-      </td>
+      <td class="fw-bold">₹{{ getProfitLoss(holding) | number: '1.2-2' }}</td>
+      <td class="fw-bold">{{ getProfitLossPercent(holding) | number: '1.2-2' }}%</td>
     </tr>
     </tbody>
   </table>
 
-  <div *ngIf="holdings.length === 0" class="text-center mt-3">
-    <p class="text-muted">No holdings found.</p>
+  <div *ngIf="holdings.length === 0" class="text-center mt-3 no-holdings-msg">
+    <p>No holdings found.</p>
   </div>
+
 </div>

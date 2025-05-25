@@ -1,66 +1,209 @@
+/* Wrapper and fonts */
 .portfolio-wrapper {
   margin-left: 250px;
   padding: 20px;
   transition: margin-left 0.3s ease;
+  background: #f9fafb;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Portfolio card section */
+/* Portfolio cards container */
 .portfolio-stats {
   display: flex;
-  gap: 20px;
-  margin-bottom: 20px;
+  gap: 30px;
+  margin-bottom: 30px;
   justify-content: flex-start;
-
 }
 
-.portfolio-stats .card {
-  flex: 1 1 300px;
-  max-width: none;
+/* Card base */
+.portfolio-card {
+  flex: 1 1 320px;
+  max-width: 320px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.05);
+  transition: box-shadow 0.3s ease;
 }
 
-/* Make sure table stretches properly */
-table.table {
+.portfolio-card:hover {
+  box-shadow: 0 6px 20px rgb(0 0 0 / 0.1);
+}
+
+.portfolio-card .card-body {
+  padding: 20px 25px;
+}
+
+.card-title {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #444;
+  margin-bottom: 8px;
+}
+
+.card-text {
+  font-size: 1.5rem;
+  color: #222;
+}
+
+/* Gain positive/negative */
+.gain-positive {
+  background-color: rgba(102, 187, 106, 0.15) !important;
+  color: #388e3c !important;
+}
+
+.gain-negative {
+  background-color: rgba(244, 67, 54, 0.15) !important;
+  color: #d32f2f !important;
+}
+
+.gain-percent.gain-positive {
+  color: #388e3c !important;
+  font-size: 1.7rem;
+}
+
+.gain-percent.gain-negative {
+  color: #d32f2f !important;
+  font-size: 1.7rem;
+}
+
+/* Search input and buttons */
+.stock-search {
+  margin-bottom: 20px;
+  gap: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  flex-grow: 1;
+  border-radius: 25px;
+  padding: 8px 18px;
+  font-size: 1rem;
+  box-shadow: 0 1px 5px rgb(0 0 0 / 0.1);
+  border: 1px solid #ddd;
+  transition: border-color 0.3s ease;
+}
+
+.search-input:focus {
+  border-color: #333;
+  box-shadow: 0 0 5px #aaa;
+  outline: none;
+}
+
+.btn-clear,
+.btn-clear-sort {
+  border-radius: 25px;
+  padding: 6px 15px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: #555;
+  border-color: #bbb;
+  transition: background-color 0.3s ease;
+  margin-left: 10px;
+  white-space: nowrap;
+}
+
+.btn-clear:hover,
+.btn-clear-sort:hover {
+  background-color: #ddd;
+  color: #222;
+}
+
+/* Portfolio table */
+.portfolio-table {
   width: 100%;
-  margin-top: 20px;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+  font-size: 0.95rem;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 3px 12px rgb(0 0 0 / 0.05);
 }
 
-@media (max-width: 768px) and (min-width: 421px) {
-  .portfolio-stats {
-    flex-direction: row;
-    justify-content: space-between;
-    flex-wrap: nowrap;
-  }
+.portfolio-table thead tr {
+  background-color: #f1f3f5;
+  text-align: left;
+  font-weight: 600;
+  color: #444;
+  user-select: none;
+}
 
-  .portfolio-stats .card {
-    flex: 1 1 auto;
-    max-width: 30%;
-  }
+.portfolio-table th,
+.portfolio-table td {
+  padding: 15px 18px;
+  vertical-align: middle;
+  border: none;
+}
 
+/* Sortable columns */
+.sortable {
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+}
+
+.sort-icon {
+  font-size: 0.75rem;
+  margin-left: 6px;
+  color: #666;
+  user-select: none;
+}
+
+/* Table rows hover & positive/negative states */
+.portfolio-table tbody tr {
+  background: #fff;
+  transition: background-color 0.2s ease;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.05);
+  cursor: default;
+}
+
+.portfolio-table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.portfolio-table tbody tr.positive td.fw-bold {
+  color: #388e3c;
+  font-weight: 700;
+}
+
+.portfolio-table tbody tr.negative td.fw-bold {
+  color: #d32f2f;
+  font-weight: 700;
+}
+
+/* No holdings message */
+.no-holdings-msg {
+  font-style: italic;
+  color: #999;
+  font-weight: 500;
+  margin-top: 20px;
+  text-align: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
   .portfolio-wrapper {
     margin-left: 0;
-    padding: 15px;
+    padding: 20px 15px;
+  }
+
+  .portfolio-stats {
+    justify-content: center;
+  }
+
+  .portfolio-card {
+    max-width: 100%;
+    flex: 1 1 100%;
   }
 }
 
-/* Below 420px: vertical stack */
 @media (max-width: 420px) {
   .portfolio-stats {
     flex-direction: column;
-    align-items: center;
-  }
-
-  .portfolio-stats .card {
-    width: 100%;
-    max-width: 350px;
-    height: 50%;
-    margin-bottom: 15px;
+    gap: 15px;
+    align-items: stretch;
   }
 }
-.stock-search{
-  gap: 10px;
-  margin-bottom: 10px;
-}
-.sort-btn{
-  margin-left: 100px;
-}
-

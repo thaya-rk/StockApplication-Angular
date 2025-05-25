@@ -1,7 +1,6 @@
 .main-container {
   margin-left: 250px;
-  padding: 2rem;
-  background-color: #f8f9fa;
+  background-color: #ffffff;
   min-height: 100vh;
   font-family: 'Segoe UI', sans-serif;
 }
@@ -9,7 +8,7 @@
 .dashboard-container {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
 }
 
 .welcome-section {
@@ -19,15 +18,17 @@
 
 .grid-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 1.5rem;
+
 }
 
 .card {
   background: white;
-  border-radius: 16px;
-  padding: 1.2rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
 }
 
 .asset-summary .balance-amount {
@@ -65,54 +66,4 @@
   text-align: center;
   line-height: 50px;
   color: #999;
-}
-
-.btc-chart-card {
-  padding: 1.5rem;
-}
-
-.btc-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.time-filters {
-  margin: 1rem 0;
-}
-
-.filter-btn {
-  margin-right: 8px;
-  background: #e9ecef;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.filter-btn.active {
-  background: #007bff;
-  color: white;
-}
-
-.chart-placeholder {
-  height: 200px;
-  background: #f1f3f5;
-  border-radius: 10px;
-  text-align: center;
-  line-height: 200px;
-  color: #aaa;
-}
-
-.markets-card .market-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.market-item {
-  display: flex;
-  justify-content: space-between;
-  padding: 0.8rem 0;
-  border-bottom: 1px solid #e9ecef;
 }

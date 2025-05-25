@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PortfolioService } from '../../services/portfolio.services';
-import {DecimalPipe, NgForOf, NgIf, NgStyle} from '@angular/common';
+import {DecimalPipe, NgClass, NgForOf, NgIf, NgStyle} from '@angular/common';
 import {NavbarComponent} from '../../components/navbar/navbar.component';
 import { BuySellService } from '../../services/buy-sell.service';
 import {FormsModule} from '@angular/forms';
@@ -15,9 +15,9 @@ import {Holding} from '../../models/portfolio.model'
     NgIf,
     NavbarComponent,
     DecimalPipe,
-    NgStyle,
     FormsModule,
-    MatTooltipModule
+    MatTooltipModule,
+    NgClass
   ],
   styleUrls: ['./portfolio.component.css']
 })

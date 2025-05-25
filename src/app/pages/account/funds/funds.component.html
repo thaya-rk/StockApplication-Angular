@@ -1,5 +1,5 @@
 <div class="card mx-auto shadow-sm p-3" style="max-width: 600px; border-radius: 12px;">
-  <div class="card-header bg-dark text-white fs-5 fw-semibold rounded-top">
+  <div class="card-header bg-dark opacity-75 text-white fs-5 fw-semibold ">
     Wallet Balance & Transactions
   </div>
   <div class="card-body px-4 py-4">
@@ -20,11 +20,11 @@
         <input
           type="number"
           [(ngModel)]="amount"
-          class="form-control form-control-lg mb-3"
+          class="form-control form-control mb-3"
           placeholder="Enter amount"
           min="1"
           (keydown)="clearMessages()"
-          style="border-radius: 8px;"
+          style="border-radius: 4px;"
         />
 
         <div class="d-flex justify-content-center gap-3">

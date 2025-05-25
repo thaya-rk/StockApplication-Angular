@@ -2,71 +2,30 @@
 
 <div class="main-container">
   <div class="dashboard-container">
-    <!-- Top Welcome -->
+    <!-- Welcome -->
     <div class="welcome-section">
       <h2>{{ welcomeMessage }}</h2>
-      <p>Welcome back, <strong>{{ username }}</strong> 👋</p>
     </div>
 
-    <!-- Assets Summary -->
+    <!-- Dynamic Asset Cards -->
     <div class="grid-cards">
-      <div class="card asset-summary">
-        <div class="card-header">Assets</div>
-        <div class="card-content">
-          <h3 class="balance-amount">$25,901.00</h3>
-          <p class="balance-change">+810%</p>
-          <div class="mini-chart-placeholder">[Chart]</div>
-        </div>
-      </div>
-
-      <!-- Example crypto asset cards -->
-      <div class="card asset-card" *ngIf="latestPrice">
-        <div class="asset-symbol">{{ latestPrice.symbol }}</div>
+      <div class="card asset-card" *ngFor="let asset of priceList">
+        <div class="asset-symbol">{{ asset.symbol }}</div>
         <div class="price-section">
-          <h4>${{ latestPrice.price | number:'1.2-2' }}</h4>
-          <span class="positive">+14.67%</span>
+          <h4>
+            {{ asset.price !== null ? ('$' + (asset.price | number:'1.2-2')) : 'Fetching price...' }}
+          </h4>
+          <span
+            [ngClass]="{
+          positive: asset.changePercent !== null && asset.changePercent > 0,
+          negative: asset.changePercent !== null && asset.changePercent < 0
+        }">
+        {{ (asset.changePercent !== null && asset.changePercent > 0) ? '+' : '' }}
+            {{ asset.changePercent !== null ? asset.changePercent : '0.00' }}%
+      </span>
         </div>
-        <div class="mini-chart-placeholder">[Mini Chart]</div>
-      </div>
-
-      <!-- Add more cards as needed -->
-    </div>
-
-    <!-- BTC Chart Panel -->
-    <div class="btc-chart-card card">
-      <div class="btc-header">
-        <h3>{{ latestPrice?.symbol }} — ${{ latestPrice?.price | number:'1.2-2' }}</h3>
-        <div class="price-change positive">+23.6%</div>
-      </div>
-      <div class="time-filters">
-        <button class="filter-btn active">1H</button>
-        <button class="filter-btn">3H</button>
-        <button class="filter-btn">5H</button>
-        <button class="filter-btn">1D</button>
-        <button class="filter-btn">1W</button>
-      </div>
-      <div class="chart-placeholder">
-        <!-- Later you can add Chart.js or ApexCharts -->
-        [Candlestick Chart Placeholder]
       </div>
     </div>
 
-    <!-- Markets List -->
-    <div class="markets-card card">
-      <div class="markets-header">Markets</div>
-      <ul class="market-list">
-        <li class="market-item">
-          <span>BTCUSDT</span>
-          <span>$23,495</span>
-          <span class="positive">+23.4%</span>
-        </li>
-        <li class="market-item">
-          <span>ETHUSDT</span>
-          <span>$1,895</span>
-          <span class="negative">-1.2%</span>
-        </li>
-        <!-- Add dynamic market rows here -->
-      </ul>
-    </div>
   </div>
 </div>

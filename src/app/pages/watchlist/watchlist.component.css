@@ -8,9 +8,6 @@
   }
 }
 
-.modal-content {
-  border-radius: 1rem;
-}
 
 input.form-control {
   border-radius: 0.5rem;
@@ -55,3 +52,19 @@ input.form-control {
   max-height: calc(100vh - 300px); /* Adjust for header + padding */
   overflow-y: auto;
 }
+
+.modal-box{
+  bottom: 0;
+  margin-top: 150px;
+}
+
+.modal-dialog-box {
+  position: fixed;      /* Fix position relative to viewport */
+  bottom: 20px;         /* 20px from bottom - adjust as needed */
+  left: 50%;            /* Center horizontally */
+  transform: translateX(-50%); /* Offset left 50% to center */
+  margin: 0;            /* Remove default margins */
+  max-width: 500px;     /* Optional max width */
+  width: 80%;          /* Responsive width */
+}
+

@@ -1,8 +1,8 @@
 <div class="card shadow-sm rounded-4">
   <div class="card-header bg-white border-bottom d-flex align-items-center flex-wrap py-2 px-3 ledger-box">
-    <h5 class="mb-2 mb-md-0">📘 Ledger</h5>
+    <h5 class="mb-2 ">📘 Ledger</h5>
 
-    <div class="btn-group btn-group-sm">
+    <div class="btn-group btn-group-sm mb-1">
       <button class="btn"
               [class.btn-primary]="filter === 'ALL'"
               [class.btn-outline-primary]="filter !== 'ALL'"
@@ -17,7 +17,6 @@
               (click)="filter = 'STOCKS'">Buy / Sell</button>
     </div>
   </div>
-
   <div class="list-group list-group-flush">
     <div *ngFor="let txn of filteredLedgerLimited()" class="list-group-item py-3 px-4 border-bottom">
       <div class="row">

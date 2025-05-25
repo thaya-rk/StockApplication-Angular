@@ -34,6 +34,25 @@ export class AdminDashboardComponent implements OnInit {
   selectedStock: Stock | null = null;
   updatedPrice: number = 0;
 
+  currentPage: number = 1;
+  itemsPerPage: number = 5;
+
+  searchQuery: string = '';
+  editModalVisible: boolean = false;
+  stockToEdit: any = null;
+
+
+  formFields = [
+    { id: 'companyName', model: 'companyName', label: 'Company Name', placeholder: 'Company Name', required: true, type: 'text' },
+    { id: 'tickerSymbol', model: 'tickerSymbol', label: 'Ticker Symbol', placeholder: 'Ticker', required: true, type: 'text' },
+    { id: 'stockPrice', model: 'stockPrice', label: 'Stock Price (₹)', placeholder: 'Price', required: true, type: 'number' },
+    { id: 'exchange', model: 'exchange', label: 'Exchange', placeholder: 'Exchange', required: true, type: 'text' },
+    { id: 'sector', model: 'sector', label: 'Sector', placeholder: 'Sector', required: true, type: 'text' },
+    { id: 'ipoQty', model: 'ipoQty', label: 'IPO Quantity', placeholder: 'Quantity', required: true, type: 'number' },
+    { id: 'imageURL', model: 'imageURL', label: 'Image URL', placeholder: 'Optional Image URL', required: false, type: 'text' }
+  ];
+
+
   constructor(private adminService: AdminService,
               private router: Router,
               private toastr: ToastrService,
@@ -48,6 +67,28 @@ export class AdminDashboardComponent implements OnInit {
       this.stocks = data;
     });
   }
+
+  onEdit(stock: any): void {
+    this.selectedStock = { ...stock };
+    this.updatedPrice = stock.stockPrice;
+  }
+
+  get paginatedStocks() {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    return this.stocks.slice(start, end);
+  }
+
+
+
+  totalPages(): number {
+    return Math.ceil(this.stocks.length / this.itemsPerPage);
+  }
+
+  goToPage(page: number): void {
+    this.currentPage = page;
+  }
+
 
   addStock() {
     this.adminService.addStock(this.newStock as Stock).subscribe(() => {

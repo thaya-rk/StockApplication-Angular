@@ -1,80 +1,141 @@
-<div class="dashboard-header d-flex justify-content-between">
-  <h2>Admin Dashboard</h2>
-  <button class="logout-btn" (click)="logout()">Logout</button>
+<div class="dashboard-header d-flex justify-content-between align-items-center mb-1">
+  <h2 class="dashboard-title">📊 Admin Dashboard</h2>
+  <button class="btn btn-outline-danger btn-sm" (click)="logout()">Logout</button>
 </div>
 
-<h3>Add Stock</h3>
-<form (ngSubmit)="addStock()" #stockForm="ngForm" class="add-stock-horizontal bg-dark-subtle">
-  <div class="form-group">
-    <label for="companyName">Company Name</label>
-    <input id="companyName" [(ngModel)]="newStock.companyName" name="companyName" placeholder="Company Name" required />
-  </div>
 
-  <div class="form-group">
-    <label for="tickerSymbol">Ticker Symbol</label>
-    <input id="tickerSymbol" [(ngModel)]="newStock.tickerSymbol" name="tickerSymbol" placeholder="Ticker Symbol" required />
-  </div>
+<!-- Main Content -->
+<div class="dashboard-content">
 
-  <div class="form-group">
-    <label for="stockPrice">Stock Price (₹)</label>
-    <input id="stockPrice" [(ngModel)]="newStock.stockPrice" name="stockPrice" type="number" placeholder="Stock Price" required />
-  </div>
-
-  <div class="form-group">
-    <label for="exchange">Exchange</label>
-    <input id="exchange" style="width: 30px" [(ngModel)]="newStock.exchange" name="exchange" placeholder="Exchange" required />
-  </div>
-
-  <div class="form-group">
-    <label for="sector">Sector</label>
-    <input id="sector" [(ngModel)]="newStock.sector" name="sector" placeholder="Sector" required />
-  </div>
-
-  <div class="form-group">
-    <label for="ipoQty">IPO Quantity</label>
-    <input id="ipoQty" [(ngModel)]="newStock.ipoQty" name="ipoQty" type="number" placeholder="IPO Quantity" required />
-  </div>
-
-  <div class="form-group">
-    <label for="imageURL">Image URL</label>
-    <input id="imageURL" [(ngModel)]="newStock.imageURL" name="imageURL" placeholder="Image URL" />
-  </div>
-
-  <div class="form-group textarea-group">
-    <label for="desc">Description</label>
-    <textarea id="desc" [(ngModel)]="newStock.desc" name="desc" placeholder="Description" rows="2"></textarea>
-  </div>
-
-  <div class="form-group button-group">
-    <button type="submit"  [disabled]="!stockForm.form.valid">Add Stock</button>
-  </div>
-</form>
-
-<br />
-
-<h3>All Stocks</h3>
-<ul class="stock-list bg-dark-subtle">
-  <li *ngFor="let stock of stocks" (click)="selectStock(stock)"
-      [class.selected]="selectedStock?.stockId === stock.stockId"
-      title="Click to select for update/delete">
-
-    <div class="stock-info">
-      <img [src]="stock.imageURL || 'https://via.placeholder.com/50?text=No+Img'" alt="{{stock.companyName}}" class="stock-logo" />
-      <div class="stock-details">
-        <div class="stock-company">{{ stock.companyName }} <span class="stock-ticker">({{ stock.tickerSymbol }})</span></div>
-        <div class="stock-price">₹{{ stock.stockPrice }}</div>
-        <small>{{ stock.exchange }} | Sector: {{ stock.sector }} | IPO Qty: {{ stock.ipoQty }}</small>
+  <!-- Add Stock Form -->
+  <div class="card shadow-sm p-3 mb-4">
+    <h5 class="mb-3">➕ Add New Stock</h5>
+    <form (ngSubmit)="addStock()" #stockForm="ngForm" class="row g-2">
+      <div class="form-floating col-md-3" *ngFor="let field of formFields">
+        <input
+          class="form-control"
+          [type]="field.type"
+          [id]="field.id"
+          [(ngModel)]="$any(newStock)[field.model]"
+          [name]="field.model"
+          [placeholder]="field.placeholder"
+          [required]="field.required"
+        />
+        <label [for]="field.id">{{ field.label }}</label>
       </div>
+
+      <div class="form-floating col-12">
+        <textarea
+          class="form-control"
+          id="desc"
+          [(ngModel)]="newStock.desc"
+          name="desc"
+          placeholder="Description"
+          rows="2"
+        ></textarea>
+        <label for="desc">Description</label>
+      </div>
+
+      <div class="col-12 text-end">
+        <button type="submit" class="btn btn-primary" [disabled]="!stockForm.form.valid">
+          ➕ Add Stock
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Stock List -->
+  <div class="card shadow-sm p-3 mb-4">
+    <h5 class="mb-3">📋 All Stocks</h5>
+    <div class="input-group mb-3">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="🔍 Search by company or symbol"
+        [(ngModel)]="searchQuery"
+      />
     </div>
 
-    <div class="actions">
-      <button (click)="deleteStock(stock.stockId); $event.stopPropagation();" class="delete-btn">Delete</button>
+    <ul class="list-group list-group-flush">
+      <li
+        *ngFor="let stock of paginatedStocks"
+        class="list-group-item d-flex justify-content-between align-items-center py-2 px-0"
+        [class.selected]="selectedStock?.stockId === stock.stockId"
+        (click)="selectStock(stock)"
+      >
+        <div class="d-flex align-items-center">
+          <img
+            [src]="stock.imageURL || 'https://via.placeholder.com/50?text=No+Img'"
+            alt="{{ stock.companyName }}"
+            class="me-3 stock-logo rounded"
+            style="width: 50px; height: 50px;"
+          />
+          <div class="small">
+            <div class="fw-semibold">{{ stock.companyName }} <span class="text-muted">({{ stock.tickerSymbol }})</span></div>
+            <div class="text-muted">{{ stock.exchange }} | Sector: {{ stock.sector }} | IPO Qty: {{ stock.ipoQty }}</div>
+            <div class="text-success fw-semibold">₹{{ stock.stockPrice }}</div>
+          </div>
+        </div>
+        <div class="d-flex gap-2">
+          <button
+            class="btn btn-sm btn-warning"
+            (click)="onEdit(stock); $event.stopPropagation()"
+          >✏️ Edit</button>
+          <button
+            class="btn btn-sm btn-danger"
+            (click)="deleteStock(stock.stockId); $event.stopPropagation()"
+          >🗑️ Delete</button>
+        </div>
+      </li>
+      <div class="mt-3 text-center">
+        <nav *ngIf="totalPages() > 1">
+          <ul class="pagination justify-content-center mb-0">
+            <li
+              class="page-item"
+              [class.disabled]="currentPage === 1"
+              (click)="goToPage(currentPage - 1)"
+            >
+              <a class="page-link">Previous</a>
+            </li>
+
+            <li
+              class="page-item"
+              *ngFor="let page of [].constructor(totalPages()); let i = index"
+              [class.active]="currentPage === i + 1"
+              (click)="goToPage(i + 1)"
+            >
+              <a class="page-link">{{ i + 1 }}</a>
+            </li>
+
+            <li
+              class="page-item"
+              [class.disabled]="currentPage === totalPages()"
+              (click)="goToPage(currentPage + 1)"
+            >
+              <a class="page-link">Next</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+    </ul>
+  </div>
+
+  <!-- Update Price Section -->
+  <div *ngIf="selectedStock" class="card shadow-sm p-2">
+    <h6 class="mb-2">💹 Update Price for {{ selectedStock.companyName }}</h6>
+    <div class="d-flex gap-2 align-items-center">
+      <input
+        type="number"
+        class="form-control"
+        [(ngModel)]="updatedPrice"
+        placeholder="New Price"
+      />
+      <button class="btn btn-outline-primary" (click)="updateStock()">Save</button>
+      <button class="btn btn-outline-secondary" (click)="selectedStock = null">Cancel</button>
     </div>
-  </li>
-</ul>
-<div *ngIf="selectedStock" class="update-stock bg-success-subtle">
-  <h4>Update Price for {{ selectedStock.companyName }}</h4>
-  <input type="number" [(ngModel)]="updatedPrice" />
-  <button (click)="updateStock()">Save</button>
-  <button (click)="selectedStock = null">Cancel</button>
+  </div>
+
 </div>
+
+

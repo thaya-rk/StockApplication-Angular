@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import {map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -65,4 +66,16 @@ export class AuthService {
       withCredentials: true
     });
   }
+
+  isUserVerified(): Observable<boolean> {
+    return this.http.get<any>(`${this.baseUrl}/me`, { withCredentials: true }).pipe(
+      map(response => {
+        console.log('User response from API:', response);
+        return response.data.emailVerified; // now correctly set
+      })
+    );
+  }
+
+
+
 }

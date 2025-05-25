@@ -17,8 +17,12 @@
   </ul>
 
   <div class="sidebar-footer" *ngIf="!isSidebarCollapsed">
+    <a class="support-link d-block mb-3" routerLink="/support">
+      <i class="fas fa-question-circle me-2"></i> Support
+    </a>
+
     <button class="logout-btn" (click)="openLogoutModal()">
-      <i class="fas fa-sign-out-alt"></i> Log Out
+      <i class="fas fa-sign-out-alt me-2"></i> Log Out
     </button>
   </div>
 </aside>
