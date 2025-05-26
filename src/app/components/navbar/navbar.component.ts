@@ -25,8 +25,6 @@ export class NavbarComponent {
     { label: 'Account', link: '/account', icon: 'fas fa-user' },
   ];
 
-
-
   constructor(private authService: AuthService, private router: Router) {
   }
 
@@ -58,7 +56,6 @@ export class NavbarComponent {
       });
     }
   }
-
 
   openLogoutModal() {
     this.showLogoutModal = true;

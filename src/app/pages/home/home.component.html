@@ -7,25 +7,43 @@
       <h2>{{ welcomeMessage }}</h2>
     </div>
 
-    <!-- Dynamic Asset Cards -->
+<!--  Header price section -->
     <div class="grid-cards">
-      <div class="card asset-card" *ngFor="let asset of priceList">
-        <div class="asset-symbol">{{ asset.symbol }}</div>
-        <div class="price-section">
-          <h4>
-            {{ asset.price !== null ? ('$' + (asset.price | number:'1.2-2')) : 'Fetching price...' }}
-          </h4>
-          <span
-            [ngClass]="{
-          positive: asset.changePercent !== null && asset.changePercent > 0,
-          negative: asset.changePercent !== null && asset.changePercent < 0
-        }">
-        {{ (asset.changePercent !== null && asset.changePercent > 0) ? '+' : '' }}
-            {{ asset.changePercent !== null ? asset.changePercent : '0.00' }}%
+      <div class="card asset-card" *ngFor="let asset of priceList"
+           [ngClass]="{
+         'price-up': asset.changePercent !== null && asset.changePercent > 0,
+         'price-down': asset.changePercent !== null && asset.changePercent < 0
+       }">
+
+        <!-- Category Icon/Title -->
+        <div class="asset-header">
+      <span class="asset-category">
+        {{ getAssetCategory(asset.symbol) }}
       </span>
+        </div>
+        <!-- Symbol -->
+        <div class="asset-symbol">{{ asset.symbol }}</div>
+
+        <!-- Price -->
+        <div class="price-section">
+          <h4 [ngClass]="getPriceClass(asset)">
+            {{ asset?.price != null
+            ? ('$' + (asset.price | number: (asset.symbol === 'EUR/USD' ? '1.5-5' : '1.2-2')))
+            : 'Fetching price...' }}
+            &nbsp;
+            <span [ngClass]="getChangeClass(asset)">
+                {{ getChangePrefix(asset) }}{{ asset?.changePercent ?? '0.00' }}%
+            </span>
+          </h4>
+        </div>
+
+        <!-- Mini Chart Placeholder -->
+        <div class="mini-chart-placeholder">
+          Mini Chart
         </div>
       </div>
     </div>
+
 
   </div>
 </div>

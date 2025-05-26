@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 
-
-
 @Injectable({
   providedIn: 'root'
 })
@@ -29,6 +27,24 @@ export class StockWebSocketService {
       const message = JSON.parse(event.data);
       callback(message);
     };
+  }
+
+  // ✅ Add this method to send subscription request
+  public subscribeToSymbols(symbols: string[]): void {
+    const payload = {
+      event: 'subscribe',
+      symbols: symbols
+    };
+
+    // Send when WebSocket is open, or wait a bit
+    if (this.socket.readyState === WebSocket.OPEN) {
+      this.socket.send(JSON.stringify(payload));
+    } else {
+      this.socket.onopen = () => {
+        console.log('🔁 Subscribing to symbols after open');
+        this.socket.send(JSON.stringify(payload));
+      };
+    }
   }
 
   public close(): void {

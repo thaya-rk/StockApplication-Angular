@@ -15,39 +15,55 @@
   text-align: center;
   color: #343a40;
 }
-
 .grid-cards {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
-
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
 }
 
-.card {
+.asset-card {
   background: white;
   border-radius: 10px;
-  padding: 1rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-
+  padding: .5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
 }
 
-.asset-summary .balance-amount {
-  font-size: 1.5rem;
-  font-weight: bold;
+.asset-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
 
-.balance-change {
-  color: #28a745;
+.asset-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
+
+.asset-category {
+  font-size: .8rem;
+  font-weight: 700;
+  color: #6c757d;
+  text-transform: uppercase;
+}
+
 
 .asset-symbol {
   font-weight: bold;
-  font-size: 1.1rem;
+  font-size: 1rem;
+}
+
+.price-section{
+  margin-bottom: 10px;
 }
 
 .price-section h4 {
-  margin: 0;
   font-size: 1.4rem;
+  margin: 0;
+}
+
+.price-section span {
+  font-size: 1rem;
 }
 
 .positive {
@@ -59,11 +75,29 @@
 }
 
 .mini-chart-placeholder {
-  background-color: #f1f3f5;
-  height: 50px;
+  background-color: #c2d7ea;
+  height: 40px;
   border-radius: 8px;
-  margin-top: 10px;
+  margin-top: 2px;
   text-align: center;
   line-height: 50px;
-  color: #999;
+  color: #4c5a62;
+  font-size: 0.9rem;
+}
+
+.price-up {
+  animation: blinkGreen 0.3s ease;
+}
+.price-down {
+  animation: blinkRed 0.3s ease;
+}
+
+@keyframes blinkGreen {
+  from { background-color: #e6ffed; }
+  to { background-color: white; }
+}
+
+@keyframes blinkRed {
+  from { background-color: #ffe6e6; }
+  to { background-color: white; }
 }

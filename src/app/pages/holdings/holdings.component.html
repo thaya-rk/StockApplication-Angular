@@ -1,54 +1,51 @@
 <app-navbar></app-navbar>
 
 <div class="holding-wrapper">
-  <h2>Holdings</h2>
+  <h2 class="page-title">Your Holdings</h2>
 
   <!-- Investment Stats -->
-  <div class="row mb-4">
-    <!-- Total Investment Value -->
-    <div class="col-sm-6">
-      <div class="card bg-light">
-        <div class="card-body">
-          <h5 class="card-title">Invested Value</h5>
-          <p class="card-text fw-bold">₹ {{ getTotalInvestment() | number: '1.2-2' }}</p>
-        </div>
-      </div>
+  <div class="stats-container">
+    <div class="stat-card">
+      <h5>Invested Value</h5>
+      <p class="stat-value">₹ {{ getTotalInvestment() | number: '1.2-2' }}</p>
     </div>
 
-    <!-- Current Value -->
-    <div class="col-sm-6">
-      <div class="card bg-light">
-        <div class="card-body">
-          <h5 class="card-title">Current Value</h5>
-          <p class="card-text fw-bold">₹ {{ getCurrentValue() | number: '1.2-2' }}</p>
-        </div>
-      </div>
+    <div class="stat-card">
+      <h5>Current Value</h5>
+      <p class="stat-value">₹ {{ getCurrentValue() | number: '1.2-2' }}</p>
     </div>
   </div>
 
   <!-- Holdings Table -->
-  <table class="table">
-    <thead>
-    <tr>
-      <th>Stock</th>
-      <th>Quantity</th>
-      <th>Avg. Buy Price</th>
-      <th>Current Price</th>
-      <th>Total Value</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let holding of holdings">
-      <td>{{ holding.stockName }}</td>
-      <td>{{ holding.quantity }}</td>
-      <td>{{ holding.avgBuyPrice }}</td>
-      <td>{{ holding.currentPrice }}</td>
-      <td>{{ holding.currentValue }}</td>
-    </tr>
-    </tbody>
-  </table>
+  <div class="table-responsive">
+    <table class="table holdings-table">
+      <thead>
+      <tr>
+        <th>Stock</th>
+        <th>Quantity</th>
+        <th>Avg. Buy Price</th>
+        <th>Current Price</th>
+        <th>Total Value</th>
+        <th>P/L</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let holding of holdings"
+          [class.profit]="getProfitLoss(holding) >= 0"
+          [class.loss]="getProfitLoss(holding) < 0"
+          title="Click for details">
+        <td>{{ holding.stockName }}</td>
+        <td>{{ holding.quantity }}</td>
+        <td>₹{{ holding.avgBuyPrice | number:'1.2-2' }}</td>
+        <td>₹{{ holding.currentPrice | number:'1.2-2' }}</td>
+        <td>₹{{ holding.currentValue | number:'1.2-2' }}</td>
+        <td class="pl-amount">₹{{ getProfitLoss(holding) | number:'1.2-2' }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 
-  <div *ngIf="holdings.length === 0">
+  <div *ngIf="holdings.length === 0" class="no-holdings-msg">
     <p>No holdings found.</p>
   </div>
 </div>

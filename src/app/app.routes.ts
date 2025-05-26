@@ -25,14 +25,11 @@ export const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'watchlist', component: WatchlistComponent, canActivate: [AuthGuard] },
   { path: 'portfolio', component: PortfolioComponent, canActivate: [AuthGuard] },
-  {
-    path: 'account',
-    component: AccountComponent,
-    canActivate: [AuthGuard],
+  {path: 'account', component: AccountComponent, canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'funds', pathMatch: 'full' },
       { path: 'funds', component: FundsComponent },
-      { path: 'transactions', component: LedgerComponent }, // optionally rename to TransactionsComponent
+      { path: 'transactions', component: LedgerComponent },
       { path: 'profile', component: ProfileComponent }
     ]
   },

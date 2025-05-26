@@ -1,14 +1,142 @@
 /* Wrapper to push content right of sidebar */
 .holding-wrapper {
   margin-left: 250px; /* adjust based on sidebar width */
-  padding: 20px;
+  padding: 10px 10px;
   transition: margin-left 0.3s ease;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f7fa;
+  min-height: 100vh;
 }
 
-/* Responsive layout */
+/* Page title */
+.page-title {
+  font-weight: 600;
+  font-size: 2rem;
+  color: #222;
+  margin-bottom: 20px;
+}
+
+/* Stats Container */
+.stats-container {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.stat-card {
+  background: white;
+  flex: 1 1 200px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgb(0 0 0 / 0.08);
+  padding: 15px 10px;
+  transition: box-shadow 0.3s ease;
+  cursor: default;
+}
+
+.stat-card:hover {
+  box-shadow: 0 8px 28px rgb(0 0 0 / 0.12);
+}
+
+.stat-card h5 {
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 6px;
+}
+
+.stat-value {
+  font-weight: 600;
+  font-size: 1.6rem;
+  color: #111;
+}
+
+/* Table Responsive Wrapper */
+.table-responsive {
+  overflow-x: auto;
+}
+
+/* Holdings Table */
+.holdings-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+  background: transparent;
+}
+
+.holdings-table thead tr {
+  background-color: #e9ecef;
+  font-weight: 600;
+  color: #444;
+  user-select: none;
+  border-radius: 12px;
+}
+
+.holdings-table th,
+.holdings-table td {
+  padding: 14px 18px;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.holdings-table tbody tr {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.05);
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.holdings-table tbody tr:hover {
+  background-color: #f1f3f5;
+  box-shadow: 0 6px 20px rgb(0 0 0 / 0.1);
+}
+
+/* Profit and Loss coloring */
+.profit .pl-amount {
+  color: #388e3c;
+  font-weight: 700;
+}
+
+.loss .pl-amount {
+  color: #d32f2f;
+  font-weight: 700;
+}
+
+/* No holdings message */
+.no-holdings-msg {
+  margin-top: 40px;
+  font-style: italic;
+  color: #999;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
   .holding-wrapper {
     margin-left: 0;
-    padding: 10px;
+    padding: 20px 15px;
+  }
+
+  .stats-container {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 420px) {
+  .stats-container {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .stat-card {
+    flex: 1 1 100%;
+  }
+
+  .holdings-table th,
+  .holdings-table td {
+    padding: 10px 12px;
+    font-size: 0.9rem;
   }
 }
