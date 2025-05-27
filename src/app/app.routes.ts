@@ -14,15 +14,16 @@ import {ForgotPasswordComponent} from './pages/forgot-password/forgot-password.c
 import {FundsComponent} from './pages/account/funds/funds.component';
 import {ProfileComponent} from './pages/account/profile/profile.component';
 import {SupportComponent} from './pages/support/support.component';
+import {LandingPageComponent} from './pages/landing-page/landing-page.component';
 
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', component: LandingPageComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
-  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard], },
   { path: 'watchlist', component: WatchlistComponent, canActivate: [AuthGuard] },
   { path: 'portfolio', component: PortfolioComponent, canActivate: [AuthGuard] },
   {path: 'account', component: AccountComponent, canActivate: [AuthGuard],

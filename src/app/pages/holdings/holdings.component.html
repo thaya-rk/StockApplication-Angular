@@ -23,10 +23,10 @@
       <tr>
         <th>Stock</th>
         <th>Quantity</th>
-        <th>Avg. Buy Price</th>
-        <th>Current Price</th>
-        <th>Total Value</th>
-        <th>P/L</th>
+        <th>Avg. Buy Price(₹)</th>
+        <th>Current Price(₹)</th>
+        <th>Total Value(₹)</th>
+        <th>P/L(₹)</th>
       </tr>
       </thead>
       <tbody>
@@ -36,10 +36,10 @@
           title="Click for details">
         <td>{{ holding.stockName }}</td>
         <td>{{ holding.quantity }}</td>
-        <td>₹{{ holding.avgBuyPrice | number:'1.2-2' }}</td>
-        <td>₹{{ holding.currentPrice | number:'1.2-2' }}</td>
-        <td>₹{{ holding.currentValue | number:'1.2-2' }}</td>
-        <td class="pl-amount">₹{{ getProfitLoss(holding) | number:'1.2-2' }}</td>
+        <td>{{ holding.avgBuyPrice | number:'1.2-2' }}</td>
+        <td>{{ holding.currentPrice | number:'1.2-2' }}</td>
+        <td>{{ holding.currentValue | number:'1.2-2' }}</td>
+        <td class="pl-amount">{{ getProfitLoss(holding) | number:'1.2-2' }}</td>
       </tr>
       </tbody>
     </table>

@@ -15,7 +15,7 @@ import {DecimalPipe, NgIf} from '@angular/common';
 })
 export class FundsComponent implements OnInit {
   balance: number = 0;
-  amount: number = 0;
+  amount: number | null= null;
   message: string = '';
   error: string = '';
 
@@ -33,7 +33,6 @@ export class FundsComponent implements OnInit {
   }
 
   deposit() {
-    this.clearMessages();
 
     if (!this.amount || this.amount <= 0) {
       this.error = 'Enter a valid amount';
@@ -44,15 +43,19 @@ export class FundsComponent implements OnInit {
       next: () => {
         this.message = 'Deposit successful';
         this.loadBalance();
+        this.clearInput();
+        this.clearMessagesWithDelay();
       },
       error: (err) => {
         this.error = err?.error?.message || 'Deposit failed';
+        this.clearInput();
+        this.clearMessagesWithDelay();
       }
+
     });
   }
 
   withdraw() {
-    this.clearMessages();
 
     if (!this.amount || this.amount <= 0) {
       this.error = 'Please enter a valid amount to withdraw.';
@@ -73,13 +76,30 @@ export class FundsComponent implements OnInit {
       next: () => {
         this.message = 'Withdraw successful';
         this.loadBalance();
+        this.clearInput();
+        this.clearMessagesWithDelay();
+
       },
-      error: err => { this.error = err.error || 'Withdraw failed'; }
+      error: err => {
+        this.error = err.error || 'Withdraw failed';
+        this.clearInput();
+        this.clearMessagesWithDelay();
+      }
     });
   }
 
   clearMessages() {
     this.message = '';
     this.error = '';
+  }
+
+  clearInput(){
+    this.amount=null;
+  }
+
+  clearMessagesWithDelay() {
+    setTimeout(() => {
+      this.clearMessages();
+    }, 2000);
   }
 }

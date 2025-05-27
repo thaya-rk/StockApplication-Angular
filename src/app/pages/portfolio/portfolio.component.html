@@ -51,16 +51,16 @@
     <tr>
       <th>Stock</th>
       <th>Quantity</th>
-      <th>Avg. Buy Price</th>
-      <th>Current Price</th>
+      <th>Avg. Buy Price(₹)</th>
+      <th>Current Price(₹)</th>
       <th (click)="toggleSort('value')" class="sortable">
-        Total Value
+       Total Value(₹)
         <span class="sort-icon">
             {{ sortColumn === 'value' ? (sortDirection === 'asc' ? '▲' : '▼') : '⇅' }}
           </span>
       </th>
       <th (click)="toggleSort('pl')" class="sortable">
-        P/L
+        P/L(₹)
         <span class="sort-icon">
             {{ sortColumn === 'pl' ? (sortDirection === 'asc' ? '▲' : '▼') : '⇅' }}
           </span>
@@ -74,10 +74,10 @@
         [class.negative]="getProfitLoss(holding) < 0">
       <td>{{ holding.stockName }}</td>
       <td>{{ holding.quantity }}</td>
-      <td>₹{{ holding.avgBuyPrice | number: '1.2-2' }}</td>
-      <td>₹{{ holding.currentPrice | number: '1.2-2' }}</td>
-      <td>₹{{ holding.currentValue | number: '1.2-2' }}</td>
-      <td class="fw-bold">₹{{ getProfitLoss(holding) | number: '1.2-2' }}</td>
+      <td>{{ holding.avgBuyPrice | number: '1.2-2' }}</td>
+      <td>{{ holding.currentPrice | number: '1.2-2' }}</td>
+      <td>{{ holding.currentValue | number: '1.2-2' }}</td>
+      <td class="fw-bold">{{ getProfitLoss(holding) | number: '1.2-2' }}</td>
       <td class="fw-bold">{{ getProfitLossPercent(holding) | number: '1.2-2' }}%</td>
     </tr>
     </tbody>

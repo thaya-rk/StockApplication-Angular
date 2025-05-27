@@ -19,3 +19,36 @@ input[type=number]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+
+body.dark-theme {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+body.dark-theme .card {
+  background-color: #1e1e1e !important;
+  color: #e0e0e0;
+}
+
+body.dark-theme .list-group-item {
+  background-color: #1e1e1e !important;
+  border-color: #333 !important;
+  color: #e0e0e0 !important;
+}
+
+body.dark-theme .btn {
+  background-color: #2a2a2a;
+  color: #f1f1f1;
+  border-color: #444;
+}
+
+body.dark-theme .btn-outline-primary {
+  color: #90caf9;
+  border-color: #90caf9;
+}
+
+body.dark-theme .btn-outline-primary:hover {
+  background-color: #90caf9;
+  color: #000;
+}

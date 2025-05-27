@@ -2,47 +2,53 @@
 
 <div class="main-container">
   <div class="dashboard-container">
+
     <!-- Welcome -->
     <div class="welcome-section">
       <h2>{{ welcomeMessage }}</h2>
     </div>
 
-<!--  Header price section -->
+    <!-- Header price section -->
     <div class="grid-cards">
       <div class="card asset-card" *ngFor="let asset of priceList"
            [ngClass]="{
-         'price-up': asset.changePercent !== null && asset.changePercent > 0,
-         'price-down': asset.changePercent !== null && asset.changePercent < 0
-       }">
+             'price-up': asset.changePercent !== null && asset.changePercent > 0,
+             'price-down': asset.changePercent !== null && asset.changePercent < 0
+           }">
 
         <!-- Category Icon/Title -->
         <div class="asset-header">
-      <span class="asset-category">
-        {{ getAssetCategory(asset.symbol) }}
-      </span>
+          <span class="asset-category">
+            {{ getAssetCategory(asset.symbol) }}
+          </span>
         </div>
+
         <!-- Symbol -->
         <div class="asset-symbol">{{ asset.symbol }}</div>
 
         <!-- Price -->
-        <div class="price-section">
+        <div class="price-section py-2">
           <h4 [ngClass]="getPriceClass(asset)">
             {{ asset?.price != null
             ? ('$' + (asset.price | number: (asset.symbol === 'EUR/USD' ? '1.5-5' : '1.2-2')))
             : 'Fetching price...' }}
             &nbsp;
             <span [ngClass]="getChangeClass(asset)">
-                {{ getChangePrefix(asset) }}{{ asset?.changePercent ?? '0.00' }}%
+              {{ getChangePrefix(asset) }}{{ asset?.changePercent ?? '0.00' }}%
             </span>
           </h4>
         </div>
 
-        <!-- Mini Chart Placeholder -->
-        <div class="mini-chart-placeholder">
-          Mini Chart
-        </div>
       </div>
     </div>
+
+<!--    <div class="price-chart">-->
+<!--      &lt;!&ndash; Bitcoin Real-Time Chart &ndash;&gt;-->
+<!--      <app-real-time-chart #btcChart [symbol]="'BTC/USD'" [maxPoints]="50"></app-real-time-chart>-->
+<!--    </div>-->
+
+    <h2 class="price-chart">Bitcoin 1-Min Price Chart</h2>
+    <app-stock-chart></app-stock-chart>
 
 
   </div>

@@ -51,18 +51,22 @@ export class ProfileComponent implements OnInit {
   sendEmailVerification() {
     this.sendingVerification = true;
     this.error = '';
+
     this.authService.sendEmailVerification().subscribe({
-      next: () => {
+      next: (res) => {
+        console.log('SUCCESS RESPONSE:', res);
         this.sendingVerification = false;
         this.otpSent = true;
         this.toastr.success('Verification OTP sent. Please check your email.');
       },
-      error: () => {
+      error: (err) => {
+        console.error('ERROR RESPONSE:', err);
         this.sendingVerification = false;
         this.error = 'Failed to send verification email.';
       }
     });
   }
+
 
   verifyEmailOtp() {
     if (!this.emailOtp) {

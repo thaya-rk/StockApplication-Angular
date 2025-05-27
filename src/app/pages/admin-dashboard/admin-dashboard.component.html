@@ -8,10 +8,10 @@
 <div class="dashboard-content">
 
   <!-- Add Stock Form -->
-  <div class="card shadow-sm p-3 mb-4">
+  <div class="card shadow border-1 p-2 mb-4">
     <h5 class="mb-3">➕ Add New Stock</h5>
-    <form (ngSubmit)="addStock()" #stockForm="ngForm" class="row g-2">
-      <div class="form-floating col-md-3" *ngFor="let field of formFields">
+    <form (ngSubmit)="addStock()" #stockForm="ngForm" class="row g-1">
+      <div class="form-floating col-md-2" *ngFor="let field of formFields">
         <input
           class="form-control"
           [type]="field.type"
@@ -45,7 +45,7 @@
   </div>
 
   <!-- Stock List -->
-  <div class="card shadow-sm p-3 mb-4">
+  <div class="card shadow border-1 p-3 mb-4">
     <h5 class="mb-3">📋 All Stocks</h5>
     <div class="input-group mb-3">
       <input

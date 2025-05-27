@@ -16,20 +16,28 @@
               [class.btn-outline-info]="filter !== 'STOCKS'"
               (click)="filter = 'STOCKS'">Buy / Sell</button>
     </div>
+
+
+    <button class="btn btn-outline-dark btn-sm ms-auto" (click)="generateReport()">
+      🧾 Generate Report
+    </button>
   </div>
   <div class="list-group list-group-flush">
-    <div *ngFor="let txn of filteredLedgerLimited()" class="list-group-item py-3 px-4 border-bottom">
+    <div *ngFor="let txn of filteredLedgerLimited()" class="list-group-item py-3 px-3 border-bottom">
       <div class="row">
         <!-- Stock Details -->
         <ng-container *ngIf="txn.type !== 'DEPOSIT' && txn.type !== 'WITHDRAW'">
-          <div class="col-md-4 mb-2">
+          <div class="col-md-3 mb-2">
             <strong class="text-muted">Company:</strong> {{ txn.stock?.companyName }}
           </div>
-          <div class="col-md-4 mb-2">
+          <div class="col-md-3 mb-2">
             <strong class="text-muted">Exchange:</strong> {{ txn.stock?.exchange }}
           </div>
-          <div class="col-md-4 mb-2">
-            <strong class="text-muted">Price:</strong> ₹{{ txn.stock?.stockPrice | number:'1.2-2' }}
+          <div class="col-md-3 mb-2">
+            <strong class="text-muted">Price:</strong> ₹{{ txn.stock?.stockPrice | number:'1.2-2' }} <small *ngIf="txn.qty">({{ txn.qty }} qty)</small>
+          </div>
+          <div class="col-md-3 mb-2">
+            <strong class="text-muted">Charges:</strong> ₹{{ txn.transactionCharges | number:'1.2-2' }}
           </div>
         </ng-container>
 
@@ -38,7 +46,7 @@
           <strong class="text-muted">Date:</strong> {{ txn.transactionDate | date:'mediumDate' }}
         </div>
         <div class="col-md-3 mb-2">
-          <strong class="text-muted">Amount:</strong>
+          <strong class="text-muted">Margin:</strong>
           <span [ngClass]="{
             'text-success': txn.type === 'DEPOSIT',
             'text-danger': txn.type === 'WITHDRAW',
