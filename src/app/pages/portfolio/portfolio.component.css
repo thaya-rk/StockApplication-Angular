@@ -174,10 +174,22 @@
   font-weight: 700;
 }
 
+.dropdown-menu {
+  z-index: 1050 !important;
+  font-size: 14px;
+  border-radius: 8px;
+}
+
+.dropdown-item:hover {
+  background-color: #f0f0f0;
+  color: #000;
+}
+
+
 /* No holdings message */
 .no-holdings-msg {
   font-style: italic;
-  color: #999;
+  color: #ffffff;
   font-weight: 500;
   margin-top: 20px;
   text-align: center;

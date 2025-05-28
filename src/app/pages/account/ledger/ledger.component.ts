@@ -38,6 +38,7 @@ export class LedgerComponent implements OnInit {
     });
   }
 
+  //logic for filtering and based on time
   filteredLedger(): any[] {
     let filtered = this.ledger;
 
@@ -62,6 +63,7 @@ export class LedgerComponent implements OnInit {
 
     return filtered;
   }
+
 
   applyDateFilter() {
     this.showAllTransactions = false;

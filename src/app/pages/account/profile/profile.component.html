@@ -7,16 +7,18 @@
     <p class="text-muted mb-0">{{ user.email }}</p>
     <p class="text-muted">+91 {{ user.mobileNumber }}</p>
 
+    <div class="kyc-div">
     <p class="text-muted mb-0">
       {{ user.email }}
       <span *ngIf="user.emailVerified" class="badge bg-success ms-2">✔ Verified</span>
       <span *ngIf="!user.emailVerified" class="badge bg-warning text-dark ms-2">Not Verified</span>
     </p>
 
-    <div class="mt-2" *ngIf="!user.emailVerified && !otpSent">
+    <div *ngIf="!user.emailVerified && !otpSent">
       <button class="btn btn-outline-primary btn-sm" (click)="sendEmailVerification()" [disabled]="sendingVerification">
         {{ sendingVerification ? 'Sending...' : 'Verify Email for KYC' }}
       </button>
+    </div>
     </div>
 
     <!-- OTP Input UI -->
@@ -56,34 +58,6 @@
         <div class="info-label">Created At:</div>
         <div class="info-value">{{ user.createdAt }}</div>
       </div>
-    </div>
-  </div>
-
-
-  <div class="card shadow-sm">
-    <div class="card-body">
-      <h5 class="card-title">⚙️ Settings</h5>
-
-      <div class="d-flex justify-content-evenly align-items-center mb-3">
-        <span>Theme</span>
-        <div class="form-check form-switch">
-          <input class="form-check-input" type="checkbox" id="themeSwitch" [(ngModel)]="isDarkTheme">
-          <label class="form-check-label" for="themeSwitch">
-            {{ isDarkTheme ? 'Dark' : 'Light' }}
-          </label>
-        </div>
-      </div>
-
-      <div class="d-flex justify-content-evenly align-items-baseline">
-        <span>Notifications</span>
-        <div class="form-check form-switch">
-          <input class="form-check-input" type="checkbox" id="notifSwitch" [(ngModel)]="notificationsOn">
-          <label class="form-check-label" for="notifSwitch">
-            {{ notificationsOn ? 'ON' : 'OFF' }}
-          </label>
-        </div>
-      </div>
-
     </div>
   </div>
 

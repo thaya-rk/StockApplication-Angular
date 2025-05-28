@@ -3,6 +3,10 @@ import {NavbarComponent} from '../../components/navbar/navbar.component';
 import {HoldingsServices} from '../../services/holdings.services';
 import {Holding} from '../../models/portfolio.model';
 import {DecimalPipe, NgForOf, NgIf, NgStyle} from '@angular/common';
+import {PortfolioDonutChartComponent} from "../../components/portfolio-donut-chart/portfolio-donut-chart.component";
+import {
+  PortfolioStackedBarChartComponent
+} from '../../components/portfolio-stacked-bar-chart/portfolio-stacked-bar-chart.component';
 
 
 @Component({
@@ -11,7 +15,9 @@ import {DecimalPipe, NgForOf, NgIf, NgStyle} from '@angular/common';
     NavbarComponent,
     NgForOf,
     NgIf,
-    DecimalPipe
+    DecimalPipe,
+    PortfolioDonutChartComponent,
+    PortfolioStackedBarChartComponent
   ],
   templateUrl: './holdings.component.html',
   styleUrl: './holdings.component.css'

@@ -48,5 +48,12 @@
 .info-value {
   font-weight: 600;
   color: #222;
+
+}
+
+.kyc-div{
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
 }
 

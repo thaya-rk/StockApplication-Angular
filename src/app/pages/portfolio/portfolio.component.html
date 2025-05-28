@@ -1,4 +1,4 @@
-<app-navbar></app-navbar>
+  <app-navbar></app-navbar>
 
 <div class="portfolio-wrapper">
 
@@ -57,13 +57,12 @@
        Total Value(₹)
         <span class="sort-icon">
             {{ sortColumn === 'value' ? (sortDirection === 'asc' ? '▲' : '▼') : '⇅' }}
-          </span>
+        </span>
       </th>
-      <th (click)="toggleSort('pl')" class="sortable">
-        P/L(₹)
+      <th (click)="toggleSort('pl')" class="sortable">P/L(₹)
         <span class="sort-icon">
             {{ sortColumn === 'pl' ? (sortDirection === 'asc' ? '▲' : '▼') : '⇅' }}
-          </span>
+        </span>
       </th>
       <th>P/L %</th>
     </tr>
@@ -78,7 +77,24 @@
       <td>{{ holding.currentPrice | number: '1.2-2' }}</td>
       <td>{{ holding.currentValue | number: '1.2-2' }}</td>
       <td class="fw-bold">{{ getProfitLoss(holding) | number: '1.2-2' }}</td>
-      <td class="fw-bold">{{ getProfitLossPercent(holding) | number: '1.2-2' }}%</td>
+      <td class="fw-bold d-flex justify-content-between align-items-center">
+        {{ getProfitLossPercent(holding) | number: '1.2-2' }}%
+        <div class="dropdown ms-2">
+          <button
+            class="btn btn-sm btn-light p-1 kebab-btn"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            ⋮
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" (click)="onBuy(holding)">Buy</a></li>
+            <li><a class="dropdown-item" (click)="onSell(holding)">Sell</a></li>
+          </ul>
+        </div>
+      </td>
+
     </tr>
     </tbody>
   </table>

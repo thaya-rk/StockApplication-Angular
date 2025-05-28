@@ -4,9 +4,9 @@ import { RouterModule, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { StockWebSocketService } from '../../services/stock-websocket.services';
-import { RealTimeChartComponent } from '../../components/real-time-chart/real-time-chart.component';
 import { StockChartComponent } from '../../components/stock-chart/stock-chart.component';
 import { FallbackPriceService } from '../../services/fallback-price.service';
+import {PortfolioDonutChartComponent} from '../../components/portfolio-donut-chart/portfolio-donut-chart.component';
 
 interface PriceUpdate {
   symbol: string;
@@ -22,7 +22,6 @@ interface PriceUpdate {
     CommonModule,
     RouterModule,
     NavbarComponent,
-    RealTimeChartComponent,
     StockChartComponent
   ],
   templateUrl: './home.component.html',
@@ -35,7 +34,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   readonly subscribedSymbols = ['BTC/USD', 'XAU/USD', 'EUR/USD'];
   private pricesMap = new Map<string, PriceUpdate>();
 
-  @ViewChild('btcChart') btcChart?: RealTimeChartComponent;
 
   constructor(
     private authService: AuthService,
@@ -123,9 +121,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.pricesMap.set(symbol, update);
 
     // Update BTC chart if applicable
-    if (symbol === 'BTC/USD') {
-      this.btcChart?.addPricePoint(newPrice, parsed.timestamp);
-    }
+
   }
 
   getAssetCategory(symbol: string): string {

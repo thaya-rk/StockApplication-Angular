@@ -39,7 +39,7 @@ body {
 .logo-img {
   justify-content: left;
   width: 150px;
-  height: 19.7px;
+  height: 20px;
 }
 
 .link {
@@ -66,11 +66,13 @@ body {
 .landing-image {
   width: 598px;
   height: 252px;
+  box-shadow: 2px 2px 6px black;
   /* margin: 0px 0px 60px; */
 }
 
 .landing-heading {
   font-size: 44px;
+  padding-top: 10px;
 }
 
 .landing-subheading {
@@ -105,8 +107,10 @@ body {
   display: flex;
 }
 
+
 .Largest-Stock-Broker {
   padding-right: 150px;
+  height: 400px;
 }
 
 .img-margin {
@@ -139,11 +143,12 @@ body {
 }
 
 .list {
-  width: 48%;
+  width: 46%;
+  padding-left: 3rem;
 }
 
 .list-items {
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   font-size: 16px;
   line-height: 1.7;
 }
@@ -283,8 +288,7 @@ body {
 .free-education-content-text h4 {
   margin: 0px 0px 20px;
   font-size: 1.5rem;
-  /* font-weight: 500; */
-  /* margin-bottom: 20px; */
+
 }
 
 .free-education-para1 {
@@ -309,7 +313,7 @@ body {
 }
 
 .container6 {
-  margin: 0px 181.333px;
+  margin: 0px 180.333px;
 }
 
 .container6 h2 {
@@ -422,6 +426,7 @@ body {
 
 .footer2 {
   color: rgba(155, 155, 155, 1);
+  padding-left: 8rem;
 }
 
 .smallprint {

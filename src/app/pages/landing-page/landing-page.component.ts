@@ -5,7 +5,7 @@ import {NgOptimizedImage} from '@angular/common';
 @Component({
   selector: 'app-landing-page',
   standalone: true,
-  imports: [ NgOptimizedImage],
+  imports: [],
   templateUrl: './landing-page.component.html',
   styleUrls: ['./landing-page.component.css']
 })

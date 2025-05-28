@@ -27,6 +27,8 @@ export class PortfolioComponent implements OnInit {
 
   searchText: string = '';
 
+  dropdownOpen = false;
+
   sortColumn: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
 
@@ -120,6 +122,26 @@ export class PortfolioComponent implements OnInit {
 
     return filtered;
   }
+
+
+  toggleDropdown() {
+    this.dropdownOpen = !this.dropdownOpen;
+  }
+
+  closeDropdown() {
+    this.dropdownOpen = false;
+  }
+
+  onBuy(holding: any) {
+    this.closeDropdown();
+    // your buy logic here
+  }
+
+  onSell(holding: any) {
+    this.closeDropdown();
+    // your sell logic here
+  }
+
 
 
 }
