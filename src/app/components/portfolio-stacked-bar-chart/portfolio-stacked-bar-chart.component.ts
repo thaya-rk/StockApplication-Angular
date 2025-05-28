@@ -71,7 +71,8 @@ export class PortfolioStackedBarChartComponent implements OnInit {
           type: 'bar',
           height: 210,
           width:400,
-          stacked: true
+          stacked: true,
+
         },
         plotOptions: {
           bar: {

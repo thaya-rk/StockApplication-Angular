@@ -5,8 +5,16 @@ import {NgOptimizedImage} from '@angular/common';
 @Component({
   selector: 'app-landing-page',
   standalone: true,
-  imports: [],
+  imports: [
+    RouterLink
+  ],
   templateUrl: './landing-page.component.html',
   styleUrls: ['./landing-page.component.css']
 })
-export class LandingPageComponent { }
+export class LandingPageComponent {
+  menuOpen = false;
+
+  toggleMenu(): void {
+    this.menuOpen = !this.menuOpen;
+  }
+}

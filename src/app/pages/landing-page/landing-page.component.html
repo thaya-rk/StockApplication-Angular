@@ -1,182 +1,64 @@
-
-<body>
-<!-- Header -->
-<header>
-  <nav class="navbar">
-    <div class="logo">
-
-    </div>
-    <div class="link" role="navigation">
-      <ul class="navbar-links">
-        <li><a class="nav-links" href="">Signup</a></li>
-        <li><a class="nav-links" href="">Login</a></li>
-        <li><a class="nav-links" href="">About</a></li>
-      </ul>
-    </div>
+<header class="navbar">
+  <div class="logo">
+    <a routerLink="/">
+      <img class="logo-img" src="/assets/images/logo.png" alt="Mock Stock Logo" />
+    </a>
+  </div>
+  <div class="navbar-toggle" (click)="toggleMenu()">
+    <span>&#9776;</span>
+  </div>
+  <nav class="navbar-links" [class.active]="menuOpen">
+    <a href="#about" class="nav-links">About</a>
+    <a routerLink="/login" class="nav-links">Login</a>
+    <a routerLink="/register" class="nav-cta">Sign Up</a>
   </nav>
 </header>
 
-<!-- Main -->
-<main>
-  <div class="homepage">
-
-    <!-- Landing Section -->
-    <section class="main-landing text-center">
-      <div class="container1">
-        <img class="landing-image"  href="stocks.png" src="/assets/images/dashboard.png" alt="Stock broker in India">
-
-        <h1 class="landing-heading">Invest in Demo Stocks</h1>
-        <h5 class="landing-subheading">Online platform to invest in Indian stocks</h5>
-        <a href="" class="button">Sign up now</a>
-      </div>
-    </section>
-
-    <!-- Marketing -->
-    <section class="marketing">
-      <div class="container2">
-        <div class="Largest-Stock-Broker text-center">
-          <img class="img-margin" src="/assets/images/largest-stock-broker.svg" alt="Largest stock broker" />
-        </div>
-        <div class="marketing-content">
-          <h2 class="marketing-heading">Mock Stock broking Account</h2>
-          <p class="marketing-description">
-             Try this before using any Real Account for just practice!!!
-          </p>
-          <div class="options">
-            <div class="list">
-              <ul class="list-items">
-                <li>Visualisations</li>
-                <li>Buy/Sell Stocks</li>
-                <li>View Portfolio </li>
-              </ul>
-            </div>
-            <div class="list">
-              <ul class="list-items">
-                <li>Account Verification </li>
-                <li>Deposit/Withdraw</li>
-                <li> User-Friendly Theme</li>
-              </ul>
-            </div>
-          </div>
-          <div class="press-strip">
-            <a href="#"><img width="528" src="/assets/images/press-logos.png" alt="Press logos" /></a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Ecosystem -->
-    <section class="ecosystem">
-      <div class="container3">
-        <div class="ecosystem-content">
-          <div class="ecosystem-text">
-            <h2>What's Inside?</h2>
-
-            <div class="why-us-section">
-              <h4>Dashboard</h4>
-              <p>This section contains Real-Time data from TwelveData and ApexCharts</p>
-            </div>
-
-            <div class="why-us-section">
-              <h4>WatchList</h4>
-              <p>Contains a list of curated stocks to buy and sell,charges are calculated based on SEBI regulations</p>
-            </div>
-
-            <div class="why-us-section">
-              <h4>Holdings</h4>
-              <p>Contains Stock price data based on Admin price manipulation and Visualisations </p>
-            </div>
-
-            <div class="why-us-section">
-              <h4>Account</h4>
-              <p>With pages like
-                <a class="ecosystem-text-link" href="e" target="_blank">Funds</a> ,
-                <a class="ecosystem-text-link" href="" target="_blank">Transactions</a>,
-                <a class="ecosystem-text-link" href="" target="_blank">Profile</a>,
-
-                user Interaction is made easy and virtual funds can be added into account
-              </p>
-            </div>
-          </div>
-
-          <div class="ecosystem-image text-center">
-            <a href="/products"><img class="ecosystem-img" src="/assets/images/ecosystem.png" alt="The Universe" /></a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Education -->
-    <section class="free-education">
-      <div class="container5">
-        <div class="free-education-content">
-          <div class="free-education-content-image">
-            <a href=""><img class="img-margin" src="/assets/images/index-education.svg" alt="Varsity Education" /></a>
-          </div>
-          <div class="free-education-content-text">
-            <h4>Admin and User Dashboards</h4>
-            <p>Role based Account management,where admins create,update,Delete Stocks and they are reflected in user accounts</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CTA -->
-    <section class="text-center">
-      <div class="container6">
-        <h2>Open Account</h2>
-        <p class="text-grey text-med">Modern platforms for Demo trading, ₹0 Money Required</p>
-        <a class="button" href="">Sign up now</a>
-      </div>
-    </section>
+<section class="landing">
+  <div class="landing-text">
+    <h1>Invest in your future, today.</h1>
+    <p>Mock Stock gives you the safest way to practice real-time stock trading — completely risk-free.</p>
+    <a routerLink="/register" class="button primary text-black">Start Trading</a>
+    <a href="#about" class="button secondary text-black">Explore Features</a>
   </div>
-</main>
+  <div class="landing-img">
+    <img src="/assets/images/dashboard.png" alt="Mock Stock Dashboard" />
+  </div>
+</section>
 
-<!-- Footer -->
-<footer id="footer">
-  <div class="container7">
-    <div class="footer1 normal">
-
-      <!-- Company Info -->
-      <div class="three-col">
-        <div class="footer-logo">
-          <img class="footer-img" src="/assets/images/logo.svg" alt="Zerodha Logo" />
-        </div>
-        <div class="copyright-information">
-          <p class="text-grey">Forex Broking</p>
-          <p class="text-grey">All rights reserved.</p>
-        </div>
-      </div>
-
-      <!-- Navigation Columns -->
-      <div class="three-col">
-        <ul class="list-style">
-          <li class="nav-head">Company</li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Product</a></li>
-        </ul>
-      </div>
-
-      <div class="three-col">
-        <ul class="list-style">
-          <li class="nav-head">Support</li>
-          <li><a href="#">Contact</a></li>
-          <li><a href="#">Support Portal</a></li>
-        </ul>
-      </div>
-
-      <div class="three-col">
-        <ul class="list-style">
-
-        </ul>
-      </div>
+<section id="about" class="features">
+  <h2 class="section-title">Why Mock Stock?</h2>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <img src="/assets/images/ecosystem.png" alt="Ecosystem" />
+      <h3>Complete Ecosystem</h3>
+      <p>Integrated tools for analysis, trading, and tracking performance.</p>
     </div>
-
-    <!-- Legal -->
-    <div class="footer2 smallprint">
-      <p>Investments in securities market are subject to market risks. Read all related documents carefully before investing.</p>
-      <p>Stock brokers can accept securities as margin only via pledge from Sept 01, 2020. Keep contact details updated with your broker.</p>
+    <div class="feature-card">
+      <img src="/assets/images/pricing.png" alt="Pricing" />
+      <h3>Zero Cost</h3>
+      <p>Trade virtually for free and gain real experience with no risk.</p>
     </div>
+    <div class="feature-card">
+      <img src="/assets/images/education.png" alt="Education" />
+      <h3>Built to Learn</h3>
+      <p>With tutorials, mock IPOs, and live market data — sharpen your edge.</p>
+    </div>
+    <div class="feature-card">
+      <img src="/assets/images/dashboard-icon.png" alt="Dashboard" />
+      <h3>Powerful Dashboard</h3>
+      <p>Real-time updates and portfolio visualization in one place.</p>
+    </div>
+  </div>
+</section>
+
+<footer id="footer" class="footer">
+  <div class="footer-content">
+    <p>&copy; 2025 Mock Stock. All rights reserved.</p>
+    <ul class="social">
+      <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+      <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
+      <li><a href="#"><i class="fab fa-github"></i></a></li>
+    </ul>
   </div>
 </footer>
-</body>
