@@ -134,11 +134,11 @@ body {
 
 .secondary {
   background-color: var(--green);
-  color: white;
 }
 
 .secondary:hover {
   background-color: #2e7d32;
+  color: white;
 }
 
 .landing-img {
@@ -202,9 +202,48 @@ body {
   font-size: 16px;
 }
 
+.user-flow {
+  padding: 80px 10%;
+  background-color: var(--white);
+  text-align: center;
+}
+
+
+/* Secondary Footer */
+.footer-secondary {
+  background-color: #1a237e;
+  color: white;
+  padding: 20px 10%;
+  font-size: 14px;
+}
+
+.footer-secondary a {
+  color: white;
+  text-decoration: none;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.footer-links li {
+  margin: 0 10px;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}
+
+
 /* Footer */
 .footer {
-  background-color: var(--blue);
+  background-color: black;
   color: white;
   padding: 30px 10%;
   text-align: center;
@@ -273,3 +312,5 @@ body {
     font-size: 18px;
   }
 }
+
+

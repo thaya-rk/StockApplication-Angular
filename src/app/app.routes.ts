@@ -15,12 +15,14 @@ import {FundsComponent} from './pages/account/funds/funds.component';
 import {ProfileComponent} from './pages/account/profile/profile.component';
 import {SupportComponent} from './pages/support/support.component';
 import {LandingPageComponent} from './pages/landing-page/landing-page.component';
+import { LoginRedirectGuard } from './guards/login-redirect.guard';
+
 
 
 export const routes: Routes = [
   { path: '', component: LandingPageComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'login', component: LoginComponent },
+  { path: 'login', component: LoginComponent, canActivate: [LoginRedirectGuard] },
+  { path: 'register', component: RegisterComponent, canActivate: [LoginRedirectGuard] },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard], },

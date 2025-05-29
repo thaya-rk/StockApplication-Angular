@@ -3,6 +3,19 @@
   background: #fff;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
+.summary-card h4 {
+  margin: 0;
+  font-weight: bold;
+}
+.border {
+  transition: box-shadow 0.2s ease;
+
+}
+
+.border:hover {
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.10);
+}
+
 
 .badge {
   font-size: 0.75rem;

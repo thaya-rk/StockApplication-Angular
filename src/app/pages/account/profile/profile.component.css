@@ -33,9 +33,9 @@
 
 .info-grid {
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 1fr 1fr;
   row-gap: 1rem;
-  column-gap: 1rem;
+  column-gap: 3rem;
   font-size: 0.95rem;
 }
 
@@ -48,8 +48,9 @@
 .info-value {
   font-weight: 600;
   color: #222;
-
+  text-align: left; /* ✅ This ensures it's left-aligned */
 }
+
 
 .kyc-div{
   display: flex;

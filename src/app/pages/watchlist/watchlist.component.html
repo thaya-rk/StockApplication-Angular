@@ -91,10 +91,15 @@
           Balance is less than required margin
         </div>
 
-        <!-- 🔔 Moved warning inside modal-body -->
-        <div *ngIf="!isVerified" class="alert alert-warning text-center mt-3">
-          Please verify your email address to perform this action.
+        <div *ngIf="!isVerified" class="alert alert-warning text-center mt-3 d-flex flex-column align-items-center">
+          <i class="bi bi-exclamation-triangle-fill fs-4 text-warning mb-2"></i>
+          <strong>Email Verification Required</strong>
+          <p class="mb-1">Please verify your email to continue with this action.</p>
+          <a href="../account/profile" class="btn btn-outline-primary btn-sm mt-1">Go to Profile</a>
         </div>
+
+
+
       </div>
 
       <div class="modal-footer d-flex justify-content-between align-items-start flex-wrap gap-3">

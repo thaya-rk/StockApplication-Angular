@@ -31,6 +31,24 @@ export class LedgerComponent implements OnInit {
     this.loadLedger();
   }
 
+  getPayin(): number {
+    return this.filteredLedger()
+      .filter(txn => txn.type === 'DEPOSIT' && txn.status === 'SUCCESS')
+      .reduce((sum, txn) => sum + (txn.totalAmount || 0), 0);
+  }
+
+  getPayout(): number {
+    return this.filteredLedger()
+      .filter(txn => txn.type === 'WITHDRAW' && txn.status === 'SUCCESS')
+      .reduce((sum, txn) => sum + (txn.totalAmount || 0), 0);
+  }
+
+  getVolume(): number {
+    return this.getPayin() + this.getPayout();
+  }
+
+
+
   loadLedger() {
     this.accountService.getLedger().subscribe({
       next: (data) => this.ledger = data,

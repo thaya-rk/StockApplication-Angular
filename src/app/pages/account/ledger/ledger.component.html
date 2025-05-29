@@ -1,8 +1,31 @@
-<div class="card shadow-sm rounded-4">
-  <div class="card-header bg-white border-bottom d-flex align-items-center flex-wrap py-2 px-3 ledger-box">
-    <h5 class="mb-2 ">📘 Ledger</h5>
+<div class="row text-center px-3 pt-3">
+  <div class="col-md-4 mb-3">
+    <div class="border border-success rounded-3 p-3">
+      <h6 class="text-muted">Payin</h6>
+      <h4 class="text-success mb-0">₹{{ getPayin() | number:'1.2-2' }}</h4>
+    </div>
+  </div>
+  <div class="col-md-4 mb-3">
+    <div class="border border-danger rounded-3 p-3">
+      <h6 class="text-muted">Payout</h6>
+      <h4 class="text-danger mb-0">₹{{ getPayout() | number:'1.2-2' }}</h4>
+    </div>
+  </div>
+  <div class="col-md-4 mb-3">
+    <div class="border border-primary rounded-3 p-3">
+      <h6 class="text-muted">Volume</h6>
+      <h4 class="text-primary mb-0">₹{{ getVolume() | number:'1.2-2' }}</h4>
+    </div>
+  </div>
+</div>
 
-    <div class="btn-group btn-group-sm mb-1">
+
+
+<div class="card shadow-sm rounded-4">
+  <div class="card-header bg-white border-bottom d-flex align-items-center flex-wrap py-2 px-3 ledger-box gap-2">
+    <h5 class="mb-2 me-3">📘 Ledger</h5>
+
+    <div class="btn-group btn-group-sm mb-1 me-3">
       <button class="btn"
               [class.btn-primary]="filter === 'ALL'"
               [class.btn-outline-primary]="filter !== 'ALL'"
@@ -17,11 +40,31 @@
               (click)="filter = 'STOCKS'">Buy / Sell</button>
     </div>
 
+    <!-- Date Filters -->
+    <div class="d-flex align-items-center flex-wrap gap-2 me-auto">
+      <input type="date"
+             class="form-control form-control-sm"
+             style="width: 130px;"
+             [(ngModel)]="fromDate"
+             (change)="applyDateFilter()"
+             placeholder="From Date">
 
-    <button class="btn  btn-outline-dark btn-sm ms-auto" (click)="generateReport()">
+      <input type="date"
+             class="form-control form-control-sm"
+             style="width: 130px;"
+             [(ngModel)]="toDate"
+             (change)="applyDateFilter()"
+             placeholder="To Date">
+
+      <button class="btn btn-sm btn-outline-primary" (click)="clearDateFilter()">Clear</button>
+    </div>
+
+    <!-- Generate Report Button -->
+    <button class="btn btn-outline-dark btn-sm" (click)="generateReport()">
       🧾 Generate Report
     </button>
   </div>
+
   <div class="list-group list-group-flush">
     <div *ngFor="let txn of filteredLedgerLimited()" class="list-group-item py-3 px-3 border-bottom">
       <div class="row">

@@ -1,42 +1,83 @@
 .support-container {
   max-width: 900px;
-  margin: 40px auto 40px 270px; /* add left margin 270px (250 + 20px spacing) */
+  margin: 40px auto 40px 270px; /* keeping left margin for sidebar */
   padding: 30px 40px;
   background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #333;
+  transition: box-shadow 0.3s ease;
+}
+
+.support-container:hover {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
 }
 
 .support-title {
-  font-size: 2.4rem;
+  font-size: 2.8rem;
   font-weight: 700;
-  margin-bottom: 25px;
-  color: #007bff;
-  border-bottom: 3px solid #007bff;
-  padding-bottom: 10px;
+  margin-bottom: 30px;
+  color: #0056b3; /* a deeper blue */
+  border-bottom: 4px solid #0056b3;
+  padding-bottom: 12px;
+  letter-spacing: 0.02em;
 }
 
 .support-list {
-  margin-top: 20px;
-  margin-left: 20px;
+  margin-top: 25px;
+  margin-left: 30px;
   list-style-type: disc;
-  color: #444;
-  font-size: 1rem;
-  line-height: 1.6;
+  color: #555;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  max-width: 650px;
 }
 
 .support-list li {
-  margin-bottom: 10px;
+  margin-bottom: 14px;
+  transition: color 0.2s ease;
+}
+
+.support-list li:hover {
+  color: #007bff;
+  cursor: default;
 }
 
 a {
   color: #007bff;
   text-decoration: none;
+  font-weight: 600;
+  transition: color 0.25s ease;
 }
 
 a:hover,
 a:focus {
   text-decoration: underline;
+  color: #0056b3;
+}
+
+/* Responsive tweaks */
+@media (max-width: 991px) {
+  .support-container {
+    margin-left: 20px;
+    padding: 25px 30px;
+  }
+  .support-title {
+    font-size: 2.4rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .support-container {
+    margin: 20px 15px;
+    padding: 20px 25px;
+  }
+  .support-title {
+    font-size: 2rem;
+  }
+  .support-list {
+    margin-left: 20px;
+    font-size: 1rem;
+  }
 }

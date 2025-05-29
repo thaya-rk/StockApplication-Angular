@@ -50,10 +50,13 @@ export class RegisterComponent {
           this.router.navigate(['/login']);
         },
         error: (err) => {
-          alert('Registration failed: ' + err.error.message);
+          const errorMessage = err.error.message || 'Registration failed';
+          this.toastr.error(errorMessage);
         }
       });
   }
+
+
 
   checkAge(dob: string): boolean {
     const birthDate = new Date(dob);

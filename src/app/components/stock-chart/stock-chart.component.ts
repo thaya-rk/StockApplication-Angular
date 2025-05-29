@@ -64,7 +64,8 @@ export class StockChartComponent implements OnInit {
           ],
           chart: {
             type: 'line',
-            height: 200
+            height: 200,
+            width:800,
           },
           xaxis: {
             type: 'datetime',
