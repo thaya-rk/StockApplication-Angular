@@ -25,7 +25,6 @@ import {
 export class HoldingsComponent {
 
   holdings: Holding[] = [];
-  userId: number = 2;
 
 
   constructor(
@@ -60,6 +59,4 @@ export class HoldingsComponent {
   getProfitLoss(holding: Holding): number {
     return (holding.currentPrice - holding.avgBuyPrice) * holding.quantity;
   }
-
-
 }

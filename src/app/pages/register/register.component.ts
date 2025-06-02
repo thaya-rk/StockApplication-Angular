@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import {Router, RouterLink} from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import {FormsModule} from '@angular/forms';
 import {NgIf} from '@angular/common';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
+import { FormsModule } from '@angular/forms';
+
 
 
 @Component({
@@ -13,8 +14,7 @@ import { ToastrModule, ToastrService } from 'ngx-toastr';
     FormsModule,
     RouterLink,
     NgIf,
-    ToastrModule
-  ],
+    ToastrModule,],
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
@@ -65,6 +65,16 @@ export class RegisterComponent {
     const m = today.getMonth() - birthDate.getMonth();
 
     return age > 18 || (age === 18 && m >= 0 && today.getDate() >= birthDate.getDate());
+  }
+
+  isEmailValid(email: string): boolean {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+
+// Mobile number check (10 digits only)
+  isMobileValid(mobile: string): boolean {
+    return /^\d{10}$/.test(mobile);
   }
 
 

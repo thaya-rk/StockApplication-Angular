@@ -29,7 +29,7 @@ interface PriceUpdate {
 })
 export class HomeComponent implements OnInit, OnDestroy {
   username = '';
-  welcomeMessage = 'Welcome to Forex Application';
+  welcomeMessage = 'Welcome to Application';
 
   readonly subscribedSymbols = ['BTC/USD', 'XAU/USD', 'EUR/USD'];
   private pricesMap = new Map<string, PriceUpdate>();

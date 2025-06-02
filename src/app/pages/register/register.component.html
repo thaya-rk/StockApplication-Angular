@@ -46,7 +46,20 @@
       <div *ngIf="step === 2" class="w-100">
         <div class="mb-3 register-input">
           <label for="email" class="form-label">Email</label>
-          <input type="email" class="form-control" id="email" [(ngModel)]="user.email" name="email" required />
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            [(ngModel)]="user.email"
+            name="email"
+            required
+            #emailInput="ngModel"
+            email
+          />
+          <div class="text-danger mt-1" *ngIf="emailInput.invalid && (emailInput.dirty || emailInput.touched)">
+            Please enter a valid email address.
+          </div>
+
         </div>
 
         <div class="mb-3 register-input">
@@ -56,7 +69,21 @@
 
         <div class="mb-3 register-input">
           <label for="mobileNumber" class="form-label">Mobile Number</label>
-          <input type="tel" class="form-control" id="mobileNumber" [(ngModel)]="user.mobileNumber" name="mobileNumber" required />
+          <input
+            type="number"
+            class="form-control"
+            id="mobileNumber"
+            [(ngModel)]="user.mobileNumber"
+            name="mobileNumber"
+            required
+            #mobileInput="ngModel"
+            pattern="^[0-9]{10}$"
+            maxlength="10"
+          />
+          <div class="text-danger mt-1" *ngIf="mobileInput.invalid && (mobileInput.dirty || mobileInput.touched)">
+            Please enter a valid 10-digit mobile number.
+          </div>
+
         </div>
       </div>
 
@@ -80,7 +107,20 @@
 
         <div class="mb-3 register-input">
           <label for="mpin" class="form-label">MPIN</label>
-          <input type="password" class="form-control" id="mpin" [(ngModel)]="user.mpin" name="mpin" maxlength="4" required />
+          <input
+            type="password"
+            class="form-control"
+            id="mpin"
+            [(ngModel)]="user.mpin"
+            name="mpin"
+            required
+            pattern="^[0-9]{4}$"
+            maxlength="4"
+            #mpinInput="ngModel"
+          />
+          <div class="text-danger mt-1" *ngIf="mpinInput.invalid && mpinInput.touched">
+            MPIN must be a 4-digit number.
+          </div>
         </div>
 
         <div class="mb-3 register-input">
@@ -106,12 +146,12 @@
           (click)="nextStep()"
           *ngIf="step < 3"
           [disabled]="
-            (step === 1 && (!user.password || !user.confirmPassword || user.password !== user.confirmPassword)) ||
-            (step === 3 && user.dob && !checkAge(user.dob))
-          "
-        >
+    (step === 1 && (!user.username || !user.password || !user.confirmPassword || user.password !== user.confirmPassword)) ||
+    (step === 2 && (!user.email || !isEmailValid(user.email) ||  !user.fullName || !user.mobileNumber || !isMobileValid(user.mobileNumber))) ||
+    (step === 3 && (!user.dob || !checkAge(user.dob)))">
           Next
         </button>
+
 
         <button
           type="submit"

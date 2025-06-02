@@ -38,9 +38,6 @@ export class AdminDashboardComponent implements OnInit {
   itemsPerPage: number = 5;
 
   searchQuery: string = '';
-  editModalVisible: boolean = false;
-  stockToEdit: any = null;
-
 
   formFields = [
     { id: 'companyName', model: 'companyName', label: 'Company Name', placeholder: 'Company Name', required: true, type: 'text' },
@@ -116,14 +113,16 @@ export class AdminDashboardComponent implements OnInit {
 
 
   deleteStock(stockId: number) {
-    this.adminService.deleteStock(stockId).subscribe(() => {
-      this.loadStocks();
-      this.toastr.success("Stock Deleted Successfully")
-
+    this.adminService.deleteStock(stockId).subscribe({
+      next: () => {
+        this.loadStocks();
+        this.toastr.success("Stock Deleted Successfully");
+      },
+      error: () => {
+        this.toastr.error("This stock is currently held by investors and cannot be deleted.", "Delete Failed");
+      }
     });
   }
-
-
 
   resetNewStock() {
     this.newStock = {
@@ -159,8 +158,4 @@ export class AdminDashboardComponent implements OnInit {
     localStorage.removeItem('user');
     this.router.navigate(['/login']);
   }
-
-
-
-
 }

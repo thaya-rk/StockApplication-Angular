@@ -19,9 +19,6 @@ export class ProfileComponent implements OnInit {
   verifyingOtp = false;
   emailOtp = '';
 
-  isDarkTheme = false;
-  notificationsOn = true;
-
   constructor(
     private accountService: AccountService,
     private authService: AuthService,

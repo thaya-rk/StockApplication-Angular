@@ -36,6 +36,7 @@ body {
 
 .logo-img {
   height: 40px;
+  width: 50px;
 }
 
 .navbar-toggle {
@@ -169,7 +170,7 @@ body {
 
 .feature-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 40px;
 }
 

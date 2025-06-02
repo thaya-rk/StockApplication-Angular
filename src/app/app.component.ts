@@ -13,4 +13,13 @@ import { CommonModule } from '@angular/common';
 })
 export class AppComponent {
   title = 'ForexApplication';
+
+  updateOnlineStatus() {
+    if (navigator.onLine) {
+      console.log('We are ONLINE!');
+    } else {
+      console.log('We are OFFLINE!');
+    }
+  }
+
 }
