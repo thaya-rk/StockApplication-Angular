@@ -1,0 +1,20 @@
+<div class="payment-status-container">
+  <h2>Payment Status</h2>
+
+  <div *ngIf="status === 'success'" class="success-message">
+    <p>{{ message }}</p>
+    <p><strong>Order No:</strong> {{ orderNo }}</p>
+    <p><strong>Transaction ID:</strong> {{ transactionId }}</p>
+  </div>
+
+  <div *ngIf="status === 'failed'" class="error-message">
+    <p>{{ message }}</p>
+    <p><strong>Order No:</strong> {{ orderNo }}</p>
+  </div>
+
+  <div *ngIf="!status">
+    <p>{{ message }}</p>
+  </div>
+
+  <a routerLink="/home">Back to Home</a>
+</div>

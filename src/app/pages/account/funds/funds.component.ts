@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../../../services/account.services';
 import {FormsModule} from '@angular/forms';
 import {DecimalPipe, NgIf} from '@angular/common';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-funds',
@@ -9,7 +10,8 @@ import {DecimalPipe, NgIf} from '@angular/common';
   imports: [
     FormsModule,
     DecimalPipe,
-    NgIf
+    NgIf,
+    RouterLink
   ],
   styleUrls: ['./funds.component.css']
 })

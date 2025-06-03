@@ -16,6 +16,8 @@ import {ProfileComponent} from './pages/account/profile/profile.component';
 import {SupportComponent} from './pages/support/support.component';
 import {LandingPageComponent} from './pages/landing-page/landing-page.component';
 import { LoginRedirectGuard } from './guards/login-redirect.guard';
+import {PaymentComponent} from './components/payment/payment.component';
+import {PaymentStatusComponent} from './pages/payment-status/payment-status.component';
 
 
 
@@ -39,4 +41,7 @@ export const routes: Routes = [
   { path: 'support', component: SupportComponent, canActivate: [AuthGuard] },
   { path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [AuthGuard] },
   {path:'holding',component:HoldingsComponent},
+
+  { path: 'payment', component: PaymentComponent,canActivate:[AuthGuard] },
+  {path:'payment-status',component:PaymentStatusComponent,canActivate:[AuthGuard]}
 ];
