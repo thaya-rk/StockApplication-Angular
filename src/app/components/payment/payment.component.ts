@@ -2,6 +2,9 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { BankService } from '../../services/bank.service';
 import {FormsModule} from '@angular/forms';
 import {NgForOf, NgIf} from '@angular/common';
+import {AccountService} from '../../services/account.services';
+import { ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-payment',
@@ -34,12 +37,24 @@ export class PaymentComponent implements OnInit {
     merchantName: 'MOBI ASIA SDN. BHD.',
   };
 
-  constructor(private bankService: BankService) {}
+  constructor(private bankService: BankService,
+              private accountService:AccountService,
+              private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
     this.bankService.getBankList().subscribe(res => {
       this.banksB2C = res.responseDataB2C.bankList;
       this.banksB2B = res.responseDataB2B.bankList;
+    });
+
+    this.accountService.getProfile().subscribe(profile => {
+      this.formData.buyerName = profile.fullName;
+      this.formData.email = profile.email;
+    });
+
+    this.route.queryParams.subscribe(params => {
+      this.formData.amount = params['amount'];
     });
 
     this.generateSellerOrderNo();

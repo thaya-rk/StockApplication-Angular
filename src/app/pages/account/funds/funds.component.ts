@@ -3,6 +3,8 @@ import { AccountService } from '../../../services/account.services';
 import {FormsModule} from '@angular/forms';
 import {DecimalPipe, NgIf} from '@angular/common';
 import {RouterLink} from '@angular/router';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-funds',
@@ -21,7 +23,9 @@ export class FundsComponent implements OnInit {
   message: string = '';
   error: string = '';
 
-  constructor(private accountService: AccountService) {}
+  constructor(private accountService: AccountService,
+              private router:Router
+              ) {}
 
   ngOnInit() {
     this.loadBalance();
@@ -41,20 +45,25 @@ export class FundsComponent implements OnInit {
       return;
     }
 
-    this.accountService.deposit(this.amount).subscribe({
-      next: () => {
-        this.message = 'Deposit successful';
-        this.loadBalance();
-        this.clearInput();
-        this.clearMessagesWithDelay();
-      },
-      error: (err) => {
-        this.error = err?.error?.message || 'Deposit failed';
-        this.clearInput();
-        this.clearMessagesWithDelay();
-      }
-
+    this.router.navigate(['/payment'], {
+      queryParams: { amount: this.amount }
     });
+
+    // this.accountService.deposit(this.amount).subscribe({
+    //   next: () => {
+    //     this.message = 'Deposit successful';
+    //     this.loadBalance();
+    //     this.clearInput();
+    //     this.clearMessagesWithDelay();
+    //   },
+    //   error: (err) => {
+    //     this.error = err?.error?.message || 'Deposit failed';
+    //     this.clearInput();
+    //     this.clearMessagesWithDelay();
+    //   }
+    //
+    // });
+
   }
 
   withdraw() {
