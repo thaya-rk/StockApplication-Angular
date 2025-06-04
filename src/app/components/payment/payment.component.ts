@@ -3,7 +3,7 @@ import { BankService } from '../../services/bank.service';
 import {FormsModule} from '@angular/forms';
 import {NgForOf, NgIf} from '@angular/common';
 import {AccountService} from '../../services/account.services';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 
 @Component({
@@ -39,7 +39,8 @@ export class PaymentComponent implements OnInit {
 
   constructor(private bankService: BankService,
               private accountService:AccountService,
-              private route: ActivatedRoute
+              private route: ActivatedRoute,
+              private router: Router
   ) {}
 
   ngOnInit() {
@@ -72,5 +73,9 @@ export class PaymentComponent implements OnInit {
     this.loading = true;
     // Before submit, you can do validations or modify hidden fields like checksum
     this.paymentForm.nativeElement.submit();
+  }
+
+  cancel() {
+    this.router.navigate(['/account/funds']);
   }
 }

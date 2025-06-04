@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../../../services/account.services';
 import {FormsModule} from '@angular/forms';
 import {DecimalPipe, NgIf} from '@angular/common';
-import {RouterLink} from '@angular/router';
 import { Router } from '@angular/router';
 
 
@@ -13,7 +12,6 @@ import { Router } from '@angular/router';
     FormsModule,
     DecimalPipe,
     NgIf,
-    RouterLink
   ],
   styleUrls: ['./funds.component.css']
 })
@@ -39,7 +37,6 @@ export class FundsComponent implements OnInit {
   }
 
   deposit() {
-
     if (!this.amount || this.amount <= 0) {
       this.error = 'Enter a valid amount';
       return;
@@ -67,7 +64,6 @@ export class FundsComponent implements OnInit {
   }
 
   withdraw() {
-
     if (!this.amount || this.amount <= 0) {
       this.error = 'Please enter a valid amount to withdraw.';
       return;
@@ -89,7 +85,6 @@ export class FundsComponent implements OnInit {
         this.loadBalance();
         this.clearInput();
         this.clearMessagesWithDelay();
-
       },
       error: err => {
         this.error = err.error || 'Withdraw failed';

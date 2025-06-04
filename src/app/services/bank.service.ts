@@ -6,12 +6,13 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class BankService {
-  private apiUrl = 'https://services.gomobi.io/api/fpx'; // Correct endpoint
+  private apiUrl = 'https://services.gomobi.io/api/fpx';
 
   constructor(private http: HttpClient) {}
 
+  // Get All bank List
   getBankList(): Observable<any> {
     const requestBody = { Service: 'FULL_LIST' };
-    return this.http.post<any>(this.apiUrl, requestBody); // Must be POST
+    return this.http.post<any>(this.apiUrl, requestBody);
   }
 }

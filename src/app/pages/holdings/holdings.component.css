@@ -1,7 +1,7 @@
 /* Wrapper to push content right of sidebar */
 .holding-wrapper {
   margin-left: 250px; /* adjust based on sidebar width */
-  padding: 10px 10px;
+  padding: 2px 10px;
   transition: margin-left 0.3s ease;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f5f7fa;
@@ -26,10 +26,10 @@
 
 .stat-card {
   background: white;
-  flex: 1 1 200px;
+  flex: 1 1 180px;
   border-radius: 12px;
   box-shadow: 0 6px 20px rgb(0 0 0 / 0.08);
-  padding: 12px 12px;
+  padding: 6px 1px;
   transition: box-shadow 0.3s ease;
   cursor: default;
 }
@@ -54,6 +54,7 @@
 /* Table Responsive Wrapper */
 .table-responsive {
   overflow-x: auto;
+  width: 100%;
 }
 
 /* Holdings Table */
@@ -112,6 +113,21 @@
   text-align: center;
 }
 
+.chart-container {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 10px;
+  margin: 10px 0;
+  flex-wrap: wrap;
+}
+
+.chart-item {
+  flex: 1 1 450px;
+  min-width: 300px;
+  max-width: 600px;
+}
+
+
 /* Responsive */
 @media (max-width: 768px) {
   .holding-wrapper {
@@ -121,6 +137,22 @@
 
   .stats-container {
     justify-content: center;
+    align-items: center;
+  }
+  .stat-card {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .holdings-table th,
+  .holdings-table td {
+    font-size: 0.85rem;
+    padding: 10px;
+  }
+
+  .page-title {
+    font-size: 1.5rem;
+    text-align: center;
   }
 }
 

@@ -19,17 +19,15 @@ import { LoginRedirectGuard } from './guards/login-redirect.guard';
 import {PaymentComponent} from './components/payment/payment.component';
 import {PaymentStatusComponent} from './pages/payment-status/payment-status.component';
 
-
-
 export const routes: Routes = [
-  { path: '', component: LandingPageComponent },
-  { path: 'login', component: LoginComponent, canActivate: [LoginRedirectGuard] },
-  { path: 'register', component: RegisterComponent, canActivate: [LoginRedirectGuard] },
-  { path: 'forgot-password', component: ForgotPasswordComponent },
-  { path: 'reset-password', component: ResetPasswordComponent },
-  { path: 'home', component: HomeComponent, canActivate: [AuthGuard], },
-  { path: 'watchlist', component: WatchlistComponent, canActivate: [AuthGuard] },
-  { path: 'portfolio', component: PortfolioComponent, canActivate: [AuthGuard] },
+  {path: '', component: LandingPageComponent },
+  {path: 'login', component: LoginComponent, canActivate: [LoginRedirectGuard] },
+  {path: 'register', component: RegisterComponent, canActivate: [LoginRedirectGuard] },
+  {path: 'forgot-password', component: ForgotPasswordComponent },
+  {path: 'reset-password', component: ResetPasswordComponent },
+  {path: 'home', component: HomeComponent, canActivate: [AuthGuard], },
+  {path: 'watchlist', component: WatchlistComponent, canActivate: [AuthGuard] },
+  {path: 'portfolio', component: PortfolioComponent, canActivate: [AuthGuard] },
   {path: 'account', component: AccountComponent, canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'funds', pathMatch: 'full' },
@@ -38,10 +36,10 @@ export const routes: Routes = [
       { path: 'profile', component: ProfileComponent }
     ]
   },
-  { path: 'support', component: SupportComponent, canActivate: [AuthGuard] },
-  { path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [AuthGuard] },
+  {path: 'support', component: SupportComponent, canActivate: [AuthGuard]},
+  {path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [AuthGuard] },
   {path:'holding',component:HoldingsComponent},
 
-  { path: 'payment', component: PaymentComponent,canActivate:[AuthGuard] },
+  {path: 'payment', component: PaymentComponent,canActivate:[AuthGuard]},
   {path:'payment-status',component:PaymentStatusComponent,canActivate:[AuthGuard]}
 ];

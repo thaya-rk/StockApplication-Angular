@@ -1,32 +1,45 @@
+/* Main container */
+.sidebar {
+  width: 250px;
+  transition: width 0.3s ease, transform 0.3s ease;
+}
 .main-container {
   margin-left: 250px;
+  transition: margin-left 0.3s ease;
   background-color: #ffffff;
   min-height: 100vh;
   font-family: 'Segoe UI', sans-serif;
+  padding: .2rem;
 }
 
+/* Dashboard container */
 .dashboard-container {
   display: flex;
   flex-direction: column;
-  gap: .5rem;
+  gap: 1rem;
 }
 
-.price-chart{
-    border-radius: 10px;
-  padding-top:20px;
-
+/* Chart section */
+.price-chart {
+  border-radius: 10px;
+  padding-top: 6px;
 }
 
+/* Welcome section */
 .welcome-section {
   text-align: center;
   color: #343a40;
+  padding-bottom: .2rem;
 }
+
+/* Grid for asset cards */
 .grid-cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 2rem;
 }
 
+/* Asset card styling */
 .asset-card {
   background: white;
   border-radius: 10px;
@@ -40,26 +53,29 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
 
+/* Header inside each asset card */
 .asset-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
+/* Asset category text */
 .asset-category {
-  font-size: .8rem;
+  font-size: 0.75rem;
   font-weight: 700;
   color: #6c757d;
   text-transform: uppercase;
 }
 
-
+/* Asset symbol text */
 .asset-symbol {
   font-weight: bold;
-  font-size: 1rem;
+  font-size: 1.1rem;
 }
 
-.price-section{
+/* Price section */
+.price-section {
   margin-bottom: 10px;
 }
 
@@ -72,14 +88,7 @@
   font-size: 1rem;
 }
 
-.positive {
-  color: #28a745;
-}
-
-.negative {
-  color: #dc3545;
-}
-
+/* Mini chart placeholder */
 .mini-chart-placeholder {
   background-color: #c2d7ea;
   height: 40px;
@@ -91,19 +100,101 @@
   font-size: 0.9rem;
 }
 
+/* Green/Red blinking on price change */
 .price-up {
   animation: blinkGreen 0.3s ease;
 }
+
 .price-down {
   animation: blinkRed 0.3s ease;
 }
 
 @keyframes blinkGreen {
-  from { background-color: #e6ffed; }
-  to { background-color: white; }
+  from {
+    background-color: #e6ffed;
+  }
+  to {
+    background-color: white;
+  }
 }
 
 @keyframes blinkRed {
-  from { background-color: #ffe6e6; }
-  to { background-color: white; }
+  from {
+    background-color: #ffe6e6;
+  }
+  to {
+    background-color: white;
+  }
+}
+
+/* Price colors */
+.positive {
+  color: #28a745;
+}
+
+.negative {
+  color: #dc3545;
+}
+
+/* --------------------- Responsive Styles ---------------------- */
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 0;
+    overflow: hidden;
+  }
+
+  .main-container {
+    margin-left: 0;
+  }
+  .grid-cards {
+    gap: 1.2rem;
+  }
+
+  .asset-symbol {
+    font-size: 1rem;
+  }
+
+  .price-section h4 {
+    font-size: 1.2rem;
+  }
+
+  .price-section span {
+    font-size: 0.9rem;
+  }
+
+  .asset-card {
+    padding: 0.4rem;
+  }
+
+  .welcome-section h2 {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid-cards {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .price-section h4 {
+    font-size: 1rem;
+  }
+
+  .price-section span {
+    font-size: 0.85rem;
+  }
+
+  .welcome-section h2 {
+    font-size: 1.2rem;
+  }
+
+  .asset-symbol {
+    font-size: 0.95rem;
+  }
+
+  .asset-category {
+    font-size: 0.7rem;
+  }
 }

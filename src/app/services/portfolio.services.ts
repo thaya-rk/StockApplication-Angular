@@ -35,5 +35,4 @@ export class PortfolioService {
     const body = { stockId, quantity };
     return this.http.post<Charges>(`${this.baseUrl}/charges`, body, { withCredentials: true });
   }
-
 }

@@ -6,7 +6,6 @@ import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { StockWebSocketService } from '../../services/stock-websocket.services';
 import { StockChartComponent } from '../../components/stock-chart/stock-chart.component';
 import { FallbackPriceService } from '../../services/fallback-price.service';
-import {PortfolioDonutChartComponent} from '../../components/portfolio-donut-chart/portfolio-donut-chart.component';
 
 interface PriceUpdate {
   symbol: string;
@@ -14,6 +13,7 @@ interface PriceUpdate {
   changePercent: number | null;
   timestamp: Date;
 }
+declare var TradingView: any;
 
 @Component({
   selector: 'app-home',
@@ -28,6 +28,7 @@ interface PriceUpdate {
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit, OnDestroy {
+
   username = '';
   welcomeMessage = 'Welcome to Application';
 
@@ -41,6 +42,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     private stockWebSocket: StockWebSocketService,
     private fallbackPriceService: FallbackPriceService
   ) {}
+
 
   ngOnInit(): void {
     this.loadUser();

@@ -1,57 +1,79 @@
-  <form #paymentForm method="POST" action="https://services.gomobi.io/payment/DirectToFPX.aspx">
-    <!-- Amount -->
-    <label>Amount:</label>
-    <input name="amount" [(ngModel)]="formData.amount" required />
-
-    <!-- Buyer Name -->
-    <label>Buyer Name:</label>
-    <input name="buyerName" [(ngModel)]="formData.buyerName" required />
-
-    <!-- Email -->
-    <label>Email:</label>
-    <input name="email" [(ngModel)]="formData.email" />
-
-    <!-- Order No -->
-    <input type="hidden" name="sellerOrderNo" [(ngModel)]="formData.sellerOrderNo" required />
-
-    <!-- Bank Type -->
-    <label>Bank Type:</label>
-    <select name="bankType" [(ngModel)]="selectedBankType">
-      <option *ngFor="let type of bankTypes" [value]="type.code">{{ type.name }}</option>
-    </select>
-
-    <!-- Bank List -->
-    <label>Select Bank:</label>
-    <select name="bank" [(ngModel)]="selectedBank" required>
-      <option *ngFor="let bank of selectedBankType === '01' ? banksB2C : banksB2B"
-              [value]="bank.BankCode">
-        {{ bank.BankDisplayName }}
-      </option>
-    </select>
-
-    <input type="hidden" name="mid" value="FPX000000054555">
-
-    <input type="hidden" name="tid" value="27965678">
-
-    <input type="hidden" name="service" value="FULL_LIST">
-
-    <!-- SubMID (optional) -->
-    <input type="hidden" name="subMID" value="201100000012450">
-
-    <!-- Redirect URL -->
-    <input type="hidden" name="redirectUrl" value="http://localhost:8080/api/payment-status">
-
-    <!-- CheckSum (optional) -->
-    <input type="hidden" name="checkSum" value="">
-
-    <input type="hidden" name="merchantName" [value]="formData.merchantName" />
-
-
-    <button type="button" (click)="submitForm()">Pay Now</button>
-  </form>
-  <!-- Show loading spinner -->
-  <div *ngIf="loading" class="loading-overlay">
-    <div class="spinner"></div>
-    <p>Redirecting to payment gateway...</p>
+<body>
+<form #paymentForm method="POST" action="https://services.gomobi.io/payment/DirectToFPX.aspx" class="compact-payment-form">
+  <!-- Mobi Logo -->
+  <div class="logo-container">
+    <img src="https://img.logo.dev/gomobi.io?token=pk_cz7JoSP2R7yIoJJYvmeWuA" alt="Mobi Logo" class="mobi-logo" />
   </div>
 
+  <div class="form-container">
+  <div class="section">
+    <h3>Merchant Details</h3>
+    <div class="row">
+      <div class="field">
+        <label>Deposit Wallet</label>
+        <input type="text" name="merchantName" [value]="formData.merchantName" readonly />
+      </div>
+
+
+      <div class="field">
+        <label>Amount (RM)</label>
+        <input name="amount" [(ngModel)]="formData.amount" required readonly />
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>Customer</h3>
+    <div class="row">
+      <div class="field">
+        <label>Name</label>
+        <input name="buyerName" [(ngModel)]="formData.buyerName" readonly />
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" name="email" [(ngModel)]="formData.email" readonly/>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>Banking</h3>
+    <div class="field">
+      <label>Bank Type</label>
+      <select name="bankType" [(ngModel)]="selectedBankType">
+        <option *ngFor="let type of bankTypes" [value]="type.code">{{ type.name }}</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Select Bank</label>
+      <select name="bank" [(ngModel)]="selectedBank" required>
+        <option *ngFor="let bank of selectedBankType === '01' ? banksB2C : banksB2B"
+                [value]="bank.BankCode">
+          {{ bank.BankDisplayName }}
+        </option>
+      </select>
+    </div>
+  </div>
+  </div>
+
+  <!-- Hidden Inputs -->
+  <input type="hidden" name="mid" value="FPX000000054555" />
+  <input type="hidden" name="tid" value="27965678" />
+  <input type="hidden" name="service" value="FULL_LIST" />
+  <input type="hidden" name="subMID" value="201100000012450" />
+  <input type="hidden" name="redirectUrl" value="http://localhost:8080/api/payment-status" />
+  <input type="hidden" name="checkSum" value="" />
+
+  <div class="actions d-flex justify-content-between align-items-center mt-3">
+    <button type="button" class="btn btn-outline-secondary" (click)="cancel()">Cancel</button>
+    <button type="button" (click)="submitForm()">Pay RM {{ formData.amount }}</button>
+  </div>
+</form>
+
+<!-- Loading Spinner -->
+<div *ngIf="loading" class="loading-overlay">
+  <div class="spinner"></div>
+  <p>Redirecting to payment gateway...</p>
+</div>
+</body>

@@ -31,7 +31,7 @@ export class PortfolioDonutChartComponent implements OnInit {
     series: [],
     chart: {
       type: 'donut',
-      width: '128%',
+      width: '80%',
 
     },
     labels: [],
@@ -40,7 +40,7 @@ export class PortfolioDonutChartComponent implements OnInit {
         breakpoint: 200,
         options: {
           chart: {
-            width: 500
+            width: 200
           },
           legend: {
             position: 'bottom'

@@ -27,6 +27,7 @@
           style="border-radius: 4px;"
         />
 
+<!--        Deposit Button-->
         <div class="d-flex justify-content-center gap-3">
           <button
             class="btn btn-success btn-lg flex-fill"
@@ -37,6 +38,7 @@
             Deposit
           </button>
 
+<!--          Withdraw Button-->
           <button
             class="btn btn-danger btn-lg flex-fill"
             (click)="withdraw()"
@@ -51,7 +53,8 @@
         <p class="mt-3 text-center text-danger fw-semibold" *ngIf="error">{{ error }}</p>
       </div>
     </div>
+    <p class="mt-2 text-center text-muted" style="font-size: 0.9rem;">
+      ℹ️ <strong>Note:</strong> All deposits are processed  via <strong>Mobi Payment Gateway</strong>.
+    </p>
   </div>
 </div>
-<a routerLink="/payment">Go to Payment</a>
-
