@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {Observable, throwError} from 'rxjs';
+import {catchError, map} from 'rxjs/operators';
 
 export interface Stock {
   stockId: number;
@@ -24,8 +25,19 @@ export class AdminService {
   constructor(private http: HttpClient) {}
 
   getAllStocks(): Observable<Stock[]> {
-    return this.http.get<Stock[]>(`${this.baseUrl}/watchlist/default`, { withCredentials: true });
+    return this.http
+      .get<{ message: string; data: Stock[] }>(`${this.baseUrl}/watchlist/default`, {
+        withCredentials: true,
+      })
+      .pipe(
+        map((response) => response.data),
+        catchError((error) => {
+          console.error('Error fetching stocks:', error);
+          return throwError(() => error);
+        })
+      );
   }
+
 
   addStock(stock: Stock): Observable<Stock> {
     return this.http.post<Stock>(`${this.baseUrl}/admin/stocks`, stock, { withCredentials: true });

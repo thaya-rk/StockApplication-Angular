@@ -15,6 +15,7 @@ import {AccountService} from '../../services/account.services';
 import {PortfolioService} from '../../services/portfolio.services';
 import {Charges} from '../../models/charges.model';
 import {AuthService} from '../../services/auth.service';
+import { forkJoin } from 'rxjs';
 
 interface Stock {
   stockId: number;
@@ -47,14 +48,19 @@ export class WatchlistComponent implements OnInit {
   holdings: Holding[] = [];
   existingQuantity: number = 0;
 
-  stocks: Stock[] = [];
   page = 1;
   itemsPerPage = 10;
   searchTerm = '';
 
+
   selectedStock: Stock | null = null;
   modalMode: 'buy' | 'sell' = 'buy';
   modalQuantity: number = 1;
+
+  toggleView: 'all' | 'watchlist' = 'watchlist';
+  allStocks: any[]       = [];
+  watchIds:  Set<number> = new Set();
+  stocks:    any[]       = [];
 
   balance: number = 0;
   error: string = '';
@@ -98,19 +104,25 @@ export class WatchlistComponent implements OnInit {
   }
 
   loadStocks(): void {
-    this.stockService.getAllStocks().subscribe({
-      next: (data) => {
-        this.stocks = data.map((stock) => ({
+    forkJoin({
+      all: this.stockService.getAllStocks(),
+      fav: this.stockService.getWatchlistedStocks()
+    }).subscribe({
+      next: ({ all, fav }) => {
+        const favIds = new Set(fav.map(stock => stock.stockId));
+        this.stocks = all.map(stock => ({
           ...stock,
-          safeImageURL: this.sanitizer.bypassSecurityTrustUrl(stock.imageURL || 'assets/images/infy.png'),
+          safeImageURL: this.sanitizer.bypassSecurityTrustUrl(stock.imageURL),
+          isWatchlisted: favIds.has(stock.stockId)
         }));
       },
       error: (err) => {
-        console.error('Error loading stocks', err);
-        this.toastr.error('Failed to load stocks');
-      },
+        console.error('Failed to load stocks or watchlist', err);
+        this.toastr.error('Failed to load data');
+      }
     });
   }
+
 
   loadBalance() {
     this.accountService.getBalance().subscribe({
@@ -123,7 +135,7 @@ export class WatchlistComponent implements OnInit {
     this.portfolioService.getHoldings().subscribe({
       next: (data) => {
         this.holdings = data;
-        console.log("Holdings loaded:", this.holdings);  // Debug
+        console.log("Holdings loaded:", this.holdings);
       },
       error: (err) => {
         console.error('Failed to load holdings', err);
@@ -133,23 +145,28 @@ export class WatchlistComponent implements OnInit {
   }
 
 
-  filteredStocks(): Stock[] {
-    if (!this.searchTerm.trim()) return this.stocks;
+
+
+  filteredStocks(): any[] {
+    const base = this.toggleView === 'watchlist'
+      ? this.stocks.filter(s => s.isWatchlisted)
+      : this.stocks;
+
+    if (!this.searchTerm?.trim()) { return base; }
 
     const term = this.searchTerm.toLowerCase();
-
-    return this.stocks.filter((stock) =>
-      stock.companyName.toLowerCase().includes(term) ||
-      stock.tickerSymbol.toLowerCase().includes(term)
+    return base.filter(s =>
+      s.companyName.toLowerCase().includes(term) ||
+      s.tickerSymbol.toLowerCase().includes(term)
     );
   }
+
 
   openModal(stock: Stock, mode: 'buy' | 'sell'): void {
     this.selectedStock = stock;
     this.modalMode = mode;
     this.modalQuantity = 1;
     this.closing = false;
-
 
     if (mode === 'sell') {
       const holding = this.holdings.find(
@@ -249,6 +266,4 @@ export class WatchlistComponent implements OnInit {
       }
     });
   }
-
-
 }

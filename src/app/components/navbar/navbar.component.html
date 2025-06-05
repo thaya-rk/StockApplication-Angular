@@ -2,13 +2,11 @@
 <button class="toggle-btn d-md-none" (click)="toggleSidebar()">☰</button>
 
 <!-- Sidebar -->
-<!-- Sidebar -->
 <aside class="sidebar" [class.collapsed]="isSidebarCollapsed">
   <div class="sidebar-header" style="display: flex; align-items: center; gap: 20px;">
     <img src="/assets/images/bullish.png" alt="Forex Logo" style="height: 40px; width: auto;" />
     <h2 class="brand-name " >Forex</h2>
   </div>
-
 
   <ul class="nav-list">
     <li class="nav-item" *ngFor="let item of navItems">

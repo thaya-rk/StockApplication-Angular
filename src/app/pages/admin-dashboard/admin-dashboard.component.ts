@@ -76,8 +76,6 @@ export class AdminDashboardComponent implements OnInit {
     return this.stocks.slice(start, end);
   }
 
-
-
   totalPages(): number {
     return Math.ceil(this.stocks.length / this.itemsPerPage);
   }
@@ -85,7 +83,6 @@ export class AdminDashboardComponent implements OnInit {
   goToPage(page: number): void {
     this.currentPage = page;
   }
-
 
   addStock() {
     this.adminService.addStock(this.newStock as Stock).subscribe(() => {
@@ -110,7 +107,6 @@ export class AdminDashboardComponent implements OnInit {
       });
     }
   }
-
 
   deleteStock(stockId: number) {
     this.adminService.deleteStock(stockId).subscribe({

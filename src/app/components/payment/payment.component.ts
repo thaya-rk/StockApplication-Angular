@@ -52,22 +52,27 @@ export class PaymentComponent implements OnInit {
     this.accountService.getProfile().subscribe(profile => {
       this.formData.buyerName = profile.fullName;
       this.formData.email = profile.email;
+      this.generateSellerOrderNo(profile.userId);
+
     });
 
     this.route.queryParams.subscribe(params => {
       this.formData.amount = params['amount'];
     });
 
-    this.generateSellerOrderNo();
   }
 
-  generateSellerOrderNo() {
+  generateSellerOrderNo(userId: number) {
     const now = new Date();
     const yyyy = now.getFullYear().toString();
-    const mm = (now.getMonth() + 1).toString().padStart(2, '0'); // months 0-11
+    const mm = (now.getMonth() + 1).toString().padStart(2, '0');
     const dd = now.getDate().toString().padStart(2, '0');
-    // Optional: you can append time or random number to ensure uniqueness
-    this.formData.sellerOrderNo = `${yyyy}${mm}${dd}`;
+    const hh = now.getHours().toString().padStart(2, '0');
+    const mi = now.getMinutes().toString().padStart(2, '0');
+    const ss = now.getSeconds().toString().padStart(2, '0');
+
+    this.formData.sellerOrderNo = `${yyyy}${mm}${dd}${hh}${mi}${ss}U${userId}`;
+    console.log(this.formData.sellerOrderNo)
   }
   submitForm() {
     this.loading = true;

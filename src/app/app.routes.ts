@@ -38,8 +38,7 @@ export const routes: Routes = [
   },
   {path: 'support', component: SupportComponent, canActivate: [AuthGuard]},
   {path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [AuthGuard] },
-  {path:'holding',component:HoldingsComponent},
-
+  {path:'holding',component:HoldingsComponent,canActivate:[AuthGuard]},
   {path: 'payment', component: PaymentComponent,canActivate:[AuthGuard]},
   {path:'payment-status',component:PaymentStatusComponent,canActivate:[AuthGuard]}
 ];
