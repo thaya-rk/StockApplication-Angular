@@ -11,12 +11,11 @@
     <div class="row">
       <div class="field">
         <label>Deposit Wallet</label>
-        <input type="text" name="merchantName" [value]="formData.merchantName" readonly />
+        <input type="text" name="merchantName" [value]="formData.merchantName" readonly/>
       </div>
 
-
       <div class="field">
-        <label>Amount (RM)</label>
+        <label>Amount (RS)</label>
         <input name="amount" [(ngModel)]="formData.amount" required readonly />
       </div>
     </div>
@@ -68,7 +67,7 @@
 
   <div class="actions d-flex justify-content-between align-items-center mt-3">
     <button type="button" class="btn btn-outline-secondary" (click)="cancel()">Cancel</button>
-    <button type="button" (click)="submitForm()">Pay RM {{ formData.amount }}</button>
+    <button type="button" (click)="submitForm()">Pay Rs. {{ formData.amount }}</button>
   </div>
 </form>
 

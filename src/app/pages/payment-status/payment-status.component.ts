@@ -27,7 +27,7 @@ export class PaymentStatusComponent implements OnInit {
       this.transactionId = params.get('transactionId');
 
       if (this.status === 'success') {
-        this.message = 'Payment Successful! Thank you for your purchase.';
+        this.message = 'Payment Successful! Thank you for your Transaction.';
       } else if (this.status === 'failed') {
         this.message = 'Payment Failed. Please try again or contact support.';
       } else {
