@@ -5,7 +5,6 @@ import {NgForOf, NgIf} from '@angular/common';
 import {AccountService} from '../../services/account.services';
 import {ActivatedRoute, Router} from '@angular/router';
 
-
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.component.html',
@@ -59,7 +58,6 @@ export class PaymentComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.formData.amount = params['amount'];
     });
-
   }
 
   generateSellerOrderNo(userId: number) {
