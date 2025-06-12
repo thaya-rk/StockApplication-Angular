@@ -1,3 +1,4 @@
+<!-- Add this near the top of your template -->
 <app-navbar></app-navbar>
 
 <div class="d-flex">
@@ -5,25 +6,27 @@
 
     <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap">
       <div class="d-flex gap-2 mb-3">
-        <button class="btn btn-outline-primary"
-                [class.active]="toggleView === 'all'"
-                (click)="toggleView = 'all'">
-          All Stocks
-        </button>
-        <button class="btn btn-outline-primary"
-                [class.active]="toggleView === 'watchlist'"
-                (click)="toggleView = 'watchlist'">
-          Watchlist
-        </button>
-      </div>
+      <button class="btn btn-outline-primary"
+              [class.active]="toggleView === 'all'"
+              (click)="toggleView = 'all'">
+        All Stocks
+      </button>
+      <button class="btn btn-outline-primary"
+              [class.active]="toggleView === 'watchlist'"
+              (click)="toggleView = 'watchlist'">
+        Watchlist
+      </button>
 
-      <input type="text"
-             class="form-control shadow-sm w-auto"
-             style="min-width: 250px;"
-             placeholder="Search stocks..."
+      <!-- Show only in Watchlist view -->
+      <button class="btn btn-outline-success"
+              *ngIf="toggleView === 'watchlist'"
+              (click)="openAddToWatchlist()">
+        ➕ Add to Watchlist
+      </button>
+    </div>
+      <input type="text" class="form-control shadow-sm w-auto" style="min-width: 250px;" placeholder="Search stocks..."
              [(ngModel)]="searchTerm">
     </div>
-
     <div *ngIf="stocks && stocks.length > 0; else noStocks">
       <div class="table-responsive shadow-sm rounded border">
 
@@ -35,7 +38,6 @@
             <th class="text-start">Ticker</th>
             <th class="text-start">Sector</th>
             <th class="text-start">Price (₹)</th>
-            <th class="text-start">Exchange</th>
             <th class="text-start">Actions</th>
           </tr>
           </thead>
@@ -48,8 +50,24 @@
             </td>
             <td class="text-start">{{ stock.tickerSymbol }}</td>
             <td class="text-start">{{ stock.sector }}</td>
-            <td class="text-start">₹{{ stock.stockPrice }}</td>
-            <td class="text-start">{{ stock.exchange }}</td>
+            <td class="text-start">
+            <span
+              [ngClass]="{
+                'price-up'  : stock.priceChange > 0,
+                'price-down': stock.priceChange < 0,
+                'price-flat': stock.priceChange === 0
+              }">
+              ₹{{ stock.stockPrice | number:'1.2-2' }}
+            </span>
+              <small
+                class="ms-1"
+                [ngClass]="{
+                  'price-up'  : stock.priceChange > 0,
+                  'price-down': stock.priceChange < 0,
+                  'price-flat': stock.priceChange === 0
+                  }">({{ stock.pChange   > 0 ? '+' : '' }}{{ stock.pChange   | number:'1.2-2' }}%)
+              </small>
+            </td>
             <td class="text-start">
               <div class="d-flex gap-2">
                 <button class="btn btn-outline-success btn-sm" (click)="openModal(stock, 'buy')">Buy</button>
@@ -58,10 +76,8 @@
             </td>
           </tr>
           </tbody>
-
         </table>
       </div>
-
       <pagination-controls (pageChange)="page = $event" class="d-flex justify-content-center mt-4"></pagination-controls>
     </div>
 
@@ -70,8 +86,6 @@
     </ng-template>
   </div>
 </div>
-
-
 
 <!-- Buy/Sell Modal -->
 <div class="modal fade "
@@ -178,6 +192,57 @@
       <div class="modal-footer bg-light">
         <button class="btn btn-secondary" (click)="closeChargesModal()">Close</button>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add to Watchlist Modal -->
+<div class="modal-backdrop" *ngIf="showAddToWatchlistModal">
+  <div class="modal-content fixed-modal-width animated-modal p-4 rounded-4 shadow">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h5 class="mb-0 text-primary fw-semibold">Add Stocks to Watchlist</h5>
+      <button class="btn-close" (click)="closeAddToWatchlist()" aria-label="Close"></button>
+    </div>
+
+    <!-- Search Input -->
+    <div class="mb-3">
+      <input
+        type="text"
+        class="form-control"
+        [(ngModel)]="addWatchlistSearch"
+        placeholder="Search by company or ticker..."
+      />
+    </div>
+
+    <!-- No Stocks Available Message -->
+    <div *ngIf="filteredUnwatchlistedStocks().length === 0" class="alert alert-info small mb-3">
+      No matching stocks found.
+    </div>
+
+    <!-- Stock List -->
+    <div *ngIf="filteredUnwatchlistedStocks().length > 0" class="stock-table-container border rounded p-3">
+      <div
+        *ngFor="let stock of filteredUnwatchlistedStocks()"
+        class="form-check mb-2 p-2 rounded hover-bg"
+      >
+        <input
+          type="checkbox"
+          class="form-check-input"
+          [(ngModel)]="stock.selected"
+          id="stock-{{ stock.stockId }}"
+        />
+        <label class="form-check-label fw-medium" for="stock-{{ stock.stockId }}">
+          {{ stock.companyName }} <span class="text-muted">({{ stock.tickerSymbol }})</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="mt-4 d-flex justify-content-end gap-2">
+      <button class="btn btn-outline-secondary px-4" (click)="closeAddToWatchlist()">Cancel</button>
+      <button class="btn btn-primary px-4" (click)="addSelectedStocksToWatchlist()">Add Selected</button>
     </div>
   </div>
 </div>

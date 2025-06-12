@@ -9,4 +9,7 @@ export interface Stock {
   ipoQty?: number;
   imageURL?: string;
   description?: string;
+  priceChange?: number;
+  pChange?: number;
+
 }

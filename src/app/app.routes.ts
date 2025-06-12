@@ -18,6 +18,7 @@ import {LandingPageComponent} from './pages/landing-page/landing-page.component'
 import { LoginRedirectGuard } from './guards/login-redirect.guard';
 import {PaymentComponent} from './components/payment/payment.component';
 import {PaymentStatusComponent} from './pages/payment-status/payment-status.component';
+import {StockPriceTestComponent} from './components/stock-price-test/stock-price-test.component';
 
 export const routes: Routes = [
   {path: '', component: LandingPageComponent },
@@ -27,6 +28,7 @@ export const routes: Routes = [
   {path: 'reset-password', component: ResetPasswordComponent },
   {path: 'home', component: HomeComponent, canActivate: [AuthGuard], },
   {path: 'watchlist', component: WatchlistComponent, canActivate: [AuthGuard] },
+  {path:'live-watchlist',component:StockPriceTestComponent,canActivate:[AuthGuard]},
   {path: 'portfolio', component: PortfolioComponent, canActivate: [AuthGuard] },
   {path: 'account', component: AccountComponent, canActivate: [AuthGuard],
     children: [

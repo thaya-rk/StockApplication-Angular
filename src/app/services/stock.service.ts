@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import {forkJoin, Observable, throwError} from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
+import { Stock } from '../models/Stock.model';
 
 @Injectable({
   providedIn: 'root'
@@ -57,4 +58,40 @@ export class StockService {
       })
     );
   }
+
+  getEquityDetails(symbol: string): Observable<any> {
+    return this.http.get(`http://localhost:8080/nse/equity-details/${symbol}`).pipe(
+      map((response: any) => {
+        if (!response || !response.priceInfo) {
+          console.warn(`No price info found for ${symbol}`);
+          return null;
+        }
+        return {
+          symbol,
+          lastPrice: response.priceInfo.lastPrice,
+          change: response.priceInfo.change,
+          pChange: response.priceInfo.pChange
+        };
+      }),
+      catchError(error => {
+        console.error(`Error fetching equity details for ${symbol}:`, error);
+        return throwError(() => error);
+      })
+    );
+  }
+
+  getUnwatchlistedStocks(): Observable<Stock[]> {
+    return forkJoin({
+      all: this.getAllStocks(),
+      fav: this.getWatchlistedStocks()
+    }).pipe(
+      map(({ all, fav }) => {
+        const favIds = new Set(fav.map(s => s.id));
+        return all.filter(s => !favIds.has(s.id));
+      })
+    );
+  }
+
 }
+
+

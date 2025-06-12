@@ -2,10 +2,12 @@
 
 export interface Holding {
   stockName: string;
+  tickerSymbol: string;
   quantity: number;
   avgBuyPrice: number;
   currentPrice: number;
   currentValue: number;
+  latestPrice?: number;
 }
 
 export interface Summary {

@@ -4,6 +4,8 @@ import {FormsModule} from '@angular/forms';
 import {NgForOf, NgIf} from '@angular/common';
 import {AccountService} from '../../services/account.services';
 import {ActivatedRoute, Router} from '@angular/router';
+import { PaymentService } from '../../services/payment.service';
+
 
 @Component({
   selector: 'app-payment',
@@ -39,7 +41,9 @@ export class PaymentComponent implements OnInit {
   constructor(private bankService: BankService,
               private accountService:AccountService,
               private route: ActivatedRoute,
-              private router: Router
+              private router: Router,
+              private paymentService: PaymentService
+
   ) {}
 
   ngOnInit() {
@@ -72,10 +76,33 @@ export class PaymentComponent implements OnInit {
     this.formData.sellerOrderNo = `${yyyy}${mm}${dd}${hh}${mi}${ss}U${userId}`;
     console.log(this.formData.sellerOrderNo)
   }
+
   submitForm() {
     this.loading = true;
-    // Before submit, you can do validations or modify hidden fields like checksum
-    this.paymentForm.nativeElement.submit();
+
+    const requestPayload = {
+      amount: this.formData.amount,
+      sellerOrderNo: this.formData.sellerOrderNo,
+      subMID: '201100000012450',
+      mid: 'FPX000000054555',
+      tid: '27965678'
+    };
+
+    this.paymentService.generateChecksum(requestPayload).subscribe({
+      next: (res) => {
+        const checksumInput = this.paymentForm.nativeElement.querySelector('input[name="checkSum"]') as HTMLInputElement;
+        if (checksumInput) {
+          checksumInput.value = res.checksum;
+          console.log("The checksum value is "+checksumInput.value);
+
+        }
+        this.paymentForm.nativeElement.submit();
+      },
+      error: (err) => {
+        console.error('Checksum generation failed', err);
+        this.loading = false;
+      }
+    });
   }
 
   cancel() {

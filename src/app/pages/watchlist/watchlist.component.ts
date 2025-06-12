@@ -5,7 +5,7 @@ import { BuySellRequest } from '../../models/buy-sell-request.model';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
 import {Holding} from '../../models/portfolio.model';
-
+import  { LivePriceService } from '../../services/live-price.service';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -15,7 +15,8 @@ import {AccountService} from '../../services/account.services';
 import {PortfolioService} from '../../services/portfolio.services';
 import {Charges} from '../../models/charges.model';
 import {AuthService} from '../../services/auth.service';
-import { forkJoin } from 'rxjs';
+import {forkJoin, Subscription} from 'rxjs';
+import {isMarketOpen} from '../../utils/market.utils';
 
 interface Stock {
   stockId: number;
@@ -31,6 +32,9 @@ interface Stock {
   updatedAt: string;
   safeImageURL?: SafeUrl;
 }
+type SelectableStock = Stock & { selected: boolean };
+
+
 
 @Component({
   selector: 'app-watchlist',
@@ -39,7 +43,7 @@ interface Stock {
     CommonModule,
     FormsModule,
     NgxPaginationModule,
-    NavbarComponent
+    NavbarComponent,
   ],
   templateUrl: './watchlist.component.html',
   styleUrls: ['./watchlist.component.css'],
@@ -50,20 +54,24 @@ export class WatchlistComponent implements OnInit {
 
   page = 1;
   itemsPerPage = 10;
-  searchTerm = '';
+
+  watchlistedStocks: Stock[] = [];
+  showAddToWatchlistModal = false;
+  unwatchlistedStocks: SelectableStock[] = [];
+  searchTerm: string = '';
 
 
   selectedStock: Stock | null = null;
   modalMode: 'buy' | 'sell' = 'buy';
   modalQuantity: number = 1;
+  addWatchlistSearch: string = '';
 
   toggleView: 'all' | 'watchlist' = 'watchlist';
-  allStocks: any[]       = [];
-  watchIds:  Set<number> = new Set();
   stocks:    any[]       = [];
 
   balance: number = 0;
   error: string = '';
+
 
   selectedChargesStock: any = null;
   chargesQuantity: number = 1;
@@ -92,7 +100,8 @@ export class WatchlistComponent implements OnInit {
     private toastr: ToastrService,
     private accountService: AccountService,
     private portfolioService:PortfolioService,
-    private authService: AuthService
+    private authService: AuthService,
+    private livePriceService:LivePriceService,
   ) {}
 
   ngOnInit(): void {
@@ -100,8 +109,109 @@ export class WatchlistComponent implements OnInit {
     this.loadStocks();
     this.loadBalance();
     this.loadHoldings();
+    this.loadWatchlistedStocks();
+
     this.checkEmailVerification();
   }
+
+  loadWatchlistedStocks(): void {
+    this.stockService.getWatchlistedStocks().subscribe({
+      next: (data) => {
+        this.watchlistedStocks = data;
+      },
+      error: (err) => console.error('Error loading watchlisted stocks', err),
+    });
+  }
+  loadUnwatchlistedStocks(): void {
+    forkJoin({
+      all: this.stockService.getAllStocks(),
+      fav: this.stockService.getWatchlistedStocks()
+    }).subscribe({
+      next: ({ all, fav }) => {
+        const favIds = new Set(fav.map(s => s.stockId));
+        this.unwatchlistedStocks = all
+          .filter(stock => !favIds.has(stock.stockId))
+          .map(stock => ({ ...stock, selected: false })); // 🔥 Add `selected`
+      },
+      error: (err) => console.error('Error loading unwatchlisted stocks', err),
+    });
+  }
+
+  areAllSelected(): boolean {
+    return this.unwatchlistedStocks.every(s => s.selected);
+  }
+
+  toggleSelectAll(selectAll: boolean): void {
+    this.unwatchlistedStocks.forEach(stock => stock.selected = selectAll);
+  }
+
+
+
+  openAddToWatchlist(): void {
+    this.showAddToWatchlistModal = true;
+    this.loadUnwatchlistedStocks();
+
+    forkJoin({
+      all: this.stockService.getAllStocks(),
+      fav: this.stockService.getWatchlistedStocks()
+    }).subscribe({
+      next: ({ all, fav }) => {
+        const favIds = new Set(fav.map(s => s.stockId));
+        this.unwatchlistedStocks = all
+          .filter(s => !favIds.has(s.stockId))
+          .map(s => ({ ...s, selected: false }));
+      },
+      error: () => this.toastr.error('Failed to load stocks for selection'),
+    });
+  }
+
+  addSelectedStocksToWatchlist(): void {
+    const selectedIds = this.unwatchlistedStocks
+      .filter(s => s.selected)
+      .map(s => s.stockId);
+
+    if (selectedIds.length === 0) {
+      this.toastr.warning('No stocks selected');
+      return;
+    }
+
+    const requests = selectedIds.map(id =>
+      this.stockService.addToWatchlist(id)
+    );
+
+    forkJoin(requests).subscribe({
+      next: () => {
+        this.toastr.success('Stocks added to watchlist');
+        this.onStocksAdded();
+      },
+      error: () => this.toastr.error('Failed to add some stocks'),
+    });
+  }
+
+  filteredUnwatchlistedStocks(): SelectableStock[] {
+    if (!this.addWatchlistSearch.trim()) return this.unwatchlistedStocks;
+    const term = this.addWatchlistSearch.toLowerCase();
+    return this.unwatchlistedStocks.filter(
+      s =>
+        s.companyName.toLowerCase().includes(term) ||
+        s.tickerSymbol.toLowerCase().includes(term)
+    );
+  }
+
+
+
+  // Called when modal is closed
+  closeAddToWatchlist(): void {
+    this.showAddToWatchlistModal = false;
+  }
+
+  // Called when stocks are added from modal
+  onStocksAdded(): void {
+    this.loadWatchlistedStocks();
+    this.closeAddToWatchlist();
+  }
+
+
 
   loadStocks(): void {
     forkJoin({
@@ -109,19 +219,103 @@ export class WatchlistComponent implements OnInit {
       fav: this.stockService.getWatchlistedStocks()
     }).subscribe({
       next: ({ all, fav }) => {
-        const favIds = new Set(fav.map(stock => stock.stockId));
-        this.stocks = all.map(stock => ({
-          ...stock,
-          safeImageURL: this.sanitizer.bypassSecurityTrustUrl(stock.imageURL),
-          isWatchlisted: favIds.has(stock.stockId)
+        const favIds     = new Set(fav.map(f => f.stockId));
+        const favSymbols = fav.map(f => f.tickerSymbol);
+
+        // build table
+        this.stocks = all.map(s => ({
+          ...s,
+          safeImageURL: this.sanitizer.bypassSecurityTrustUrl(s.imageURL),
+          isWatchlisted: favIds.has(s.stockId)
         }));
+
+        if (isMarketOpen()) {
+          this.livePriceService.watchSymbols(favSymbols);
+
+          favSymbols.forEach(sym => {
+            this.livePriceService.getPriceObservable(sym).subscribe(price => {
+              if (price?.lastPrice != null) {
+                const i = this.stocks.findIndex(s => s.tickerSymbol === sym);
+                if (i !== -1) {
+                  this.stocks[i] = { ...this.stocks[i],
+                    stockPrice:  price.lastPrice,
+                    priceChange: price.change,
+                    pChange:     price.pChange };
+                  this.stocks = [...this.stocks];
+                }
+              }
+            });
+          });
+        }
+
+        else if (favSymbols.length) {
+          this.livePriceService.fetchPrices(favSymbols).subscribe(responses => {
+            responses.forEach(res => {
+              if (res) {
+                const i = this.stocks.findIndex(s => s.tickerSymbol === res.symbol);
+                if (i !== -1) {
+                  this.stocks[i] = { ...this.stocks[i],
+                    stockPrice:  res.lastPrice,
+                    priceChange: res.change,
+                    pChange:     res.pChange };
+                }
+              }
+            });
+            this.stocks = [...this.stocks];   // trigger change detection once
+          });
+        }
       },
-      error: (err) => {
-        console.error('Failed to load stocks or watchlist', err);
-        this.toastr.error('Failed to load data');
-      }
+      error: () => this.toastr.error('Error loading data')
     });
   }
+
+
+  /** Keep 1-to-1 map of visible symbol → Subscription */
+  private liveSubs = new Map<string, Subscription>();
+
+  /** Called whenever page/search/toggle changes */
+  private refreshPagePrices(): void {
+    // which rows are on the screen right now?
+    const visible = this.filteredStocks()
+      .slice((this.page - 1) * this.itemsPerPage,
+        this.page * this.itemsPerPage);
+
+    const visibleSymbols = visible.map(s => s.tickerSymbol);
+
+    /* ───  A.  Dispose subscriptions that scrolled off screen  ─── */
+    for (const [sym, sub] of this.liveSubs) {
+      if (!visibleSymbols.includes(sym)) {
+        sub.unsubscribe();
+        this.liveSubs.delete(sym);
+      }
+    }
+
+    visibleSymbols.forEach(sym => {
+      if (!this.liveSubs.has(sym)) {
+        const sub = this.livePriceService
+          .getPriceObservable(sym)
+          .subscribe(price => {
+            if (price?.lastPrice != null) {
+              const i = this.stocks.findIndex(s => s.tickerSymbol === sym);
+              if (i !== -1) {
+                this.stocks[i] = {
+                  ...this.stocks[i],
+                  stockPrice : price.lastPrice,
+                  priceChange: price.change,
+                  pChange    : price.pChange
+                };
+                this.stocks = [...this.stocks];      // trigger CD
+              }
+            }
+          });
+        this.liveSubs.set(sym, sub);
+      }
+    });
+
+    /* ───  C.  Tell LivePriceService to poll only these symbols  ─── */
+    this.livePriceService.watchSymbols(visibleSymbols);
+  }
+
 
 
   loadBalance() {
@@ -144,9 +338,6 @@ export class WatchlistComponent implements OnInit {
     });
   }
 
-
-
-
   filteredStocks(): any[] {
     const base = this.toggleView === 'watchlist'
       ? this.stocks.filter(s => s.isWatchlisted)
@@ -160,6 +351,11 @@ export class WatchlistComponent implements OnInit {
       s.tickerSymbol.toLowerCase().includes(term)
     );
   }
+
+
+
+
+
 
 
   openModal(stock: Stock, mode: 'buy' | 'sell'): void {
@@ -266,4 +462,6 @@ export class WatchlistComponent implements OnInit {
       }
     });
   }
+
+
 }

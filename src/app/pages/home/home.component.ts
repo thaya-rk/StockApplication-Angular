@@ -6,6 +6,8 @@ import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { StockWebSocketService } from '../../services/stock-websocket.services';
 import { StockChartComponent } from '../../components/stock-chart/stock-chart.component';
 import { FallbackPriceService } from '../../services/fallback-price.service';
+import { NseIndexService, StockData } from '../../services/nse-index.service';
+
 
 interface PriceUpdate {
   symbol: string;
@@ -32,6 +34,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   username = '';
   welcomeMessage = 'Welcome to Application';
 
+  topGainers: StockData[] = [];
+  topLosers: StockData[] = [];
+
+
   readonly subscribedSymbols = ['BTC/USD', 'XAU/USD', 'EUR/USD'];
   private pricesMap = new Map<string, PriceUpdate>();
 
@@ -40,12 +46,16 @@ export class HomeComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private router: Router,
     private stockWebSocket: StockWebSocketService,
-    private fallbackPriceService: FallbackPriceService
+    private fallbackPriceService: FallbackPriceService,
+    private nseIndexService: NseIndexService
+
   ) {}
 
 
   ngOnInit(): void {
     this.loadUser();
+    this.loadTopMovers();
+
 
     // Subscribe to real-time prices
     this.stockWebSocket.subscribeToSymbols(this.subscribedSymbols);
@@ -97,6 +107,19 @@ export class HomeComponent implements OnInit, OnDestroy {
       },
       error: (err) => {
         console.warn('Fallback price request failed:', err);
+      }
+    });
+  }
+
+  private loadTopMovers(): void {
+    this.nseIndexService.getNiftyData().subscribe({
+      next: (stocks) => {
+        const sorted = [...stocks].sort((a, b) => b.pChange - a.pChange);
+        this.topGainers = sorted.slice(0, 5);
+        this.topLosers = sorted.slice(-5).reverse(); // last 5 with lowest gains/losses
+      },
+      error: (err) => {
+        console.error('Error fetching NSE data', err);
       }
     });
   }

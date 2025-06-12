@@ -68,3 +68,75 @@ input.form-control {
   width: 80%;          /* Responsive width */
 }
 
+.price-up   { color: #198754; }   /* Bootstrap “success” green */
+.price-down { color: #dc3545; }   /* Bootstrap “danger” red   */
+.price-flat { color: #6c757d; }   /* Bootstrap “secondary”    */
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050;
+}
+
+.modal-content {
+  background-color: white;
+  width: 90%;
+  max-width: 800px;
+}
+
+/* Clean modal card style */
+.modal-content {
+  border-radius: 1rem;
+  border: none;
+  background-color: #fff;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.15);
+}
+
+/* Inside each checkbox container */
+.form-check {
+  border: 1px solid #eee;
+  transition: background-color 0.2s ease;
+}
+
+.form-check:hover {
+  background-color: #f8f9fa;
+}
+
+.form-check-input {
+  cursor: pointer;
+  transform: scale(1.1);
+  margin-top: 0.3rem;
+}
+
+.form-check-label {
+  margin-left: 0.5rem;
+  cursor: pointer;
+}
+
+/* Responsive padding */
+@media (max-width: 768px) {
+  .modal-content {
+    padding: 1rem;
+  }
+}
+
+/* Hoverable container */
+.hover-bg:hover {
+  background-color: #f1f1f1;
+}
+
+/* Optional close animation */
+.animated-modal-close {
+  animation: slideDownFadeOut 0.3s ease-in forwards;
+}
+
+

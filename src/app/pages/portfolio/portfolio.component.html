@@ -51,8 +51,8 @@
     <tr>
       <th class="text-start">Stock</th>
       <th class="text-start">Quantity</th>
-      <th>Avg. Buy Price(₹)</th>
-      <th>Current Price(₹)</th>
+      <th class="text-start">Avg. Buy Price(₹)</th>
+      <th class="text-start">Current Price(₹)</th>
       <th (click)="toggleSort('value')" class="sortable">
        Total Value(₹)
         <span class="sort-icon">
@@ -74,7 +74,7 @@
       <td class="text-start">{{ holding.stockName }}</td>
       <td>{{ holding.quantity }}</td>
       <td>{{ holding.avgBuyPrice | number: '1.2-2' }}</td>
-      <td>{{ holding.currentPrice | number: '1.2-2' }}</td>
+      <td>{{ holding.latestPrice || holding.currentPrice | number: '1.2-2' }}</td>
       <td>{{ holding.currentValue | number: '1.2-2' }}</td>
       <td class="fw-bold">{{ getProfitLoss(holding) | number: '1.2-2' }}</td>
       <td class="fw-bold d-flex justify-content-between align-items-center">

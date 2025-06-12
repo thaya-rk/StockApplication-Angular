@@ -1,0 +1,61 @@
+<table class="stock-table" *ngIf="!loading">
+  <thead>
+  <tr>
+    <th>Company Name (Ticker)</th>
+    <th>Change</th>
+    <th>Last Price</th>
+    <th>% Change</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let stock of watchlist">
+    <td>{{ stock.companyName }} ({{ stock.tickerSymbol }})</td>
+    <td [ngClass]="{
+      'positive': stockPrices[stock.tickerSymbol]?.change > 0,
+      'negative': stockPrices[stock.tickerSymbol]?.change < 0
+    }">
+  <span [ngClass]="{ 'flash-change': updatedCells[stock.tickerSymbol] }">
+    {{ stockPrices[stock.tickerSymbol]?.change?.toFixed(2) || '0.00' }}
+  </span>
+    </td>
+
+    <td>
+  <span
+    [ngClass]="{
+      'positive': stockPrices[stock.tickerSymbol]?.change > 0,
+      'negative': stockPrices[stock.tickerSymbol]?.change < 0,
+      'flash-change': updatedCells[stock.tickerSymbol]
+    }">
+    {{ stockPrices[stock.tickerSymbol]?.lastPrice?.toFixed(2) || '0.00' }}
+  </span>
+
+      <!-- Chevron Up (Green) -->
+      <svg *ngIf="stockPrices[stock.tickerSymbol]?.change > 0"
+           xmlns="http://www.w3.org/2000/svg"
+           width="16" height="16"
+           fill="green"
+           viewBox="0 0 24 24"
+           class="chevron-icon ms-1">
+        <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/>
+      </svg>
+
+      <!-- Chevron Down (Red) -->
+      <svg *ngIf="stockPrices[stock.tickerSymbol]?.change < 0"
+           xmlns="http://www.w3.org/2000/svg"
+           width="16" height="16"
+           fill="red"
+           viewBox="0 0 24 24"
+           class="chevron-icon ms-1">
+        <path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/>
+      </svg>
+    </td>
+
+    <td [ngClass]="{
+            'positive': stockPrices[stock.tickerSymbol]?.pChange > 0,
+            'negative': stockPrices[stock.tickerSymbol]?.pChange < 0
+          }">
+      {{ stockPrices[stock.tickerSymbol]?.pChange?.toFixed(2) || '0.00' }}%
+    </td>
+  </tr>
+  </tbody>
+</table>

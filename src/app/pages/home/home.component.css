@@ -25,6 +25,12 @@
   padding-top: 6px;
 }
 
+.list-group-item {
+  font-size: 14px;
+  padding: 0.5rem 0.75rem;
+}
+
+
 /* Welcome section */
 .welcome-section {
   text-align: center;

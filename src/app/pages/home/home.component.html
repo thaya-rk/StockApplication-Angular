@@ -3,10 +3,6 @@
 <div class="main-container">
   <div class="dashboard-container">
 
-    <!-- Welcome -->
-    <div class="welcome-section">
-      <h2>{{ welcomeMessage }}</h2>
-    </div>
 
     <!-- Header price section -->
     <div class="grid-cards">
@@ -45,6 +41,61 @@
     <div class="d-flex justify-content-center py-4 border-2 shadow-lg">
       <app-stock-chart></app-stock-chart>
     </div>
+
+    <div class="d-flex justify-content-between align-items-center px-2 mt-3 ">
+      <h4 class="fw-semibold mb-0">
+        📊 Nifty 50 Movers
+      </h4>
+    </div>
+    <!-- Top Gainers and Losers -->
+    <div class="row g-4 px-2">
+
+      <!-- Top Gainers -->
+      <div class="col-lg-6 col-md-12">
+        <div class="card border-0 shadow rounded-4 h-100">
+          <div class="card-body">
+            <h5 class="card-title text-success mb-3 d-flex align-items-center">
+              <i class="bi bi-graph-up-arrow me-2"></i>Top 5 Gainers
+            </h5>
+            <ul class="list-group list-group-flush">
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center"
+                *ngFor="let gainer of topGainers"
+              >
+                <span class="fw-medium">{{ gainer.symbol }}</span>
+                <span class="badge bg-success-subtle text-success fw-bold px-3 py-1">
+              +{{ gainer.pChange | number: '1.2-2' }}%
+            </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Top Losers -->
+      <div class="col-lg-6 col-md-12">
+        <div class="card border-0 shadow rounded-4 h-100">
+          <div class="card-body">
+            <h5 class="card-title text-danger mb-3 d-flex align-items-center">
+              <i class="bi bi-graph-down-arrow me-2"></i>Top 5 Losers
+            </h5>
+            <ul class="list-group list-group-flush">
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center"
+                *ngFor="let loser of topLosers"
+              >
+                <span class="fw-medium">{{ loser.symbol }}</span>
+                <span class="badge bg-danger-subtle text-danger fw-semibold px-3 py-1">
+              {{ loser.pChange | number: '1.2-2' }}%
+            </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
 
   </div>
 </div>

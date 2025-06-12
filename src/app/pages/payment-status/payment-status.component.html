@@ -1,17 +1,24 @@
 <div class="payment-status-container">
   <h2>Payment Status</h2>
 
+  <!-- Success -->
   <div *ngIf="status === 'success'" class="success-message">
     <p>{{ message }}</p>
     <p><strong>Order No:</strong> {{ orderNo }}</p>
     <p><strong>Transaction ID:</strong> {{ transactionId }}</p>
+    <p><strong>FPX Response:</strong> {{ fpxMessage }} (Code: {{ code }})</p>
   </div>
 
+  <!-- Failed -->
   <div *ngIf="status === 'failed'" class="error-message">
     <p>{{ message }}</p>
-    <p><strong>Order No:</strong> {{ orderNo }}</p>
+    <p *ngIf="orderNo"><strong>Order No:</strong> {{ orderNo }}</p>
+    <p *ngIf="fpxMessage"><strong>FPX Response:</strong> {{ fpxMessage }} (Code: {{ code }})</p>
+    <p *ngIf="!orderNo">Order No not provided. Please contact support.</p>
   </div>
 
+
+  <!-- Unknown -->
   <div *ngIf="!status">
     <p>{{ message }}</p>
   </div>

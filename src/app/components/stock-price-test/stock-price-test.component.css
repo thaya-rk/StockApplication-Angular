@@ -1,0 +1,70 @@
+.stock-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+  margin-top: 1rem;
+}
+
+.stock-table th,
+.stock-table td {
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.stock-table th {
+  background-color: #f4f6f8;
+  font-weight: 600;
+  color: #333;
+}
+
+.stock-table tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.stock-table tr:hover {
+  background-color: #e9f5ff;
+}
+
+.stock-table .positive {
+  color: green;
+  font-weight: 600;
+}
+
+.stock-table .negative {
+  color: red;
+  font-weight: 600;
+}
+
+.stock-card {
+  margin-bottom: 20px;
+}
+
+.positive {
+  color: green;
+}
+.negative {
+  color: #d70505;
+}
+
+.flash-change {
+  animation: flash 0.6s ease-in-out;
+  background-color: white;
+  display: inline-block;
+}
+
+@keyframes flash {
+  0%   { background-color: #e1d6d6; }
+  100% { background-color: transparent; }
+}
+
+@keyframes flash {
+  0%   { background-color: #eae9e7; }
+  100% { background-color: transparent; }
+}
+
+.chevron-icon {
+  vertical-align: middle;
+  transform: scale(1.3);
+}
+

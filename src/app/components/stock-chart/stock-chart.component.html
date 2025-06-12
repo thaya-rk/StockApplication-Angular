@@ -1,8 +1,13 @@
-<div id="chart" *ngIf="chartOptions">
+<div class="w-100" *ngIf="chartOptions">
   <apx-chart
     [series]="chartOptions.series!"
     [chart]="chartOptions.chart!"
     [xaxis]="chartOptions.xaxis!"
+    [stroke]="chartOptions.stroke!"
+    [dataLabels]="chartOptions.dataLabels!"
+    [yaxis]="chartOptions.yaxis!"
     [title]="chartOptions.title!"
+    [subtitle]="chartOptions.subtitle!"
+    [legend]="chartOptions.legend!"
   ></apx-chart>
 </div>
