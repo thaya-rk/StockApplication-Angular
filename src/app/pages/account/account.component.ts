@@ -36,11 +36,9 @@ export class AccountComponent implements OnInit {
   loadProfile() {
     this.accountService.getProfile().subscribe({
       next: res => {
-        console.log("✅ Profile loaded:", res);
         this.user = res;
       },
       error: err => {
-        console.error("❌ Failed to load profile", err);
         this.error = 'Failed to load profile';
       }
     });
@@ -57,7 +55,6 @@ export class AccountComponent implements OnInit {
   loadLedger() {
     this.accountService.getLedger().subscribe({
       next: res => {
-        console.log("✅ ledger:", res);
 
         this.ledger = res
       },
@@ -81,7 +78,6 @@ export class AccountComponent implements OnInit {
         this.loadLedger();
       },
       error: (err) => {
-        console.error('Deposit error:', err);
         this.error = err?.error?.message || 'Deposit failed';
       }
     });

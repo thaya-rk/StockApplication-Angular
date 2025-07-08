@@ -34,8 +34,6 @@ interface Stock {
 }
 type SelectableStock = Stock & { selected: boolean };
 
-
-
 @Component({
   selector: 'app-watchlist',
   standalone: true,
@@ -72,7 +70,6 @@ export class WatchlistComponent implements OnInit {
   balance: number = 0;
   error: string = '';
 
-
   selectedChargesStock: any = null;
   chargesQuantity: number = 1;
   transactionCharges: Charges | null = null;
@@ -105,12 +102,10 @@ export class WatchlistComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('ngOnInit called');
     this.loadStocks();
     this.loadBalance();
     this.loadHoldings();
     this.loadWatchlistedStocks();
-
     this.checkEmailVerification();
   }
 
@@ -131,7 +126,7 @@ export class WatchlistComponent implements OnInit {
         const favIds = new Set(fav.map(s => s.stockId));
         this.unwatchlistedStocks = all
           .filter(stock => !favIds.has(stock.stockId))
-          .map(stock => ({ ...stock, selected: false })); // 🔥 Add `selected`
+          .map(stock => ({ ...stock, selected: false }));
       },
       error: (err) => console.error('Error loading unwatchlisted stocks', err),
     });
@@ -329,10 +324,8 @@ export class WatchlistComponent implements OnInit {
     this.portfolioService.getHoldings().subscribe({
       next: (data) => {
         this.holdings = data;
-        console.log("Holdings loaded:", this.holdings);
       },
       error: (err) => {
-        console.error('Failed to load holdings', err);
         this.toastr.error('Could not load holdings');
       }
     });
@@ -369,10 +362,8 @@ export class WatchlistComponent implements OnInit {
         (h) => {
           const isMatch = h.stockName === stock.companyName;
           if (isMatch) {
-            console.log("fetched stock from holding: " + h.stockName);
             console.log("Selected stock: " + stock.companyName);
           }else {
-            console.log("fetched stock from holding: " + h.stockName);
             console.log("Selected stock: " + stock.companyName);
           }
           return isMatch;
@@ -435,26 +426,21 @@ export class WatchlistComponent implements OnInit {
 
     this.isLoadingCharges = true;
 
-    console.log(stockId +" "+this.chargesQuantity)
     this.portfolioService.getTransactionCharges(stockId, this.chargesQuantity)
       .subscribe({
         next: (charges) => {
           this.transactionCharges = charges;
           this.isLoadingCharges = false;
-          console.log('Received transaction charges:', this.transactionCharges);
         },
         error: (err) => {
-          console.error('Failed to fetch charges', err);
           this.isLoadingCharges = false;
         }
       });
   }
   checkEmailVerification(): void {
-    console.log('checkEmailVerification() called');
     this.authService.isUserVerified().subscribe({
       next: (verified) => {
         this.isVerified = verified;
-        console.log('User verified:', this.isVerified);
       },
       error: () => {
         this.toastr.error('Failed to check email verification');
